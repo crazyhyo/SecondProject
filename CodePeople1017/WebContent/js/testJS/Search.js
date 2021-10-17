@@ -5,7 +5,6 @@ function searchJobOpening(datas){
 		url : '/CodePeople/joSearch.do',
 		type : 'post',
 		data : datas,
-		dataType : 'json',
 		success : function(res){
 					
 		},

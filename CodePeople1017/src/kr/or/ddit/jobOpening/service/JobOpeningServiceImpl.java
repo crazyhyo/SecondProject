@@ -31,4 +31,18 @@ public class JobOpeningServiceImpl implements IJobOpeningService{
 		}
 		return list;
 	}
-}
+	@Override
+	public List<JobOpeningVO> joSearch() {
+		List<JobOpeningVO> list = null;
+		try {
+			list = dao.joSearch();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	/*
+	 * @Override public List<JobOpeningVO> joSearch(JobOpeningVO joVO) {
+	 * List<JobOpeningVO> list = null; try { list = dao.joSearch(joVO); } catch
+	 * (Exception e) { e.printStackTrace(); } return list; }
+	 */}

@@ -2,6 +2,7 @@ package kr.or.ddit.jobOpening.controller;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.beanutils.BeanUtils;
 
+import kr.or.ddit.jobOpening.service.IJobOpeningService;
+import kr.or.ddit.jobOpening.service.JobOpeningServiceImpl;
 import kr.or.ddit.jobOpening.vo.JobOpeningVO;
 
 @WebServlet("/joSearch.do")
@@ -42,6 +45,14 @@ public class JOSearch extends HttpServlet{
 		System.out.println("pl_no");
 		System.out.println(vo.getPl_code_no());
 		
+		IJobOpeningService jobOpeningService = JobOpeningServiceImpl.getInstance();
+		
+//		List<JobOpeningVO> list = jobOpeningService.joSearch(vo);
+		List<JobOpeningVO> list = jobOpeningService.joSearch();
+		
+		req.setAttribute("list", list);
+		
+		// req.getRequestDispatcher("/test/joSearch.jsp").forward(req, resp);
 		
 	}
 

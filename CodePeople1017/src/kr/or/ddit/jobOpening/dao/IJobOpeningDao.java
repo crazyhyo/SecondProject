@@ -7,4 +7,7 @@ import kr.or.ddit.jobOpening.vo.JobOpeningVO;
 
 public interface IJobOpeningDao {
 	List<Integer> joSalaryList() throws SQLException;
+	
+//	List<JobOpeningVO> joSearch(JobOpeningVO joVO) throws SQLException;
+	List<JobOpeningVO> joSearch() throws SQLException;
 }

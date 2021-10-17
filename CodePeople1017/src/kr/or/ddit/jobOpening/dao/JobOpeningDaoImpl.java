@@ -33,5 +33,16 @@ public class JobOpeningDaoImpl implements IJobOpeningDao{
 		return list;
 	}
 
+	@Override
+	public List<JobOpeningVO> joSearch() throws SQLException {
+		List<JobOpeningVO> list = null;
+		list = (List<JobOpeningVO>) smc.queryForList(nameSpace + "joSearch");
+		return list;
+	}
+	/*
+	 * @Override public List<JobOpeningVO> joSearch(JobOpeningVO joVO) throws
+	 * SQLException { List<JobOpeningVO> list = null; list = (List<JobOpeningVO>)
+	 * smc.queryForList(nameSpace + "joSearch", joVO); return list; }
+	 */
 
 }

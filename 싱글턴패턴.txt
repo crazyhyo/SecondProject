@@ -1,0 +1,28 @@
+// 다오 싱글턴패턴
+	private SqlMapClient smc;
+	private static IJobGroupDao dao;
+	private JobGroupDaoImpl() {
+		smc = SqlMapClientFactory.getInstance();
+	}
+	
+	public static IJobGroupDao getInstance() {
+		if(dao == null) {
+			dao = new JobGroupDaoImpl();
+		}
+		return dao;
+	}
+	
+	
+// 서비스 싱글턴패턴	
+	private IJobGroupDao dao;
+	private static IJobGroupService service;
+	
+	private JobGroupServiceImpl() {
+		dao = JobGroupDaoImpl.getInstance();
+	}
+	public static IJobGroupService getInstance() {
+		if(service == null) {
+			service = new JobGroupServiceImpl();
+		}
+		return service;
+	}	

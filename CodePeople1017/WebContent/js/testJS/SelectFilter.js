@@ -1,44 +1,44 @@
 
-function initSelect(){
-		initJobGroupList();
-		initProgLangList();
-		initJoSalaryList();
+function initHCntList(target){
+	let	code = '<li><h5 class="dropdown-header">인원수</h5></li>';
+		code += `<li idx="1-10" value="1" onmouseover="this.style.background='gray';" onmouseout="this.style.background='';">1-10</li>`;
+		code += `<li idx="11-50" value="2" onmouseover="this.style.background='gray';" onmouseout="this.style.background='';">11-50</li>`;
+		code += `<li idx="51-200" value="3" onmouseover="this.style.background='gray';" onmouseout="this.style.background='';">51-200</li>`;
+		code += `<li idx="201-500" value="4" onmouseover="this.style.background='gray';" onmouseout="this.style.background='';">201-500</li>`;
+		code += `<li idx="501-1,000" value="5" onmouseover="this.style.background='gray';" onmouseout="this.style.background='';">501-1,000</li>`;
+		code += `<li idx="1,001-5,000" value="5" onmouseover="this.style.background='gray';" onmouseout="this.style.background='';">1,001-5,000</li>`;
+		code += `<li idx="5,001-" value="5" onmouseover="this.style.background='gray';" onmouseout="this.style.background='';">5,001-</li>`;
+	$(target).parent().find('.dropdown-menu').html(code);
 }
 
-function initJoSalaryList(){
-
-	let code = '<option value="">선택해주세요</option>';
-	
-		code += `<option idx="~ 2000만원" value="0">~ 2000만원</option>`;
-		code += `<option idx="2000만원 ~ 2500만원" value="1">2000만원 ~ 2500만원</option>`;
-		code += `<option idx="2000만원 ~ 2500만원" value="2">2000만원 ~ 2500만원</option>`;
-		code += `<option idx="2500만원 ~ 3000만원" value="3">2500만원 ~ 3000만원</option>`;
-		code += `<option idx="3000만원 ~ 4000만원" value="4">3000만원 ~ 4000만원</option>`;
-		code += `<option idx="4000만원 ~ 5000만원" value="5">4000만원 ~ 5000만원</option>`;
-		code += `<option idx="5000만원 ~ " value="6">5000만원 ~ </option>`;
-	
-	$('.joSalarySelect').html(code);
-	
+function initSalaryList(target){
+	let	code = '<li><h5 class="dropdown-header">평균연봉</h5></li>';
+		code += `<li idx="~ 2000만원" value="1" onmouseover="this.style.background='gray';" onmouseout="this.style.background='';">~ 2000만원</li>`;
+		code += `<li idx="2000만원 ~ 2500만원" value="2" onmouseover="this.style.background='gray';" onmouseout="this.style.background='';">2000만원 ~ 2500만원</li>`;
+		code += `<li idx="2500만원 ~ 3000만원" value="3" onmouseover="this.style.background='gray';" onmouseout="this.style.background='';">2500만원 ~ 3000만원</li>`;
+		code += `<li idx="3000만원 ~ 4000만원" value="4" onmouseover="this.style.background='gray';" onmouseout="this.style.background='';">3000만원 ~ 4000만원</li>`;
+		code += `<li idx="4000만원 ~ 5000만원" value="5" onmouseover="this.style.background='gray';" onmouseout="this.style.background='';">4000만원 ~ 5000만원</li>`;
+		code += `<li idx="5000만원 ~ " value="6" onmouseover="this.style.background='gray';" onmouseout="this.style.background='';">5000만원 ~ </li>`;
+	$(target).parent().find('.dropdown-menu').html(code);
 
 }
 
-function initJobGroupList(){
-
+function initJobGroupList(target){
+	
+	
 	$.ajax({
 		url : '/CodePeople/jobGroupTest.do',
 		type : 'get',
 		dataType : 'json',
 		success : function(res){
 			
-			code = '<option value="">선택해주세요</option>';
+			code = '<li><h5 class="dropdown-header">직군</h5></li>';
 			
 			res.forEach(function(ele){
-				code += `<option idx="${ele.jgCodeNm}" value="${ele.jgCodeNo}">${ele.jgCodeNm}</option>`;
+				code += `<li idx="${ele.jgCodeNm}" value="${ele.jgCodeNo}" onmouseover="this.style.background='gray';" onmouseout="this.style.background='';">${ele.jgCodeNm}</li>`;
 			})
 			
-			$('.jobGroupSelect').html(code);
-			
-			initJobTitleList(1);
+			$(target).parent().find('.dropdown-menu').html(code);
 			
 		},
 		error : function(err){
@@ -46,9 +46,10 @@ function initJobGroupList(){
 		}
 		
 	})
+	// return 1;
 }
 
-function initProgLangList(){
+function initProgLangList(target){
 
 	$.ajax({
 		url : '/CodePeople/progLangTest.do',
@@ -56,13 +57,13 @@ function initProgLangList(){
 		dataType : 'json',
 		success : function(res){
 			
-			code = '<option value="">선택해주세요</option>';
+			code = '<li><h5 class="dropdown-header">활동분야</h5></li>';
 			
 			res.forEach(function(ele){
-				code += `<option idx="${ele.plCodeNm}" value="${ele.plCodeNo}">${ele.plCodeNm}</option>`;
+				code += `<li idx="${ele.plCodeNm}" value="${ele.plCodeNo}" onmouseover="this.style.background='gray';" onmouseout="this.style.background='';">${ele.plCodeNm}</li>`;
 			})
 			
-			$('.progLangSelect').html(code);
+			$(target).parent().find('.dropdown-menu').html(code);
 			
 		},
 		error : function(err){
@@ -72,7 +73,7 @@ function initProgLangList(){
 	})
 }
 
-function initJobTitleList(jgCodeNo){
+function initJobTitleList(jgCodeNo, target){
 	$.ajax({
 		url : '/CodePeople/jobTitleTest.do',
 		type : 'get',
@@ -80,19 +81,32 @@ function initJobTitleList(jgCodeNo){
 		dataType : 'json',
 		success : function(res){
 			
-			code = '<option value="">선택해주세요</option>';
+			code = '<li><h5 class="dropdown-header">직무</h5></li>';
+			if(jgCodeNo !== 0){
+				res.forEach(function(ele){
+					code += `<li idx="${ele.jtCodeNm}" value="${ele.jtCodeNo}" onmouseover="this.style.background='gray';" onmouseout="this.style.background='';">${ele.jtCodeNm}</li>`;
+				})
+			}else{
+				code += `<li>직군을 선택해주세요</li>`;
+			}
 			
-			res.forEach(function(ele){
-				code += `<option idx="${ele.jtCodeNm}" value="${ele.jtCodeNo}">${ele.jtCodeNm}</option>`;
-			})
+			$(target).parent().find('.dropdown-menu').html(code);
 			
-			$('.jobTitleSelect').html(code);
-			
-			initProgLangList();
 		},
 		error : function(err){
 			alert(`status : ${err.status}\ntext : ${err.statusText}`);
 		}
 		
 	})
+}
+
+function initEduTypeList(target){
+	let	code = '<li><h5 class="dropdown-header">학력</h5></li>';
+	code += `<li idx="~ 2000만원" value="1" onmouseover="this.style.background='gray';" onmouseout="this.style.background='';">~ 2000만원</li>`;
+	code += `<li idx="2000만원 ~ 2500만원" value="2" onmouseover="this.style.background='gray';" onmouseout="this.style.background='';">2000만원 ~ 2500만원</li>`;
+	code += `<li idx="2500만원 ~ 3000만원" value="3" onmouseover="this.style.background='gray';" onmouseout="this.style.background='';">2500만원 ~ 3000만원</li>`;
+	code += `<li idx="3000만원 ~ 4000만원" value="4" onmouseover="this.style.background='gray';" onmouseout="this.style.background='';">3000만원 ~ 4000만원</li>`;
+	code += `<li idx="4000만원 ~ 5000만원" value="5" onmouseover="this.style.background='gray';" onmouseout="this.style.background='';">4000만원 ~ 5000만원</li>`;
+	code += `<li idx="5000만원 ~ " value="6" onmouseover="this.style.background='gray';" onmouseout="this.style.background='';">5000만원 ~ </li>`;
+	$(target).parent().find('.dropdown-menu').html(code);
 }
