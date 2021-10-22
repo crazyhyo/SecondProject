@@ -23,7 +23,6 @@
 		Integer memNo = vo.getMemNo();
 		Integer jgCodeNo = vo.getJgCodeNo();
 		String comNm = vo.getComNm();
-		Integer comRev = vo.getComRev();
 		String comDate = vo.getComDate();
 		Integer comCnt = vo.getComCnt();
 		String comHpg = vo.getComHpg();
@@ -41,7 +40,6 @@
 				"memNo" : "<%=memNo%>",
 				"jgCodeNo" : "<%=jgCodeNo%>",
 				"comNm" : "<%=comNm%>",
-				"comRev" : "<%=comRev%>",
 				"comDate" : "<%=comDate%>",
 				"comCnt" : "<%=comCnt%>",
 				"comHpg" : "<%=comHpg%>",

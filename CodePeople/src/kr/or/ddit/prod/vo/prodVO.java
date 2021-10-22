@@ -7,6 +7,7 @@ public class prodVO {
 	private Integer prodPrice;
 	private Integer prodPeriod;
 	private Integer prodType;
+	
 	public Integer getProdNo() {
 		return prodNo;
 	}

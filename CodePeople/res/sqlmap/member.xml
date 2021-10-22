@@ -6,23 +6,22 @@
 <sqlMap namespace="member">
 
 	<resultMap id="memMap" class="memVO">
-		<result property="memApiI"	  		column="MEM_API_ID" 	/>
-		<result property="memNo"    		column="MEM_NO"			/>
+		<result property="memNo"	  		column="MEM_NO"			/>
 		<result property="memNm"    		column="MEM_NM"			/>
 		<result property="memId"    		column="MEM_ID"			/>
-		<result property="memPw"	 	    column="MEM_PW" 		/>
-		<result property="memEmail" 	    column="MEM_EMAIL" 		/>
-		<result property="memTel" 	    	column="MEM_TEL" 		/>
-		<result property="memZipcode" 	    column="MEM_ZIPCODE" 	/>
-		<result property="memAddr1" 	    column="MEM_ADDR1" 		/>
-		<result property="memAddr2" 	    column="MEM_ADDR2" 		/>
-		<result property="memCode" 	    	column="MEM_CODE" 		/>
-		<result property="memActiv" 	    column="MEM_ACTIVE" 	/>
-		<result property="memGender" 	    column="MEM_GENDER" 	/>
-		<result property="atchFileId" 	    column="ATCH_FILE_ID" 	/>
-		<result property="memInCom" 	    column="MEM_IN_COM" 	/>
-		<result property="memBir" 	    	column="MEM_BIR" 		/>
-		<result property="memPassOrigl" 	column="MEM_PASS_ORIGL" />
+		<result property="memPw"    		column="MEM_PW"			/>
+		<result property="memEmail"	 	    column="MEM_EMAIL"		/>
+		<result property="memTel" 	    	column="MEM_TEL"		/>
+		<result property="provCodeNo" 	    column="PROV_CODE_NO"	/>
+		<result property="cityCodeNo" 	    column="CITY_CODE_NO"	/>
+		<result property="memCode" 	    	column="MEM_CODE"		/>
+		<result property="memActive" 	    column="MEM_ACTIVE"		/>
+		<result property="memGender" 	    column="MEM_GENDER"		/>
+		<result property="memInCom" 	    column="MEM_IN_COM"		/>
+		<result property="memBir" 	    	column="MEM_BIR"		/>
+		<result property="memOrignlPw" 	    column="MEM_ORIGNL_PW"	/>
+		<result property="atchFileId" 	    column="ATCH_FILE_ID"	/>
+		<result property="memIsApi" 	    column="MEM_IS_API"		/>
 	</resultMap>
 
 
@@ -55,12 +54,19 @@
 	
 	
 	<!-- 회원조회 프로토타입 -->
-	<select id="selectMember" parameterClass="String" resultMap="memMap">
-		SELECT *
-		FORM MEMBER
-		WHERE MEM_ID = #memId#
+	<select id="selectMember" parameterClass="String">
+		SELECT * FORM MEMBER WHERE MEM_ID = #memId#
 	</select>
 	
+	<!-- 회원 아이디 조회 -->
+	<select id="selectById">
+		SELECT MEM_ID FROM MEMBER WHERE MEM_ID = #memId#
+	</select>
+	
+	<!-- 로그인 -->
+	<select id="loginMember" parameterClass="String" resultMap="memMap">
+		SELECT * FROM MEMBER WHERE MEM_ID = #memId# AND MEM_PW = #memPw#
+	</select>
 	
 	<!-- 회원수정 프로토타입 -->
 	<update id="updateMember">

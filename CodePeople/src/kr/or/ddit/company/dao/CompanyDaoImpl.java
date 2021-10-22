@@ -39,6 +39,15 @@ public class CompanyDaoImpl implements ICompanyDao{
 		return list;
 	}
 
+	@Override
+	public int companyInsert(CompanyVO companyVO) throws SQLException {
+		int cnt = 0;
+		
+		cnt = (int)smc.insert(nameSpace + "companyInsert" , companyVO);
+		
+		return cnt;
+	}
+
 
 
 }

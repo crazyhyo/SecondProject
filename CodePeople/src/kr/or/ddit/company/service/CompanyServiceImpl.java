@@ -1,5 +1,6 @@
 package kr.or.ddit.company.service;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import kr.or.ddit.company.dao.ICompanyDao;
@@ -40,6 +41,18 @@ public class CompanyServiceImpl implements ICompanyService{
 			e.printStackTrace();
 		}
 		return list;
+	}
+	@Override
+	public int companyInsert(CompanyVO companyVO) {
+		int cnt = 0;
+		
+		try {
+			cnt = dao.companyInsert(companyVO);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+		}
+		
+		return cnt;
 	}	
 
 }

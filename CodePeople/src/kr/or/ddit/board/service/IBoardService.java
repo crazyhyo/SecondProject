@@ -13,9 +13,31 @@ public interface IBoardService {
 	
 	public List<BoardVO> boardPagingList(BoardPagingVO boardPagingVO);
 	
-	//ÀüÃ¼ ¸®½ºÆ®
+	//ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½Æ®
 	public List<Map<String, Object>> selectAll();
 	
-	//±Û¾²±â
+	//ï¿½Û¾ï¿½ï¿½ï¿½
 	public int boardInsert(BoardVO vo);
+	
+	//ï¿½Û¼ï¿½ï¿½ï¿½
+	public int boardUpdate(BoardVO vo);
+	
+	//ï¿½Û»ï¿½ï¿½ï¿½
+	public int boardDelete(Integer boardNo);
+	
+	public List<Map<String, Object>> QuestionBoardPagingList(BoardPagingVO boardPagingVO);
+	
+	public int countQuestionBoard();
+	public List<Map<String, Object>> LifeBoardPagingList(BoardPagingVO boardPagingVO);
+	
+	public int countLifeBoard();
+	public List<Map<String, Object>> blahBoardPagingList(BoardPagingVO boardPagingVO);
+	
+	public int countBlahBoard();
+	public List<Map<String, Object>> MeetUpBoardPagingList(BoardPagingVO boardPagingVO);
+	
+	public int countMeetUpBoard();
+	public List<Map<String, Object>> CareerBoardPagingList(BoardPagingVO boardPagingVO);
+	
+	public int countCareerBoard();	
 }

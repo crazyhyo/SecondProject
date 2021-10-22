@@ -163,4 +163,49 @@
 					    )								    								    
 	</select>
 	
+	<!-- 채용공고 등록 -->
+	<!-- 채용공고가 등록되면 일정에도 같이 등록된다, 이때 생성된 일정은 회원 외래키가 없다 -->
+	<!-- 동시에 생성된 일정에 채용공고라는 태그를 달아준다 -->
+	<!-- 이는 채용공고 캘린더에서 채용공고라는 태그를 단 일정만을 조회 할 때 쓰일 것이다 -->
+	
+	<insert id="insertJobOpening" parameterClass="kr.or.ddit.jobOpening.vo.JobOpeningVO">
+		INSERT INTO JOB_OPENING
+               (JO_NO,                     JO_TITLE,           COM_NO,
+                JO_SDATE,                  JO_EDATE,           JG_CODE_NO,
+                JT_CODE_NO,                JO_SAL,             JO_RANK,
+                JO_MTHD,                   JO_LINK,            
+                PL_CODE_NO,                PROV_CODE_NO,       CITY_CODE_NO)
+        VALUES (JOB_OPENING_SEQ.NEXTVAL,   #joTitle#,          #comNo#,
+                #joSdate#,                 #joEdate#,          #jgCodeNo#,
+                #jtCodeNo#,                #joSal#,            #joRank#,
+                #joMthd#,                  #joLink#,           
+                #plCodeNo#,                #provCodeNo#,       #cityCodeNo#)
+                
+		<selectKey keyProperty="joNo" resultClass="int">
+			SELECT JOB_OPENING_SEQ.CURRVAL FROM DUAL
+		</selectKey>
+	</insert>
+	
+	<!-- 채용공고 등록과 항상 같이 실행된다 -->
+	
+	<insert id="insertJoSchedule" parameterClass="kr.or.ddit.jobOpening.vo.JobOpeningVO">
+			INSERT  INTO SCHEDULE
+                    (SCHE_NO,               SCHE_CONT,      SCHE_SDATE,     SCHE_EDATE)
+            VALUES  (SCHEDULE_SEQ.NEXTVAL,  #joMthd#,       #joSdate#,      #joEdate#)
+		<selectKey keyProperty="joNo" resultClass="int">
+			SELECT SCHEDULE_SEQ.CURRVAL FROM DUAL
+		</selectKey>
+	</insert>
+	
+	
+	<!-- 채용공고 등록과 항상 같이 실행된다 -->
+	
+	<insert id="addJoScheTag" parameterClass="int">
+			INSERT  INTO SCHED_TAG
+			        (SCHE_NO,               CAL_TAG)
+			VALUES  (#scheNo#,  5)
+	</insert>
+	
+	
+	
 </sqlMap>

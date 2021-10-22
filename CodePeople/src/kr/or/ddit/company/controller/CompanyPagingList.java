@@ -38,6 +38,8 @@ public class CompanyPagingList extends HttpServlet{
 		
 		req.setAttribute("companyPagingList", companyPagingList);
 		
+		req.setAttribute("companyPagingVO", companyPagingVO);
+		
 		req.getRequestDispatcher("/WEB-INF/jsp/companyPagingList.jsp").forward(req, resp);
 	}
 	

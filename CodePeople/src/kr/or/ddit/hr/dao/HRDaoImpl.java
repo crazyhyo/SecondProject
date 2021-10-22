@@ -6,6 +6,9 @@ import java.util.List;
 import com.ibatis.sqlmap.client.SqlMapClient;
 
 import kr.or.ddit.cmm.vo.HRPagingVO;
+import kr.or.ddit.hr.vo.HRCardVO;
+import kr.or.ddit.hr.vo.HRFavVO;
+import kr.or.ddit.hr.vo.HRSearchVO;
 import kr.or.ddit.hr.vo.HRVO;
 import kr.or.ddit.util.SqlMapClientFactory;
 
@@ -26,6 +29,7 @@ public class HRDaoImpl implements IHRDao{
 		return dao;
 	}
 
+	
 	@Override
 	public int getTotalHRCount() throws SQLException {
 		int cnt = 0;
@@ -40,7 +44,44 @@ public class HRDaoImpl implements IHRDao{
 		list = (List<HRVO>)smc.queryForList(nameSpace + "hrPagingList", hrPagingVO);
 		return list;
 	}
+	
 
+	@Override
+	public List<HRCardVO> hrCardPagingList(HRPagingVO hrPagingVO) throws SQLException {
+		List<HRCardVO> list = null;
+		list = (List<HRCardVO>)smc.queryForList(nameSpace + "hrCardPagingList", hrPagingVO);
+		return list;
+	}
 
+	
+	@Override
+	public List<HRCardVO> hrCardPagingSearchList(HRSearchVO hrSearchVO) throws SQLException {
+		List<HRCardVO> list = null;
+		list = (List<HRCardVO>)smc.queryForList(nameSpace + "hrCardPagingSearchList", hrSearchVO);
+		return list;
+	}
+	
+	   @Override
+	public int getTotalCardSearchCount(HRSearchVO hrSearchVO) throws SQLException {
+		int cnt = 0;
+		cnt = (int) smc.queryForObject(nameSpace +"getTotalCardSearchCount",hrSearchVO);
+		return cnt;
+	}
+	   
+	   
+	   @Override
+	public int addFavHr(HRFavVO hrFavVO) throws SQLException {
+		int cnt = 0;
+		cnt = (int) smc.update(nameSpace+"addFavHr", hrFavVO);
+		   return cnt;
+	}
+	   
+	   
+	   @Override
+	public int deleteFavHr(HRFavVO hrFavVO) throws SQLException {
+		   int cnt = 0;
+		   cnt = (int)smc.delete(nameSpace+"deleteFavHr", hrFavVO);
+	 return cnt;
+	}
 
 }

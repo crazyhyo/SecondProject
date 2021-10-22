@@ -64,6 +64,31 @@ public class JobOpeningDaoImpl implements IJobOpeningDao{
 		return cnt;
 	}
 
+	@Override
+	public int insertJobOpening(JobOpeningVO jobOpeningVO) throws SQLException {
+		int cnt = 0;
+		cnt = (int)smc.insert(nameSpace + "insertJobOpening", jobOpeningVO);
+		return cnt;
+	}
+
+	@Override
+	public int insertJoSchedule(JobOpeningVO jobOpeningVO) throws SQLException {
+		int cnt = 0;
+		cnt = (int)smc.insert(nameSpace + "insertJoSchedule", jobOpeningVO);
+		return cnt;
+	}
+
+	@Override
+	public int addJoScheTag(int scheNo) throws SQLException {
+		Object obj = null;
+		obj = smc.insert(nameSpace + "addJoScheTag", scheNo);
+		if(obj == null) {
+			return 1;
+		}else {
+			return 0;
+		}
+	}
+
 
 
 }

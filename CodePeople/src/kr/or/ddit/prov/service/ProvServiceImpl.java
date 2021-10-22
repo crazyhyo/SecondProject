@@ -1,5 +1,6 @@
 package kr.or.ddit.prov.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import kr.or.ddit.prov.dao.IProvDao;
@@ -41,5 +42,25 @@ public class ProvServiceImpl implements IProvService{
 			e.printStackTrace();
 		}
 		return list;
+	}
+	@Override
+	public int convertToCityNo(String cityCodeNm) {
+		int cnt = 0;
+		try {
+			cnt = dao.convertToCityNo(cityCodeNm);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return cnt;
+	}
+	@Override
+	public int convertToProvNo(HashMap<String, Object> map) {
+		int cnt = 0;
+		try {
+			cnt = dao.convertToProvNo(map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return cnt;
 	}
 }

@@ -81,6 +81,8 @@
     <sqlMap resource="sqlmap/company.xml"/>
     <sqlMap resource="sqlmap/hr.xml"/>
     <sqlMap resource="sqlmap/cv.xml"/>
+    <sqlMap resource="sqlmap/schedule.xml"/>
+    <sqlMap resource="sqlmap/prod.xml"/>
 <!-- 	<sqlMap resource="ibatis/member/memberMain.xml"/>  쿼리파일을 설정하는 태그-->
 </sqlMapConfig>
 

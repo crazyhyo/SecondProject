@@ -72,6 +72,29 @@ public class JobOpeningServiceImpl implements IJobOpeningService{
 			e.printStackTrace();
 		}
 		return cnt;
+	}
+	@Override
+	public int insertJobOpening(JobOpeningVO jobOpeningVO) {
+		int newJoNo = 0;
+		int newScheNo = 0;
+		int afterScheNo = 0;
+		
+		try {
+			newJoNo = dao.insertJobOpening(jobOpeningVO);
+			System.out.println("테스트1 : " + newJoNo);
+			newScheNo = dao.insertJoSchedule(jobOpeningVO);
+			System.out.println("테스트2 : " + newScheNo);
+			afterScheNo = dao.addJoScheTag(newScheNo);
+			System.out.println("테스트3 : " + afterScheNo);
+			
+			if(afterScheNo == 0) {
+				System.out.println("에러났음");
+				return 0;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return newJoNo;
 	}	
 
 }

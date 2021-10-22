@@ -9,12 +9,19 @@ public class CompanyVO {
 	private Integer memNo;
 	private Integer jgCodeNo;
 	private String comNm;
-	private Integer comRev;
 	private String comDate;
 	private Integer comCnt;
 	private String comHpg;
 	private Integer comFav;
 	private Integer comSal;
+	private Integer comRev;
+	
+	public Integer getComRev() {
+		return comRev;
+	}
+	public void setComRev(Integer comRev) {
+		this.comRev = comRev;
+	}
 	public Integer getProvCodeNo() {
 		return provCodeNo;
 	}
@@ -62,12 +69,6 @@ public class CompanyVO {
 	}
 	public void setComNm(String comNm) {
 		this.comNm = comNm;
-	}
-	public Integer getComRev() {
-		return comRev;
-	}
-	public void setComRev(Integer comRev) {
-		this.comRev = comRev;
 	}
 	public String getComDate() {
 		return comDate;

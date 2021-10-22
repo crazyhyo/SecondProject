@@ -28,7 +28,7 @@ const setCityOptions = () =>{
         option.addEventListener('click', event=>{
         	cityOptionNo = event.currentTarget.value;
         	 let tag = event.currentTarget;
-             addTag(tag);
+	             addTag(tag);
         })
     })
 }
@@ -40,7 +40,7 @@ const addTag = (tag) =>{
 	if(tagBox.classList.contains('hide')){
           tagBox.classList.remove('hide');
         }
-	console.log(tag.value);
+	
     tagBox.insertAdjacentHTML('beforeEnd',`<div class="tag" onclick="this.remove();">
                         <span class="badge rounded-pill bg-secondary">${tag.textContent}&nbsp;<span class="badge bg-danger">x</span></span>
                       </div>`)

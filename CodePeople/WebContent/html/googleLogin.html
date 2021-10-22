@@ -25,11 +25,13 @@
   
 	function initClient() {
 	  // In practice, your app can retrieve one or more discovery documents.
+	  
 	  var discoveryUrl = 'https://www.googleapis.com/discovery/v1/apis/drive/v3/rest';
   
 	  // Initialize the gapi.client object, which app uses to make API requests.
 	  // Get API key and client ID from API Console.
 	  // 'scope' field specifies space-delimited list of access scopes.
+	  
 	  gapi.client.init({
 		  'apiKey': 'AIzaSyBcrmhOHseLt0qBtqDzfA1xMYWMuFsxgiM',
 		  'clientId': '977370788443-iibjs82m2o4nkuktvbl75ct29iu6p1l0.apps.googleusercontent.com',
@@ -72,18 +74,8 @@
 	function setSigninStatus() {
 	  var user = GoogleAuth.currentUser.get();
 	  var isAuthorized = user.hasGrantedScopes(SCOPE);
-	  var profile = user.getBasicProfile();
-	  var token = user.getAuthResponse(isAuthorized);
 	  
-	  console.log(token);
 	  if (isAuthorized) {
-		  
-		  console.log("nickname : " + profile.getName());
-		  console.log("email : " + profile.getEmail());
-		  console.log("GivenName : " + profile.getGivenName());
-		  console.log("FamilyName : " + profile.getFamilyName());
-		  console.log("id : " + profile.getId());
-		  console.log("imageURL : " + profile.getImageUrl());
 		  
 		$('#sign-in-or-out-button').html('Sign out');
 		$('#revoke-access-button').css('display', 'inline-block');
@@ -110,10 +102,11 @@
 		  
   <div id="auth-status" style="display: inline; padding-left: 25px"></div><hr>
 		  
-	<div class="g-signin2" id="my-signin2" data-onsuccess='onSignIn'></div>
+	<div class="g-signin2" id="my-signin2" data-onsuccess='onSignIn()'></div>
   <script>
     function onSuccess(googleUser) {
       console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
+      onSignIn(googleUser);
     }
     function onFailure(error) {
       console.log(error);
@@ -129,6 +122,19 @@
         'onfailure': onFailure
       });
     }
+    function onSignIn(googleUser) {        
+        // Useful data for your client-side scripts:
+        var profile = googleUser.getBasicProfile();
+        console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+        console.log('Full Name: ' + profile.getName());
+        console.log('Given Name: ' + profile.getGivenName());
+        console.log('Family Name: ' + profile.getFamilyName());
+        console.log("Image URL: " + profile.getImageUrl());
+        console.log("Email: " + profile.getEmail());
+        // The ID token you need to pass to your backend:
+        var id_token = googleUser.getAuthResponse().id_token;
+        console.log("ID Token: " + id_token);       
+      }
   </script>
   </body>
 </html>

@@ -51,15 +51,97 @@ public class BoardDaoImpl implements IBoardDao{
 
 	@Override
 	public int boardInsert(BoardVO vo) throws SQLException {
-		
-		int cnt = 0;
-		cnt = (int) smc.insert(nameSpace + "boardInsert", vo);		
+		return (Integer)smc.insert(nameSpace + "boardInsert", vo);
+	}
+
+	@Override
+	public int boardUpdate(BoardVO vo) throws SQLException {
+			int cnt = 0;
+			
+			cnt = smc.update(nameSpace + "boardUpdate", vo);
+			System.out.println("dao������  cnt" + cnt);
+			
 		return cnt;
 	}
 
+	@Override
+	public int boardDelete(Integer boardNo) throws SQLException {
+		
+		int cnt = 0;
+		cnt = smc.delete(nameSpace + "boardDelete", boardNo);
+		
+		return cnt;
+	}
 	
+	@Override
+	public List<Map<String, Object>> QuestionBoardPagingList(BoardPagingVO boardPagingVO) throws SQLException {
+		List<Map<String, Object>> list = null;
+		list = (List<Map<String, Object>>)smc.queryForList(nameSpace + "QuestionBoardPagingList", boardPagingVO);
+		return list;
+	}
 
-
-
-
+	@Override
+	public int countQuestionBoard() throws SQLException {
+		int cnt = 0;
+		cnt = (int)smc.queryForObject(nameSpace + "countQuestionBoard");  
+	    return cnt;
+	}
+	@Override
+	public List<Map<String, Object>> LifeBoardPagingList(BoardPagingVO boardPagingVO) throws SQLException {
+		List<Map<String, Object>> list = null;
+		list = (List<Map<String, Object>>)smc.queryForList(nameSpace + "LifeBoardPagingList", boardPagingVO);
+		return list;
+	}
+	
+	@Override
+	public int countLifeBoard() throws SQLException {
+		int cnt = 0;
+		cnt = (int)smc.queryForObject(nameSpace + "countLifeBoard");  
+		return cnt;
+	}
+	@Override
+	public List<Map<String, Object>> blahBoardPagingList(BoardPagingVO boardPagingVO) throws SQLException {
+		List<Map<String, Object>> list = null;
+		list = (List<Map<String, Object>>)smc.queryForList(nameSpace + "blahBoardPagingList", boardPagingVO);
+		return list;
+	}
+	
+	@Override
+	public int countBlahBoard() throws SQLException {
+		int cnt = 0;
+		cnt = (int)smc.queryForObject(nameSpace + "countBlahBoard");  
+		return cnt;
+	}
+	@Override
+	public List<Map<String, Object>> MeetUpBoardPagingList(BoardPagingVO boardPagingVO) throws SQLException {
+		List<Map<String, Object>> list = null;
+		list = (List<Map<String, Object>>)smc.queryForList(nameSpace + "MeetUpBoardPagingList", boardPagingVO);
+		return list;
+	}
+	
+	@Override
+	public int countMeetUpBoard() throws SQLException {
+		int cnt = 0;
+		cnt = (int)smc.queryForObject(nameSpace + "countMeetUpBoard");  
+		return cnt;
+	}
+	@Override
+	public List<Map<String, Object>> CareerBoardPagingList(BoardPagingVO boardPagingVO) throws SQLException {
+		List<Map<String, Object>> list = null;
+		list = (List<Map<String, Object>>)smc.queryForList(nameSpace + "CareerBoardPagingList", boardPagingVO);
+		return list;
+	}
+	
+	@Override
+	public int countCareerBoard() throws SQLException {
+		int cnt = 0;
+		cnt = (int)smc.queryForObject(nameSpace + "countCareerBoard");  
+		return cnt;
+	}	
 }
+
+
+
+
+
+

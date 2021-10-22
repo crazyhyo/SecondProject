@@ -11,4 +11,6 @@ public interface ICompanyDao {
 	public int getTotalCompanyCount() throws SQLException;
 	
 	public List<CompanyVO> companyPagingList(CompanyPagingVO companyPagingVO) throws SQLException;
+
+	public int companyInsert(CompanyVO companyVO) throws SQLException;
 }

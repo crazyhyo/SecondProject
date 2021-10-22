@@ -15,44 +15,33 @@ import kr.or.ddit.board.service.BoardServiceImpl;
 import kr.or.ddit.board.service.IBoardService;
 import kr.or.ddit.board.vo.BoardVO;
 
-/**
- * Servlet implementation class BoardInsert
- */
 @WebServlet("/BoardInsert.do")
 public class BoardInsert extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public BoardInsert() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		request.setCharacterEncoding("UTF-8");
 		
 		BoardVO vo = new BoardVO();
 		
+		
 		try {
 			BeanUtils.populate(vo, request.getParameterMap());
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
+		System.out.println(vo);
+		
 		IBoardService service = BoardServiceImpl.getInstance();
 		
-		int num = service.boardInsert(vo);
 		
+		int num =service.boardInsert(vo);
+		System.out.println("넘버를 테스트합니다 test : " + num);
 		request.setAttribute("boardinsert", num);
 		
 		request.getRequestDispatcher("/WEB-INF/jsp/BoardInsert.jsp").forward(request, response);

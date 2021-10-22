@@ -16,8 +16,8 @@ listServer = function() {
         		//<!-- card-hear 안 a태그와 게시글의 아이디를 맞춰주세요 -->
         		code += '<div class="card">';
         		code += '<div class="card-header">';
-        		code += '<a class="btn title-btn" data-bs-toggle="collapse" href="#collapseOne">';
-        		code += '<span class="board-detail-title">' + v.boardTitle +'</span>';
+        		code += '<a class="btn title-btn boardNo" id="list" data-bs-toggle="collapse" href="#a'+ v.boardNo +'">';
+        		code += '<span class="board-detail-title title">' + v.boardTitle +'</span>';
         		code += '</a>';
         		code += '<div class="board-icon-box">';
         		code += '<i class="far fa-eye"></i>&nbsp;<span class="board-view board-sm-font">' + v.boardHit +'</span>&nbsp;&nbsp;';
@@ -26,20 +26,20 @@ listServer = function() {
         		code += `</div>
         		</div>
         		
-        		<div id="collapseOne" class="collapse show" data-bs-parent="#accordion">
+        		<div id="a${v.boardNo}" class="collapse" data-bs-parent="#accordion">
         		<div class="card-body">
         		<div class="board-info-box">
-        		작성자&nbsp;:&nbsp;<span class="board-detail-writer">'${v.memId}'</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        		작성자&nbsp;:&nbsp;<span class="board-detail-writer writer">'${v.memId}'</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         		작성일&nbsp;:&nbsp;<span class="board-detail-date">'${v.boardDate}'</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         		<a href="" style="text-decoration: none;">추천</a>&nbsp;&nbsp;
         		<a href="" style="text-decoration: none;">신고</a>
         		</div>
-        		<span class="board-detail-content">
+        		<span class="board-detail-content content">
         			'${v.boardCont}' 
         		</span>
         		<div class="my-btn-box my-btn-box-cv">
-        		<button type="button" class="btn btn-outline-primary">수정</button>
-        		<button type="button" class="btn btn-outline-primary">삭제</button>
+        		<button type="button" name="update" idx= '${v.boardNo}' class="btn btn-outline-primary action updatebtn">수정</button>
+        		<button type="button" name="delete" idx= '${v.boardNo}' class="btn btn-outline-primary action">삭제</button>
         		</div>
         		</div>
         		<div class="board-divider"></div>
@@ -48,10 +48,11 @@ listServer = function() {
         		<div class="board-icon-item"><i class="far fa-comment"></i>&nbsp;<span class="board-comment board-sm-font">댓글</span></div>
         		<div class="board-icon-item"><i class="far fa-frown"></i>&nbsp;<span class="board-comment board-sm-font">신고</span></div>
         		</div>
+        		
         		<div class="reply-box">
         		<div class="input-group mb-3">
         		<input type="text" class="form-control" placeholder="댓글을 입력하세요">
-        		<button class="btn btn-outline-primary" type="button">등록</button>
+        		<button type="button" name="reply" idx='${v.boardNo}' class="btn btn-outline-primary action">등록</button>
         		</div>
         		<div class="reply-card bg-light text-dark">                                        
         		<div class="reply-writer-box">&nbsp;&nbsp;작성자&nbsp;&nbsp;<span class="reply-writer">홍**</span></div> 
@@ -81,5 +82,75 @@ listServer = function() {
     });
 	
 }
+
+
+updateBoardServer = function() {
+	
+	$.ajax({
+		type : 'post',
+		url : "/CodePeople/BoardUpdate.do",
+		data : udatas,
+		dataType : 'json',
+		success : function(res) {
+			alert(res.flag);
+			
+			$(btnupdate).parents('.card');
+			$(parent).find('.title').text(udatas.title);
+			$(parent).find('.content').text(udatas.content);
+			
+			listServer();
+		},
+		error : function(xhr) {
+			
+			alert("상태 : " + xhr);
+			
+		}
+		
+	})
+};
+
+deleteBoardServer = function() {
+	
+	$.ajax({
+		type : 'get',
+		url : "/CodePeople/BoardDelete.do",
+		data : 	{"boardNo" : vidx},
+		dataType : 'json',
+		success : function(res) {
+
+			listServer();
+		},	
+		error : function(xhr) {
+			alert("상태 : " + xhr)
+		}
+	})
+	
+	
+	
+};
+
+replyListServer = function(t) { // html의 등록버튼
+	
+	$.ajax
+	
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

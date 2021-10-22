@@ -17,21 +17,21 @@
 			}
 			prodVO vo = list.get(i);
 			
-			Integer prodNo = vo.getProd_no();
-			String prodNm = vo.getProd_nm();
-			Integer prodPrice = vo.getProd_price();
-			Integer prodPeriod = vo.getProd_period();
-			Integer prodType = vo.getProd_type();
+			Integer prodNo = vo.getProdNo();
+			String prodNm = vo.getProdNm();
+			Integer prodPrice = vo.getProdPrice();
+			Integer prodPeriod = vo.getProdPeriod();
+			Integer prodType = vo.getProdType();
 					
 	%>
 {
 
 
-"prodNo" : "<%= vo.getProd_no() %>",
-"prodNm" : "<%= vo.getProd_nm() %>",
-"prodPrice" : "<%= vo.getProd_price() %>",
-"prodPeriod" : "<%= vo.getProd_period() %>",
-"prodType" : "<%= vo.getProd_type() %>"
+"prodNo" : "<%=prodNo%>",
+"prodNm" : "<%=prodNm%>",
+"prodPrice" : "<%=prodPrice%>",
+"prodPeriod" : "<%=prodPeriod%>",
+"prodType" : "<%=prodType%>"
 
  
 }

@@ -3,6 +3,7 @@
 
     <% 
     	int res = (Integer)request.getAttribute("boardinsert");
+    		System.out.print("js의 " + res);
     		if(res > 0){
    
     %>

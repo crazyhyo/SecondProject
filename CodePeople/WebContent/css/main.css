@@ -570,3 +570,36 @@
   margin-right: 4px;
   margin-bottom: 12px;
 }
+
+
+
+/* 마이페이지의 유료서비스 항목 값  */
+/* 유료서비스 플랜 아래 설명 박스 */
+.payment-top-text{
+	magrin-top: 8px;
+}
+/* 유료서비스 플랜들을 감싸는 박스 */
+.payment-content-box{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	text-align: center;
+}
+.planbox {
+	width: 200px;
+}
+.panel-heading{
+	padding-top:20px;
+	height: 50px;
+	box-sizing: border-box;
+}
+/* 유료서비스 플랜별 설명 박스*/
+.panel-body{
+	padding-top:20px;
+	height: 250px;
+}
+/* 유료서비스 플랜 결제 버튼*/
+.panel-footer .btn:hover{
+	  box-shadow: 0px 3px 7px 1px rgba(0, 0, 0, 0.07),
+    0px -3px 7px 1px rgba(0, 0, 0, 0.07);
+}

@@ -20,4 +20,14 @@ public interface IJobOpeningDao {
 	public List<Map<String, Object>> jobOpeningCardSearchList(HashMap jobOpeningSearchVO) throws SQLException;
 	
 	public int getTotalJobOpeningSearchCount(HashMap jobOpeningSearchVO) throws SQLException;
+	
+	// 채용공고를 등록한다, return은 등록한 채용공고 번호
+	public int insertJobOpening(JobOpeningVO jobOpeningVO) throws SQLException;
+	
+	// 일정에 채용공고를 추가한다, return은 등록한 일정번호
+	public int insertJoSchedule(JobOpeningVO jobOpeningVO) throws SQLException;
+	
+	// 추가한 일정에 태그를 추가한다, return은 등록한 일정번호
+	public int addJoScheTag(int scheNo) throws SQLException;
+	
 }

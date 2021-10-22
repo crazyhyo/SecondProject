@@ -1,47 +1,3 @@
-<%-- <%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-  <!-- jQuery -->
-  <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
-  
-<script type="text/javascript"
-	src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
-
-</head>
-<script>
-
-    var IMP = window.IMP; 
-    
-    IMP.init('imp17469584'); 
-    
-    IMP.request_pay({
-    	pg: "inicis",
-        pay_method: "card",
-        merchant_uid: "ORD20180131-0000011",
-        name: "노르웨이 회전 의자",
-        amount: 64900,
-        buyer_email: "gildong@gmail.com",
-        buyer_name: "홍길동",
-        buyer_tel: "010-4242-4242",
-        buyer_addr: "서울특별시 강남구 신사동",
-        buyer_postcode: "01181",
-        m_redirect_url : "/htmltest/main.html" ,
-    }, function(rsp) {
-        if ( rsp.success ) {
-            var msg = '결제가 완료되었습니다.';
-            location.href='/htmltest/main.html'; // 반환 주소
-        } else {
-            var msg = '결제에 실패하였습니다.';
-            rsp.error_msg;
-        }
-    });
-
-</script>
-</html> --%>
-
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -62,7 +18,14 @@
     var prodPrice = <%= request.getParameter("prodPrice") %>
     console.log(prodNo, prodNm, prodPrice);
     
+   
+    <% java.util.UUID one = java.util.UUID.randomUUID(); %>
+    
+    var UID =  <%= "\"" + one.toString() + "\"" %> 
+    console.log(UID);
+    
     $(function(){
+    	
         var IMP = window.IMP; // 생략가능
         IMP.init('imp17469584'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
         var msg;
@@ -70,7 +33,7 @@
         IMP.request_pay({
             pg : 'kakaopay',
             pay_method : 'card',
-            merchant_uid: prodNo,
+            merchant_uid: prodNo+UID,
             name: prodNm,
             amount: prodPrice,
             buyer_name: "홍길동",
@@ -105,12 +68,13 @@
                     }
                 });
                 //성공시 이동할 페이지
-                location.href='<%=request.getContextPath()%>/order/paySuccess?msg='+msg;
+                location.href='<%=request.getContextPath()%>/rehearsal/mainMypage.html#peoplePayment';
+                alert('결제가 완료되었습니다.');
             } else {
                 msg = '결제에 실패하였습니다.';
                 msg += '에러내용 : ' + rsp.error_msg;
                 //실패시 이동할 페이지
-                location.href="<%=request.getContextPath()%>/order/payFail";
+                location.href="<%=request.getContextPath()%>/rehearsal/mainMypage.html#peoplePaymentl";
                 alert(msg);
             }
         });

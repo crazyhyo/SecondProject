@@ -16,7 +16,7 @@
   </head> 
   <body> 
   <br/> 
-  <form name="testForm" method="post" action="./process.php" onsubmit="return FormSubmit();">
+  <form name="testForm" method="post" action="" onsubmit="return FormSubmit();">
    이름 : <input type="text" name="name" /><br />
     전화번호 : <input type="text" name="tel" /><br />
      <input type="submit" name="submit" value="제출">

@@ -10,4 +10,6 @@ public interface ICompanyService {
 	public int getTotalCompanyCount();
 	
 	public List<CompanyVO> companyPagingList(CompanyPagingVO companyPagingVO);
+
+	public int companyInsert(CompanyVO companyVO);
 }

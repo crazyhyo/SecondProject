@@ -1,4 +1,6 @@
 $(function () {
+
+  // 아이디 정규식
   $("#id").on("keyup", function () {
     let idVal = $(this).val();
     console.log(idVal);
@@ -6,36 +8,101 @@ $(function () {
 
     if (!idReg.test(idVal)) {
       $("#idMsg").show();
+      $('#id2Msg').hide();
       $("#idMsg-green").hide();
     } else {
       $("#idMsg").hide();
+      $('#id2Msg').hide();
       $("#idMsg-green").show();
-    }
 
-    if (idVal === "") {
+    }
+    
+    $.ajax({
+      url: "/CodePeople/JoinIdCheck.do",
+      type: "get",
+      data: { id: idVal },
+      dataType: "json",
+      success: function (res) {
+        alert(res.id);
+        if (idVal == res.id) {
+          $("#idMsg-green").hide();
+          $("#id2Msg").show();
+          $("#id2Msg").hide();
+        }
+      },
+      error: function (xhr) {
+        alert("상태 : " + xhr.status);
+      },
+    });
+
+    if (idVal == "") {
       $("#idMsg").hide();
+      $('#id2Msg').hide();
       $("#idMsg-green").hide();
     }
+    
   });
+  
 
+  // 비밀번호 정규식
   $("#pass").on("keyup", function () {
     let passVal = $(this).val();
-    console.log(passVal);
+
     let passReg =
       /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,16}$/;
 
-    !passReg.test(passVal) ? $("#pswd1Msg").show() : $("#pswd1Msg").hide();
-    // if(!(passReg.test(passVal))){
-    //   $('#pswd1Msg').show();
-    // } else {
-    //   $('#pswd1Msg').hide();
-    // }
+    // !passReg.test(passVal) ? $("#pswd1Msg").show() : $("#pswd1Msg").hide();
+    if(!(passReg.test(passVal))){
+      $('#pswd1Msg').show();
+      $("#pswd1Msg-green").hide();
+    } else {
+      $('#pswd1Msg').hide();
+      $("#pswd1Msg-green").show();
+    }
 
-    if (passVal === "") {
+    if (passVal == "") {
       $("#pswd1Msg").hide();
     }
   });
 
+  // 비밀번호 재확인 정규식
+  $("#pass2").on("keyup", function () {
+    let pass2Val = $(this).val();
+
+    let pass2Reg = $('#pass').val();
+
+    if(pass2Val != pass2Reg){
+      $('#pswd2Msg').show();
+      $("#pswd2Msg-green").hide();
+    } else {
+      $('#pswd2Msg').hide();
+      $("#pswd2Msg-green").show();
+    }
+
+    if (pass2Val == "") {
+      $("#pswd2Msg").hide();
+    }
+  });
+
+  // 전화번호 정규식
+  $("#tel").on("keyup", function () {
+    let telVal = $(this).val();
+
+    let telReg = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
+
+    !telReg.test(telVal) ? $("#telMsg").show() : $("#telMsg").hide();
+    // if(!(telReg.test(telVal))){
+    //   $('#telMsg').show();
+    // } else {
+    //   $('#telMsg').hide();
+    // }
+
+    if (telVal == "") {
+      $("#telMsg").hide();
+    }
+  });
+
+  // 이름 정규식
   $("#name").on("keyup", function () {
     let nameVal = $(this).val();
     console.log(nameVal);
@@ -53,6 +120,7 @@ $(function () {
     }
   });
 
+  // 이메일 정규식
   $("#email").on("keyup", function () {
     let emailVal = $(this).val();
     console.log(emailVal);
@@ -72,52 +140,67 @@ $(function () {
   });
 });
 
-function jusoCallBack(roadFullAddr,roadAddrPart1,addrDetail,roadAddrPart2,engAddr, jibunAddr, zipNo, admCd, rnMgtSn, bdMgtSn,detBdNmList,bdNm,bdKdcd,siNm,sggNm,emdNm,liNm,rn,udrtYn,buldMnnm,buldSlno,mtYn,lnbrMnnm,lnbrSlno,emdNo){
-  // 팝업페이지에서 주소입력한 정보를 받아서, 현 페이지에 정보를 등록합니다.
-  document.form.roadFullAddr.value = roadFullAddr;
-  document.form.roadAddrPart1.value = roadAddrPart1;
-  document.form.roadAddrPart2.value = roadAddrPart2;
-  document.form.addrDetail.value = addrDetail;
-  document.form.engAddr.value = engAddr;
-  document.form.jibunAddr.value = jibunAddr;
-  document.form.zipNo.value = zipNo;
-  document.form.admCd.value = admCd;
-  document.form.rnMgtSn.value = rnMgtSn;
-  document.form.bdMgtSn.value = bdMgtSn;
-  document.form.detBdNmList.value = detBdNmList;
-  /** 2017년 2월 추가제공 **/
-  document.form.bdNm.value = bdNm;
-  document.form.bdKdcd.value = bdKdcd;
-  document.form.siNm.value = siNm;
-  document.form.sggNm.value = sggNm;
-  document.form.emdNm.value = emdNm;
-  document.form.liNm.value = liNm;
-  document.form.rn.value = rn;
-  document.form.udrtYn.value = udrtYn;
-  document.form.buldMnnm.value = buldMnnm;
-  document.form.buldSlno.value = buldSlno;
-  document.form.mtYn.value = mtYn;
-  document.form.lnbrMnnm.value = lnbrMnnm;
-  document.form.lnbrSlno.value = lnbrSlno;
-  /** 2017년 3월 추가제공 **/
-  document.form.emdNo.value = emdNo;
-  
+// 다음 도로명 주소 API
+//본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
+function execDaumPostcode() {
+  new daum.Postcode({
+      oncomplete: function(data) {
+          // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
+          // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+          var roadAddr = data.roadAddress; // 도로명 주소 변수
+          var extraRoadAddr = ''; // 참고 항목 변수
+
+          // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+          // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+          if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+              extraRoadAddr += data.bname;
+          }
+          // 건물명이 있고, 공동주택일 경우 추가한다.
+          if(data.buildingName !== '' && data.apartment === 'Y'){
+              extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+          }
+          // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+          if(extraRoadAddr !== ''){
+              extraRoadAddr = ' (' + extraRoadAddr + ')';
+          }
+
+          // 우편번호와 주소 정보를 해당 필드에 넣는다.
+          document.getElementById('postCode').value = data.zonecode;
+          document.getElementById("roadAddress").value = roadAddr;
+          // document.getElementById("jibunAddress").value = data.jibunAddress;
+          
+          // 참고항목 문자열이 있을 경우 해당 필드에 넣는다.
+          // if(roadAddr !== ''){
+          //     document.getElementById("extraAddress").value = extraRoadAddr;
+          // } else {
+          //     document.getElementById("extraAddress").value = '';
+          // }
+
+          // var guideTextBox = document.getElementById("guide");
+          // // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
+          // if(data.autoRoadAddress) {
+          //     var expRoadAddr = data.autoRoadAddress + extraRoadAddr;
+          //     guideTextBox.innerHTML = '(예상 도로명 주소 : ' + expRoadAddr + ')';
+          //     guideTextBox.style.display = 'block';
+
+          // } else if(data.autoJibunAddress) {
+          //     var expJibunAddr = data.autoJibunAddress;
+          //     guideTextBox.innerHTML = '(예상 지번 주소 : ' + expJibunAddr + ')';
+          //     guideTextBox.style.display = 'block';
+          // } else {
+          //     guideTextBox.innerHTML = '';
+          //     guideTextBox.style.display = 'none';
+          // }
+      }
+  }).open();
 }
 
-function searchAddr() {
-  // 주소검색을 수행할 팝업 페이지를 호출합니다.
-  // 호출된 페이지(jusopopup.jsp)에서 실제 주소검색URL(https://www.juso.go.kr/addrlink/addrLinkUrl.do)를 호출하게 됩니다.
-  window.open(
-    "../html/jusoPopup.jsp",
-    "pop",
-    "width=570,height=420, scrollbars=yes, resizable=yes"
-  );
-  // 모바일 웹인 경우, 호출된 페이지(jusopopup.jsp)에서 실제 주소검색URL(https://www.juso.go.kr/addrlink/addrMobileLinkUrl.do)를 호출하게 됩니다.
-  //var pop = window.open("/popup/jusoPopup.jsp","pop","scrollbars=yes, resizable=yes");
-}
-
-// request.setCharacterEncoding("UTF-8"); //한글깨지면 주석제거
-// request.setCharacterEncoding("EUC-KR");  //해당시스템의 인코딩타입이 EUC-KR일경우에
-// var add1 = request.getParameter("add1");
-// var zipNo = request.getParameter("zipNo");
-// var add2 = request.getParameter("add2");
+// 회원가입 버튼 클릭시 캡챠 api function
+function FormSubmit() { 
+  if (grecaptcha.getResponse() == ""){ 
+    alert("회원가입에 실패했습니다!!!");
+    return false; 
+  } else { 
+      alert("회원가입이 성공적으로 완료되었습니다!"); 
+      return true; } 
+  } 

@@ -87,23 +87,183 @@ function CVPaging(currentPageNo){
 	
 }
 
+//인재 관심설정을 위한 메서드
+let addFav = "";
+let deleteFav="";
+ const addFavHr = () => {
+	 
+     	let favHrData = $('#favHrForm').serializeJSON();
+   		$.ajax({
+   			url : '/CodePeople/AddFavHR.do',
+   			type : 'get',
+   			data : favHrData,
+   			success : function(res){
+   				/*  응답에 따라 alert 효과 발생하도록 해야함*/
+   				console.log(res)
+   			},
+   		   error :function(xhr){
+   			   console.log(`status: ${xhr.satus}\ntext : ${xhr.statusText}`);
+   		   }
+   		})
+    }
+    
+const deleteFavHr = () => {
+	let favHrData = $('#favHrForm').serializeJSON();
+	$.ajax({
+		url :'/CodePeople/DeleteFavHR.do',
+		type:'get',
+		data:favHrData,
+		success: function(res){
+			console.log(res)
+		},
+		error:function(xhr){
+		 console.log(`status: ${xhr.satus}\ntext : ${xhr.statusText}`);
+		}
+		
+	})
+}
+
+
+
+//인재 페이지의 초기 리스트를 가져오는 메서드
 const HRCardPaging  = (currentPageNo) => {
 	
 	$.ajax({
-		url : 'CodePeople/HRCardPagingList.do',
+		url : '/CodePeople/HRCardPagingList.do',
 		type : 'get',
 		data : {"currentPageNo" : currentPageNo},
 		dataType : 'json',
 		success : function(res){
-			console.log(res);
+			let datas = res.hrInfo;
+			let code ="";
+			datas.forEach(data=>{
+				code += `<div class="card">
+                        <!-- 카드의 이미지태그는 복사해서 사용할것 src alt값 변경 필-->
+                        <div class="card-left">
+                            <img src="/CodePeople/images/imgHr.png" alt="Card image" style="width:64px; height: 64px;">
+                        </div>
+                        <!-- 카드의 정보 -->
+                        <div class="card-body card-right">
+                            <div class="card-top-box">
+                                <a href="/CodePeople/rehearsal/hrDetail.html"><h4 class="card-title"><span class="memNm">${data.memNm}</span></h4></a>
+                                <div class="dropup">
+                                    <button type="button" class="btn btn-outline-secondary dropdown-toggle btn-menu"
+                                        data-bs-toggle="dropdown"></button>
+                                    <!-- 카드 메뉴정보 -->
+                                      <ul class="dropdown-menu">
+                                        <!-- 카드 메뉴 헤더 -->
+                                        <li>
+                                            <h5 class="dropdown-header">관심등록</h5>
+                                        </li>
+                                        <!-- 카드 메뉴 옵션 -->
+                                        <li><a class="dropdown-item addFav" idx="${data.hrNo}" >관심등록</a></li>
+                                        <li><a class="dropdown-item deleteFav" idx="${data.hrNo}" >관심해제</a></li>
+                                        <li>
+                                        </ul>
+                                </div>
+                            </div>
+                            <!-- 카드의 인재정보 직무, 회사, 활용언어 -->
+                            <div class="card-text"><span class="job-title" >${data.jtCodeNm}</span></div>
+                            <a href="#" class="job-current card-link hrCurrCom">${data.hrCurrCom}</a>
+                            <div class="card-text"><span class="job-language plCodeNm">${data.plCodeNm}</span></div>
+                        </div>
+                    </div>
+                    `
+			})
+			let parent = document.querySelector('#human-card-list');
+			parent.innerHTML= code;
+			
+			addFav = document.querySelectorAll('.addFav');
+			deleteFav = document.querySelectorAll('.deleteFav');
+			
+			addFav.forEach(a=>{
+				a.addEventListener('click',event=>{
+					let hrCard = event.currentTarget;
+					let hrNoValue = hrCard.getAttribute('idx');
+					let comNo = document.querySelector('#comNo');
+					let hrNo = document.querySelector('#hrNo');
+					
+					comNo.value = 1;
+					hrNo.value = hrNoValue;
+					addFavHr();
+				})
+			})
+			
+			deleteFav.forEach(a=>{
+				a.addEventListener('click',event=>{
+					let hrCard = event.currentTarget;
+					let hrNoValue = hrCard.getAttribute('idx');
+					let comNo = document.querySelector('#comNo');
+					let hrNo = document.querySelector('#hrNo');
+					
+					comNo.value = 1;
+					hrNo.value = hrNoValue;		
+					deleteFavHr();			
+				})
+			})
+			
 		},
 		error : function(xhr){
-			alert(`status : ${xhr.status}\n text: &$xhr.statusText}`);
+			alert(`status : ${xhr.status}\n text: ${xhr.statusText}`);
 		}
 	})
-	
 } 
 
+const HRSearchCardPaging = () => {
+	
+	let formDatas = $('#formDatas').serializeJSON();
+		console.log(formDatas);
+ 	$.ajax({
+		url : '/CodePeople/HRCardSearchList.do',
+		type : 'get',
+		data: formDatas,
+		dataType: 'json',
+		success:function(res){
+			let datas = res.hrInfo;
+			let code = "";
+			datas.forEach(data=>{
+				code += `<div class="card">
+                        <!-- 카드의 이미지태그는 복사해서 사용할것 src alt값 변경 필-->
+                        <div class="card-left">
+                            <img src="/CodePeople/images/imgHr.png" alt="Card image" style="width:64px; height: 64px;">
+                        </div>
+                        <!-- 카드의 정보 -->
+                        <div class="card-body card-right">
+                            <div class="card-top-box hrNo" idx="${data.hrNo}">
+                                 <a href="/CodePeople/rehearsal/hrDetail.html"><h4 class="card-title"><span class="memNm">${data.memNm}</span></h4></a>
+                                <div class="dropup">
+                                    <button type="button" class="btn btn-outline-secondary dropdown-toggle btn-menu"
+                                        data-bs-toggle="dropdown"></button>
+                                    <!-- 카드 메뉴정보 -->
+                                    <ul class="dropdown-menu">
+                                        <!-- 카드 메뉴 헤더 -->
+                                        <li>
+                                            <h5 class="dropdown-header">관심등록</h5>
+                                        </li>
+                                        <!-- 카드 메뉴 옵션 -->
+                                        <li><a class="dropdown-item addFav">관심등록</a></li>
+                                        <li><a class="dropdown-item deleteFav">관심해제</a></li>
+                                        <li>
+                                        </ul>
+                                </div>
+                            </div>
+                            <!-- 카드의 인재정보 직무, 회사, 활용언어 -->
+                            <div class="card-text"><span class="job-title jtCodeNm">${data.jtCodeNm}</span></div>
+                            <a href="#" class="job-current card-link hrCurrCom">${data.hrCurrCom}</a>
+                            <div class="card-text"><span class="job-language plCodeNm">${data.plCodeNm}</span></div>
+                        </div>
+                    </div>
+                    `
+			})
+			let parent = document.querySelector('#human-card-list');
+			parent.innerHTML= code;
+			
+		},
+		error:function(xhr){
+			console.log(`status : ${xhr.status}\n text: ${xhr.statusText}`);
+		}
+	}) 
+}
 
 function JOCardPaging(currentPageNo){
 	
@@ -130,7 +290,7 @@ function JOCardPaging(currentPageNo){
                         <h4 class="card-title">${data.comNm}</h4>
                     </div>
                     <!-- 카드의 회사 소개, 직군 -->
-                    <div class="card-text card-jobs-detail-company-intro"><span class="company-intor">${data.comIntro}</span></div>
+                    <div class="card-text card-jobs-detail-company-intro"><span class="company-intro ">${data.comIntro}</span></div>
                     <div class="card-text card-jobs-detail-company-jobgroup"><span class="company-jobgroup">${data.jgCodeNm}</span></div>
                     <!-- 카드의 채용공고 박스 -->
                     <div class="card-jobs-detail">

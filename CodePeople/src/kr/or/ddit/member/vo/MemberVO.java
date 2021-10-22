@@ -17,6 +17,7 @@ public class MemberVO {
 	private String memBir;
 	private String memOrignlPw;
 	private Integer atchFileId;
+	
 	public Integer getMemIsApi() {
 		return memIsApi;
 	}

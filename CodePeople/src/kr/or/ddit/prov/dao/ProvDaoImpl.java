@@ -1,6 +1,7 @@
 package kr.or.ddit.prov.dao;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 
 import com.ibatis.sqlmap.client.SqlMapClient;
@@ -38,6 +39,20 @@ public class ProvDaoImpl implements IProvDao{
 		List<ProvVO> list = null;
 		list = (List<ProvVO>) smc.queryForList(nameSpace + "selectProvList", city_code_no);
 		return list;
+	}
+
+	@Override
+	public int convertToCityNo(String cityCodeNm) throws SQLException {
+		int cnt = 0;
+		cnt = (int)smc.queryForObject(nameSpace + "convertToCityNo", cityCodeNm);
+		return cnt;
+	}
+
+	@Override
+	public int convertToProvNo(HashMap<String, Object> map) throws SQLException {
+		int cnt = 0;
+		cnt = (int)smc.queryForObject(nameSpace + "convertToProvNo", map);
+		return cnt;
 	}
 
 
