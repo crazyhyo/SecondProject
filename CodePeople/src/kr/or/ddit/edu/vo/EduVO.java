@@ -3,10 +3,14 @@ package kr.or.ddit.edu.vo;
 public class EduVO {
 	private Integer eduNo;
 	private Integer eduCodeNo;
+	private String eduCodeNm;
+	
 	private String eduSchNm;
 	private String eduMajor;
 	private Integer eduGraTot;
 	private Integer eduGraAvg;
+	
+	
 	public Integer getEduNo() {
 		return eduNo;
 	}
@@ -18,6 +22,12 @@ public class EduVO {
 	}
 	public void setEduCodeNo(Integer eduCodeNo) {
 		this.eduCodeNo = eduCodeNo;
+	}
+	public String getEduCodeNm() {
+		return eduCodeNm;
+	}
+	public void setEduCodeNm(String eduCodeNm) {
+		this.eduCodeNm = eduCodeNm;
 	}
 	public String getEduSchNm() {
 		return eduSchNm;

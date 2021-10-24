@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import kr.or.ddit.cmm.vo.JobOpeningPagingVO;
+import kr.or.ddit.jobOpening.vo.ApplyVO;
+import kr.or.ddit.jobOpening.vo.JOCardVO;
 import kr.or.ddit.jobOpening.vo.JobOpeningVO;
 
 public interface IJobOpeningService {
@@ -23,4 +25,19 @@ public interface IJobOpeningService {
 	// 채용공고를 등록하고, 일정에 채용공고를 추가하고, 추가한 일정에 태그를 추가한다, return은 등록한 채용공고 번호
 	public int insertJobOpening(JobOpeningVO jobOpeningVO);
 	
+	public JOCardVO joCardDetail(int joNo);
+	
+	public Integer getJtCodeNo(int joNo);
+	
+	public int applyJobOpening(ApplyVO applyVO);
+	
+	public int insertClip(ApplyVO applyVO);
+	
+	public int deleteClip(ApplyVO applyVO);
+	
+	public int deleteJobOpening(int joNo);
+	
+	public int checkJobOpeningRight(int joNo);
+	
+	public int updateJobOpening(JobOpeningVO jobOpeningVO);
 }

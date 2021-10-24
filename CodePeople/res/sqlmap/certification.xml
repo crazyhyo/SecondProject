@@ -10,8 +10,36 @@
 		<result column="CERT_CODE_NM" property="certCodeNm"/>
 	</resultMap>
 
+
+
+
+
+
+
 	<select id="selectCertList" resultMap="CertificationMap">
 		SELECT * FROM CERTIFICATION
 	</select>
+	
+	
+	
+	<update id="insertCert" parameterClass="kr.or.ddit.hr.vo.HRInfoVO">
+		UPDATE CERT_HR
+		   SET CERT_CODE_NO = #certCodeNo#
+		 WHERE HR_NO=#hrNo#
+		
+	</update>
+	
+	
+	<select id="selectCert" parameterClass="int" resultMap="CertificationMap">
+	
+	    SELECT  CERT_CODE_NO,
+         		CERT_CODE_NM
+   		 FROM 	CERTIFICATION
+     	 WHERE CERT_CODE_NO IN (SELECT CERT_CODE_NO
+                            FROM CERT_HR
+                            WHERE HR_NO = #hrNo#)
+                                                     
+	</select>
+	
 	
 </sqlMap>

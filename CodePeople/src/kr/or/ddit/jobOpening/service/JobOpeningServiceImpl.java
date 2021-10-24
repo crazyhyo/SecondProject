@@ -1,5 +1,6 @@
 package kr.or.ddit.jobOpening.service;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,6 +8,8 @@ import java.util.Map;
 import kr.or.ddit.cmm.vo.JobOpeningPagingVO;
 import kr.or.ddit.jobOpening.dao.IJobOpeningDao;
 import kr.or.ddit.jobOpening.dao.JobOpeningDaoImpl;
+import kr.or.ddit.jobOpening.vo.ApplyVO;
+import kr.or.ddit.jobOpening.vo.JOCardVO;
 import kr.or.ddit.jobOpening.vo.JobOpeningVO;
 
 public class JobOpeningServiceImpl implements IJobOpeningService{
@@ -95,6 +98,96 @@ public class JobOpeningServiceImpl implements IJobOpeningService{
 			e.printStackTrace();
 		}
 		return newJoNo;
+	}
+	@Override
+	public JOCardVO joCardDetail(int joNo) {
+		JOCardVO vo = new JOCardVO();
+		try {
+			vo = dao.joCardDetail(joNo);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return vo;
+	}
+	@Override
+	public Integer getJtCodeNo(int joNo) {
+		Integer cnt = 0;
+		try {
+			cnt = dao.getJtCodeNo(joNo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return cnt;
+	}
+	@Override
+	public int applyJobOpening(ApplyVO applyVO) {
+		int cnt = 0;
+		try {
+			cnt = dao.applyJobOpening(applyVO);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return cnt;
+	}
+	@Override
+	public int insertClip(ApplyVO applyVO) {
+		int cnt = 0;
+		try {
+			dao.insertClip(applyVO);
+			System.out.println("insertClip 수행됨");
+			int joNo = applyVO.getJoNo();
+			cnt = dao.addClip(joNo);
+			System.out.println("addClip 수행됨");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return cnt;
+	}
+	
+	@Override
+	public int deleteClip(ApplyVO applyVO) {
+		int cnt = 0;
+		try {
+			dao.deleteClip(applyVO);
+			System.out.println("deleteClip 수행됨");
+			int joNo = applyVO.getJoNo();
+			cnt = dao.subtractClip(joNo);
+			System.out.println("subtractClip 수행됨");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return cnt;
+	}
+	@Override
+	public int deleteJobOpening(int joNo){
+		int cnt = 0;
+		try {
+			cnt = dao.deleteJobOpening(joNo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return cnt;
+	}
+	@Override
+	public int checkJobOpeningRight(int joNo) {
+		int cnt = 0;
+		try {
+			cnt = dao.checkJobOpeningRight(joNo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return cnt;
 	}	
 
+	@Override
+	public int updateJobOpening(JobOpeningVO jobOpeningVO) {
+		int cnt = 0;
+		try {
+			cnt = dao.updateJobOpening(jobOpeningVO);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return cnt;
+	}
+	
 }

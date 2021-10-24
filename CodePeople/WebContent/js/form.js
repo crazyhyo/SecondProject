@@ -27,11 +27,7 @@ function proc(){
 				alert(`status : ${err.status}`);
 			}
 		})
-
-		
-	}, 4000)
-	
-	
+	}, 6000)
 }
 
 
@@ -49,22 +45,8 @@ const insertJobOpening = () => {
 		dataType: 'json',
 		success: function(res){
 			
-//			$.ajax({
-//				
-//				url: '/CodePeople/InsertJobOpeining.do',
-//				type: 'get',
-//				data: {
-//						"cityCodeNm" : cityCodeNm,
-//						"provCodeNm" : provCodeNm
-//						},
-//				dataType: 'json',
-//				success: function(res){
-//					
-//				},
-//				error: function(err){
-//					alert(`status : ${err.status}`);
-//				}
-//			})
+			alert('채용공고 등록이 완료되었습니다');
+			
 		},
 		error: function(err){
 			alert(`status : ${err.status}`);

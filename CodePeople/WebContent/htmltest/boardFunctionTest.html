@@ -26,6 +26,9 @@
     
     
 <script>
+
+	reply = {};
+	
     $(() => {
     	
     	listServer();
@@ -67,7 +70,7 @@
             
         }); //글작성 끝
         
-        //수정
+        //글 수정,삭제 / 댓글 등록 수정 삭제 버튼 이벤트 
         $(document).on('click', '.action' , function() {
        
            vname = $(this).attr('name');
@@ -75,8 +78,8 @@
               
         	
         	if(vname == "update"){
-        		alert(vidx + "번 글 수정");
-        		alert(vname + "버튼네임이다 네임")
+        		//alert(vidx + "번 글 수정");
+        		//alert(vname + "버튼네임이다 네임")
         		btnupdate = this;
         		
         		parent = $(this).parents('.card');
@@ -101,13 +104,63 @@
         	
         	//게시글 삭제	
         	}else if(vname == "delete"){
-        		alert(vidx + "번글 삭제할거임")
+        		//alert(vidx + "번글 삭제할거임")
         		
         		/* btndelete = this; */
         		
         		
         		deleteBoardServer();
+        	
+        	//댓글 등록
+        	}else if(vname == 'reply'){
+        		alert(vidx + "번 글에 댓글")
+        		
+        		cont = $(this).prev().val();
+        		console.log("댓글 등록 창에 쓴 글 " + cont);
+        		boardNo = vidx;
+        		console.log("댓글 쓰려는 게시판 번호 " + boardNo);
+        		let boardCodeNo = 3;
+        		
+        		reply.boardNo = boardNo;
+        		reply.repCont = cont;
+        		reply.memNo = 1;
+        		reply.boardCodeNo = boardCodeNo;
+        		console.log(reply.boardNo);
+        		console.log(reply.repCont);
+        		console.log(reply.memNo);
+        		
+        		replyInsertServer(reply);
+        		
+        	//댓글 리스트	
+        	}else if(vname == 'list'){  //글 제목 클릭시 오픈 됨
+        		console.log("list")
+        		
+        		replyListServer(this , vidx);
+        		
+        	//댓글 수정
+        	}else if(vname == 'rmodify'){
+        		//alert("댓글수정버튼")
+//         		parent = $(this).parents('.rep')
+        		
+        		//댓글 원본 가져오기
+        		mcont = $(this).parents('.reply-card').find('.reply-content');
+        		
+        		
+        		console.log("댓글 원본" + mcont);
+        		
+        		
+//         		$('#modiForm textarea').val(mcont);
+        		
+        		$(this).parents('.reply-card').find('.card-body').empty().append($('#modiForm'));
+        		$('#modiForm').show();
+        	
+        	}else if(vname == 'rdelete'){
+        		
+        		reply.repNo = vidx;
+        		
+        		replyDeleteServer(this);
         	}
+        	
         	
         });
         //수정 완료 버튼 클릭시 이벤트
@@ -121,7 +174,31 @@
 			$('#updateModal .fin').val("");
 			$('#updateModal').modal('hide');
 			
+		});
+        
+        //댓글수정 취소버튼 이벤트
+        $('#btnreset').on('click', function() {
+			
+        	replyReset();
 		})
+        
+        //댓글수정 확인 버튼 클릭 시 이벤트
+        $('#btnok').on('click', function() {
+			
+        	mcont = $('#modiForm textarea').val()
+        	
+        	cp = $('#modiForm').parent();
+        	
+        	$('body').append($('#modiForm'));
+        	$('#modiForm').hide();
+        	
+        	reply.repCont = mcont;
+        	reply.repNo = vidx;
+        	console.log("수정된 댓글" + reply.repCont);
+        	console.log("수정된 댓글 번호" + reply.repNo);
+        	
+        	replyUpdateServer();
+		});
         
         
 
@@ -667,7 +744,12 @@
 		</div>
 	</div>
 
-
+		<!-- 댓글 수정폼 -->
+		<div id="modiForm" style="display: none">
+	      <textarea rows="5" cols="30"></textarea>
+	      <input type="button" id="btnok" value="확인"> 
+	      <input type="button" id="btnreset" value="취소">
+	   </div>
 
 
 

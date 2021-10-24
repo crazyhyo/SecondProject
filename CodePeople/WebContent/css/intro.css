@@ -130,7 +130,8 @@ a {
 .company-list .item .img,
 .company-list .item img,
 .user-list .item .img,
-.user-list .item img {
+.user-list .item img,
+.home-first .profile img{
   width: 96px;
   height: 96px;
 }
@@ -208,4 +209,21 @@ p {
 .home-third{
   background: rgb(65, 66, 221);
   color: white;
+}
+
+/* index.html의 프로필 css */
+.home-first .profile{
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  flex-direction: column;
+  -webkit-box-align: center;
+  align-items: center;
+  text-align: center;
+}
+.home-first .profile-name{
+  padding: 20px 0px;
+  color: #28323c;
+  word-break: break-all;
+  width: 100%;
 }

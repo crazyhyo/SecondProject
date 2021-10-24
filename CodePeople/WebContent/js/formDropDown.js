@@ -1,8 +1,8 @@
 
 
-let jobGroupOptionNo;
+let jobGroupOptionNo2;
 
-const setOptions = () => {
+const setOptions2 = () => {
 	
 	  options = document.querySelectorAll('.option');  
 	  options.forEach(option => {
@@ -10,6 +10,8 @@ const setOptions = () => {
 	      let tag = event.currentTarget;
 	      if($(tag).attr('idx') == 1){
 	    	  $('#jtCodeNo').val($(tag).val());
+				console.log($('#jt-display'));
+				console.log($(tag).text());
 	    	  $('#jt-display').val($(tag).text());
 	    	  console.log('jtcodeno')
 	      }else if($(tag).attr('idx') == 2){
@@ -22,25 +24,27 @@ const setOptions = () => {
 	}
 
 //드랍박스 직군의 옵션에서만 적용되는 메서드
-const setJobGroupOptions = () =>{
+const setJobGroupOptions2 = () =>{
 	
+	let jobGroupOptions;
 	jobGroupOptions = document.querySelectorAll('.jobGroupOption');
 	jobGroupOptions.forEach(option=>{
         option.addEventListener('click', event=>{
-        	jobGroupOptionNo = event.currentTarget.value;
-	console.log('jobGroupOptionNo : ' + jobGroupOptionNo);
+        	jobGroupOptionNo2 = event.currentTarget.value;
+	console.log('jobGroupOptionNo : ' + jobGroupOptionNo2);
 		    let tag = event.currentTarget;
 		      console.log($(tag).text());
 		    if($(tag).attr('idx') == 0){
 		    	$('#jgCodeNo').val($(tag).val());
 		  	  $('#jg-display').val($(tag).text());
+				console.log($(tag).text());
 		    }
         })
     })
 }
 
 //드랍박스에서 직군의 옵션값을 가져오는 메서드
-const initJobGroupList = (target) => {
+const initJobGroupList2 = (target) => {
 	$.ajax({
 		url : '/CodePeople/jobGroupList.do',
 		type : 'get',
@@ -53,7 +57,7 @@ const initJobGroupList = (target) => {
 			});
 			let parent = target.parentElement.querySelector('.dropdown-menu');
 			parent.innerHTML = code;	
-			setJobGroupOptions();
+			setJobGroupOptions2();
 		},
 		error : function(xhr){
 			alert(`status : ${xhr.status}\ntext : ${xhr.statusText}`);
@@ -62,7 +66,7 @@ const initJobGroupList = (target) => {
 }
 
 // 드랍박스에서 활동분야의 옵션값을 가져오는 메서드
-const initProgLangList = (target) => {
+const initProgLangList2 = (target) => {
 	$.ajax({
 		url : '/CodePeople/progLangList.do',
 		type : 'get',
@@ -75,7 +79,7 @@ const initProgLangList = (target) => {
 			})
 			let parent = target.parentElement.querySelector('.dropdown-menu');
 			parent.innerHTML = code;	
-			setOptions();
+			setOptions2();
 		},
 		error : function(xhr){
 			alert(`status : ${xhr.status}\ntext : ${xhr.statusText}`);
@@ -83,16 +87,16 @@ const initProgLangList = (target) => {
 	})
 }
 //드랍박스에서 직무의 옵션값을 가져오는 메서드
-const initJobTitleList = (target) => {
+const initJobTitleList2 = (target) => {
 	$.ajax({
 		url : '/CodePeople/jobTitleList.do',
 		type : 'get',
-		data : { "jobGroupOptionNo" : jobGroupOptionNo},
+		data : { "jobGroupOptionNo" : jobGroupOptionNo2},
 		dataType : 'json',
 		success : function(res){
 			let code = '<li><h5 class="dropdown-header">직무</h5></li>';
 			let datas= res;
-			if(jobGroupOptionNo !== 0){
+			if(jobGroupOptionNo2 !== 0){
 				datas.forEach(data=>{
 					code += `<li class="dropdown-item option" idx="1" value="${data.jtCodeNo}">${data.jtCodeNm}</li>`;
 				})
@@ -100,8 +104,8 @@ const initJobTitleList = (target) => {
 				code += `<li>직무를 선택해주세요</li>`;
 			}
 			let parent = target.parentElement.querySelector('.dropdown-menu');
-			parent.innerHTML = code;
-			setOptions();
+			parent.innerHTML = code;	
+			setOptions2();
 		},
 		error : function(xhr){
 			alert(`status : ${xhr.status}\ntext : ${xhr.statusText}`);

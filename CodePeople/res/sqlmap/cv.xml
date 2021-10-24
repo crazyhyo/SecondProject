@@ -28,4 +28,17 @@
 		  FROM CV
 	</select>
 	
+	
+	<select id="selectCV" parameterClass="int" resultMap="CVMap">
+		 	 SELECT CV_NO,
+			        HR_NO,
+			        CV_OPEN,
+			        CV_SAL,
+			        CV_CMT,
+			        CV_CNT,
+			        ATCH_FILE_ID
+			  FROM CV
+			 WHERE HR_NO = #hrNo#
+		</select>
+	
 </sqlMap>

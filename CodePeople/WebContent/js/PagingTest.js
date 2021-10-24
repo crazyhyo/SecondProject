@@ -136,11 +136,14 @@ function JOCardPaging(PageNo){
                                     <!-- 카드 메뉴 헤더 -->
                                     <li>
                                         <h5 class="dropdown-header">관심등록</h5>
+                                        <h5 class="dropdown-header">관심해제</h5>
+                                        <h5 class="dropdown-header" onclick="alert('asdf!!')">공고수정</h5>
                                     </li>
                                     <!-- 카드 메뉴 옵션 -->
                                     <li><a class="dropdown-item" href="#">스크랩</a></li>
                                     <li>
-                                        <h5 class="dropdown-header">알람설정</h5>
+                                        <h5 class="dropdown-header">알람등록</h5>
+                                        <h5 class="dropdown-header">알람해제</h5>
                                     </li>
                                     <li><a class="dropdown-item" href="#">알람등록</a></li>
                                 </ul>

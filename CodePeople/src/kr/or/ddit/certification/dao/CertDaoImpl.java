@@ -6,6 +6,7 @@ import java.util.List;
 import com.ibatis.sqlmap.client.SqlMapClient;
 
 import kr.or.ddit.certification.vo.CertificationVO;
+import kr.or.ddit.hr.vo.HRInfoVO;
 import kr.or.ddit.util.SqlMapClientFactory;
 
 public class CertDaoImpl implements ICertDao{
@@ -32,5 +33,18 @@ public class CertDaoImpl implements ICertDao{
 		return list;
 	}
 
+	@Override
+	public int insertCert(HRInfoVO hrInfoVO) throws SQLException {
+		int cnt =0;
+		cnt = smc.update(nameSpace+"insertCert",hrInfoVO);
+		return cnt;
+	}
+	
+	@Override
+	public List<CertificationVO> selectCert(int hrNo) throws SQLException {
+		List<CertificationVO> certList = null;
+		certList = smc.queryForList(nameSpace+"selectCert",hrNo);
+		return certList;
+	}
 
 }

@@ -7,6 +7,7 @@ import java.util.Map;
 import com.ibatis.sqlmap.client.SqlMapClient;
 
 import kr.or.ddit.board.vo.BoardVO;
+import kr.or.ddit.board.vo.ReplyVO;
 import kr.or.ddit.cmm.vo.BoardPagingVO;
 import kr.or.ddit.util.SqlMapClientFactory;
 
@@ -59,19 +60,29 @@ public class BoardDaoImpl implements IBoardDao{
 			int cnt = 0;
 			
 			cnt = smc.update(nameSpace + "boardUpdate", vo);
-			System.out.println("dao������  cnt" + cnt);
 			
 		return cnt;
 	}
 
 	@Override
-	public int boardDelete(Integer boardNo) throws SQLException {
+	public int boardDelete(BoardVO vo) throws SQLException {
 		
 		int cnt = 0;
-		cnt = smc.delete(nameSpace + "boardDelete", boardNo);
+		cnt = smc.delete(nameSpace + "boardDelete", vo);
 		
 		return cnt;
 	}
+	
+	@Override
+	public List<Map<String, Object>> replySelect() throws SQLException {
+		
+		List<Map<String, Object>> list = null;
+		list = smc.queryForList(nameSpace + "replySelect");
+		
+		return list;
+	}	
+	
+	
 	
 	@Override
 	public List<Map<String, Object>> QuestionBoardPagingList(BoardPagingVO boardPagingVO) throws SQLException {
@@ -137,7 +148,80 @@ public class BoardDaoImpl implements IBoardDao{
 		int cnt = 0;
 		cnt = (int)smc.queryForObject(nameSpace + "countCareerBoard");  
 		return cnt;
-	}	
+	}
+
+	@Override
+	public int replyInsert(ReplyVO vo) throws SQLException {
+		int cnt = 0;
+		cnt = (int)smc.insert(nameSpace + "replyInsert", vo);  
+		return cnt;
+	}
+
+	@Override
+	public int replyUpdate(ReplyVO vo) throws SQLException {
+		int cnt = 0;
+		cnt = (int)smc.update(nameSpace + "replyUpdate", vo);
+		
+		return cnt;
+	}
+	
+		@Override
+	public int checkBoardRight(BoardVO vo) throws SQLException {
+		int cnt = 0;
+		cnt = (int)smc.queryForObject(nameSpace + "checkBoardRight", vo);  
+		return cnt;
+	}
+
+	@Override
+	public int checkReplyRight(ReplyVO vo) throws SQLException {
+		int cnt = 0;
+		cnt = (int)smc.queryForObject(nameSpace + "checkReplyRight", vo);  
+		return cnt;
+	}
+
+	@Override
+	public int replyDelete(int repNo) throws SQLException {
+		int cnt = 0;
+		cnt = (int)smc.delete(nameSpace + "replyDelete", repNo);  
+		return cnt;
+	}
+
+	@Override
+	public int addBoardHit(BoardVO vo) throws SQLException {
+		int cnt = 0;
+		cnt = (int)smc.update(nameSpace + "addBoardHit", vo);  
+		return cnt;
+	}
+
+	@Override
+	public int addBoardRept(BoardVO vo) throws SQLException {
+		int cnt = 0;
+		cnt = (int)smc.update(nameSpace + "addBoardRept", vo);  
+		return cnt;
+	}
+
+	@Override
+	public int addBoardLike(BoardVO vo) throws SQLException {
+		int cnt = 0;
+		cnt = (int)smc.update(nameSpace + "addBoardLike", vo);  
+		return cnt;
+	}
+
+	@Override
+	public int addReplyRept(int repNo) throws SQLException {
+		int cnt = 0;
+		cnt = (int)smc.update(nameSpace + "addReplyRept", repNo);  
+		return cnt;
+	}
+
+	@Override
+	public int addReplyLike(int repNo) throws SQLException {
+		int cnt = 0;
+		cnt = (int)smc.update(nameSpace + "addReplyLike", repNo);  
+		return cnt;
+	}
+	
+
 }
 
 

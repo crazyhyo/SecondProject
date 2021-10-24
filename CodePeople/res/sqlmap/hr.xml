@@ -19,11 +19,67 @@
 	<result column="PL_CODE_NM" property="plCodeNm"/>
 	<result column="HR_CURR_COM" property="hrCurrCom"/>
 </resultMap>
-	
-	
+
+<resultMap class="kr.or.ddit.hr.vo.HRCrrVO" id="hrCrrMap">
+<result column="CRR_NO" property="crrNo"/>
+<result column="CRR_COMP_NM" property="crrCompNm"/>
+<result column="CRR_IN_SERVICE" property="crrInService"/>
+<result column="CRR_RANK" property="crrRank"/>
+<result column="CRR_YEARS" property="crrYears"/>
+<result column="JG_CODE_NO" property="jgCodeNo"/>
+<result column="JG_CODE_NM" property="jgCodeNm"/>
+<result column="JT_CODE_NO" property="jtCodeNo"/>
+<result column="JT_CODE_NM" property="jtCodeNm"/>
+</resultMap>
+
+
+
+
+
+
+
+
+<resultMap class="kr.or.ddit.hr.vo.HRInfoVO" id="hrInfoMap">
+<result column="HR_NO" property="hrNo"/>
+<result column="MEM_NO" property="memNo"/>
+<result column="MEM_NM" property="memNm"/>
+<result column="MEM_IN_COM" property="memInCom"/>
+<result column="JG_CODE_NO" property="jgCodeNo"/>
+<result column="JG_CODE_NM" property="jgCodeNm"/>
+<result column="JT_CODE_NO" property="jtCodeNo"/>
+<result column="JT_CODE_NM" property="jtCodeNm"/>
+<result column="HR_CURR_COM" property="hrCurrCom"/>
+<result column="EDU_NO" property="eduNo"/>
+<result column="EDU_CODE_NO" property="eduCodeNo"/>
+<result column="EDU_CODE_NM" property="eduCodeNm"/>
+<result column="EDU_SCH_NM" property="eduSchNm"/>
+<result column="EDU_MAJOR" property="eduMajor"/>
+<result column="EDU_GRA_TOT" property="eduGraTot"/>
+<result column="EDU_GRA_AVG" property="eduGraAvg"/>
+<result column="CRR_NO" property="crrNo"/>
+<result column="CRR_COMP_NM" property="crrCompNm"/>
+<result column="CRR_IN_SERVICE" property="crrInService"/>
+<result column="CRR_RANK" property="crrRank"/>
+<result column="CRR_YEARS" property="crrYears"/>
+<result column="CERT_CODE_NO" property="certCodeNo"/>
+<result column="CERT_CODE_NM" property="certCodeNm"/>
+<result column="PL_CODE_NO" property="plCodeNo"/>
+<result column="PL_CODE_NM" property="plCodeNm"/>
+<result column="HR_SAL"  property="hrSal"/>      
+<result column="HR_CNT"  property="hrCnt"/>      
+<result column="HR_INTRO"  property="hrIntro"/>    
+<result column="ATCH_FILE_ID"  property="atchFileId"/> 
+<result column="HR_CMT"  property="hrCmt"/>     
+<result column="HR_OPEN" property="hrOpen"/>  
+             
+
+
+
+
+</resultMap>	
 	
 
-	
+
 	<select id="getTotalHRCount" resultClass="int">
 		SELECT COUNT(*)
 		  FROM HR
@@ -144,5 +200,56 @@
 	  AND COM_NO = #comNo#
 	  AND HR_NO = #hrNo#	
 	</delete>
+	
+	
+	
+	<update id="updateJobInfo" parameterClass="kr.or.ddit.hr.vo.HRInfoVO">
+	
+	UPDATE HR 
+	   SET JG_CODE_NO =#jgCodeNo#,
+       	   JT_CODE_NO= #jtCodeNo#,  
+           HR_CURR_COM = #hrCurrCom#
+     WHERE HR_NO = #hrNo#	
+	</update>
+
+	
+	<insert id="insertCrr" parameterClass="kr.or.ddit.hr.vo.HRInfoVO">
+	 INSERT INTO CAREER 
+ 	 VALUES(CAREER_SEQ.NEXTVAL, #crrCompNm#,#crrInService#,#crrRank#,#crrYears#,#jgCodeNo#,#jtCodeNo#)
+ 	 
+ 	 <selectKey keyProperty="crrNo" resultClass="Integer">
+ 		SELECT CAREER_SEQ.CURRVAL FROM DUAL							
+	 </selectKey>
+	</insert>
+	
+	<update id="updateCrrHR" parameterClass="kr.or.ddit.hr.vo.HRInfoVO">
+		UPDATE CRR_HR
+		   SET CRR_NO = #crrNo#
+		 WHERE HR_NO = #hrNo#
+	</update>
+	<select id="selectCrr" parameterClass="int" resultMap="hrCrrMap">
+	
+	SELECT  A.CRR_NO AS CRR_NO,
+        NVL(A.CRR_COMP_NM,0) AS CRR_COMP_NM,
+        NVL(A.CRR_IN_SERVICE,0) AS CRR_IN_SERVICE,
+        NVL(A.CRR_RANK,0) AS CRR_RANK,
+      NVL(A.CRR_YEARS,0) AS CRR_YEARS,
+        A.JG_CODE_NO AS JG_CODE_NO,
+        B.JG_CODE_NM AS JG_CODE_NM,
+        A.JT_CODE_NO AS JT_CODE_NO,
+        C.JT_CODE_NM AS JT_CODE_NM                        
+  FROM CAREER A,  JOB_GROUP B, JOB_TITLE C
+  WHERE A.JG_CODE_NO = B.JG_CODE_NO
+    AND A.JT_CODE_NO = C.JT_CODE_NO
+    AND A.CRR_NO  IN    (SELECT CRR_NO
+                       FROM CRR_HR
+                       WHERE HR_NO = #hrNo#)
+
+	</select>
+
+
+
+
+	
 	
 </sqlMap>

@@ -10,6 +10,7 @@ import javax.xml.stream.events.Namespace;
 
 import kr.or.ddit.board.service.BoardServiceImpl;
 import kr.or.ddit.board.service.IBoardService;
+import kr.or.ddit.board.vo.BoardVO;
 
 /**
  * Servlet implementation class boardDelete
@@ -33,12 +34,25 @@ public class BoardDelete extends HttpServlet {
 
 		int num = Integer.parseInt(request.getParameter("boardNo"));
 		
-		System.out.println("»èÁ¦ÀÇ " + request.getParameter("boardNo"));
-		System.out.println("»èÁ¦ÀÇ " + num);
+		// ì‹¤í—˜ì„ ìœ„í•´ ì¶”ê°€ëœ ì½”ë“œ, boardCodeNoë¥¼ íŒŒë¼ë¯¸í„°ë¡œ ë°›ì•„ì™€ì•¼ í•¨
+		
+		int boardCodeNo = request.getParameter("boardCodeNo") == null?
+				3	:	Integer.parseInt(request.getParameter("boardCodeNo"));
+		
+		System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ " + request.getParameter("boardNo"));
+		System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ " + num);
 		
 		IBoardService service = BoardServiceImpl.getInstance();
 		
-		int cnt = service.boardDelete(num);
+		BoardVO vo = new BoardVO();
+		
+		vo.setBoardNo(num);
+		
+		vo.setBoardCodeNo(boardCodeNo);
+		
+		int cnt = service.boardDelete(vo);
+		
+		
 		
 		request.setAttribute("boardinsert", cnt);
 		

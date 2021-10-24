@@ -12,7 +12,10 @@
   <script src="../js/SSDropDowns.js"></script>
   <script src="../js/SSPaging.js"></script>
   <script src="../js/jquery.serializejson.min.js"></script>
+
   <link rel="stylesheet" href="../css/main.css">
+  
+  
 </head>
 
 <script>
@@ -39,7 +42,22 @@
     	HRSearchCardPaging();
     })
     
-
+   
+    $(document).on("click",".goDetail",function(){
+    let option = this;
+	let hrNo = option.getAttribute('idx');
+	$.ajax({
+			url : '/CodePeople/goHrDetail.do',
+			type : 'get',
+			data : {"hrNo":hrNo},
+			success : function(res){
+				console.log(res)
+			},
+		   error :function(xhr){
+			   console.log(`status: ${xhr.satus}\ntext : ${xhr.statusText}`);
+		   }
+		})
+    })
     
     let cityCodeNo ="";
    
@@ -68,11 +86,9 @@
         bringOptions(dropdownBtn);
       
       })
-    })
-
-
-    
+    })    
 });
+   
 </script>
 
 
@@ -119,7 +135,7 @@
             <div class="nav-left-bar">
                 <div class="nav-sticky">
                     <ul class="list-group">
-                        <li class="list-group-item">프로필 등록</li>
+                        <a href="/CodePeople/rehearsal/addHrForm.html"><li class="list-group-item">프로필 등록</li></a>
                     </ul>
                 </div>
             </div>
@@ -127,18 +143,18 @@
             <div id="content">
 <!--             목록에서 선택한 갑사을 보낼 폼데이터 -->
             <form id="formDatas">
-           		<input type="hidden" name ="currentPageNo" id ="currentPageNo" value="1">
-            	<input type="hidden" name ="jgCodeNo" id ="jgCodeNo" value="">
-            	<input type="hidden" name ="plCodeNo" id ="plCodeNo" value="3"> 
-            	<input type="hidden" name ="eduCodeNo" id ="eduCodeNo" value="">
-            	<input type="hidden" name ="cityCodeNo" id ="cityCodeNo" value="">
-            	<input type="hidden" name ="provCodeNo" id ="provCodeNo"value="">
+           	    <input type="hidden" name ="currentPageNo" id ="currentPageNo" value="1">
+                <input type="hidden" name ="jgCodeNo" id ="jgCodeNo" value="">
+                <input type="hidden" name ="plCodeNo" id ="plCodeNo" value="3"> 
+                <input type="hidden" name ="eduCodeNo" id ="eduCodeNo" value="">
+                <input type="hidden" name ="cityCodeNo" id ="cityCodeNo" value="">
+                <input type="hidden" name ="provCodeNo" id ="provCodeNo"value="">
             </form>
             <form id="favHrForm">
 	            <input type="hidden" name="comNo" id="comNo" value="1">
 	            <input type="hidden" name="hrNo" id="hrNo" value="">
             </form>
-            	<!-- 콘텐츠 인재 검색-->
+				<!-- 콘텐츠 인재 검색-->
                 <div class="filter-box content-box human">
                     <h1 class="h1">인재검색</h1>
                     <div class="filter-box-dropdowns">

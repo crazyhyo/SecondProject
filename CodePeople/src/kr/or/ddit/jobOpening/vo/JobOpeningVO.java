@@ -2,22 +2,22 @@ package kr.or.ddit.jobOpening.vo;
 
 
 public class JobOpeningVO {
-	private Integer joNo;
+	private Integer joNo = 0;
 	private String joTitle;
-	private Integer comNo;
+	private Integer comNo = 0;
 	private String joSdate;
 	private String joEdate;
-	private Integer jgCodeNo;
-	private Integer jtCodeNo;
-	private Integer joSal;
+	private Integer jgCodeNo = 0;
+	private Integer jtCodeNo = 0;
+	private Integer joSal = 0;
 	private String joRank;
 	private String joMthd;
 	private String joLink;
-	private Integer joClip;
-	private Integer joFile;
-	private Integer provCodeNo;
-	private Integer cityCodeNo;
-	private Integer plCodeNo;
+	private Integer joClip = 0;
+	private Integer joFile = 0;
+	private Integer provCodeNo = 0;
+	private Integer cityCodeNo = 0;
+	private Integer plCodeNo = 0;
 	public Integer getJoNo() {
 		return joNo;
 	}

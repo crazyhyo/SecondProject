@@ -12,5 +12,7 @@ public interface ICVDao {
 	public int getTotalCVCount() throws SQLException;
 	
 	public List<CVVO> cvPagingList(CVPagingVO cvPagingVO) throws SQLException;
+	
+	public List<CVVO> selectCV(int hrNo) throws SQLException;
 
 }

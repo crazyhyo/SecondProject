@@ -24,6 +24,14 @@
 			String boardCont = String.valueOf(vo.get("BOARD_CONT"));
 			String boardDate = String.valueOf(vo.get("BOARD_DATE"));
 			String memId = String.valueOf(vo.get("MEM_ID"));
+			
+			if(boardLike.equals("0")){
+				boardLike = "좋아요";
+			}
+			if(boardRepl.equals("0")){
+				boardRepl = "댓글";
+			}
+			
 	%>
 {
 			"boardNo" 	 : "<%=boardNo %>",

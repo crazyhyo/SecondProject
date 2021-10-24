@@ -10,5 +10,7 @@ public interface ICVService {
 	public int getTotalCVCount();
 	
 	public List<CVVO> cvPagingList(CVPagingVO cvPagingVO);
+	
+	public List<CVVO> selectCV(int hrNo);
 
 }

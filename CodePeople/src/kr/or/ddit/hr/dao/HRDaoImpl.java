@@ -7,7 +7,9 @@ import com.ibatis.sqlmap.client.SqlMapClient;
 
 import kr.or.ddit.cmm.vo.HRPagingVO;
 import kr.or.ddit.hr.vo.HRCardVO;
+import kr.or.ddit.hr.vo.HRCrrVO;
 import kr.or.ddit.hr.vo.HRFavVO;
+import kr.or.ddit.hr.vo.HRInfoVO;
 import kr.or.ddit.hr.vo.HRSearchVO;
 import kr.or.ddit.hr.vo.HRVO;
 import kr.or.ddit.util.SqlMapClientFactory;
@@ -84,4 +86,42 @@ public class HRDaoImpl implements IHRDao{
 	 return cnt;
 	}
 
+	   
+	   
+	    @Override
+	    public int updateJobInfo(HRInfoVO hrInfoVO) throws SQLException {
+	    	int cnt = 0;
+	    	cnt = (int)smc.update(nameSpace+"updateJobInfo",hrInfoVO);
+	    	return cnt;
+	    }
+	    
+		@Override
+		public int insertCrr(HRInfoVO hrInfoVO) throws SQLException {
+			int crrNo = 0;
+			crrNo = (int)smc.insert(nameSpace+"insertCrr",hrInfoVO);
+	    	return crrNo;
+		}
+		
+		//
+		@Override
+		public int updateCrrHR(HRInfoVO hrInfoVO) throws SQLException {
+			int cnt = 0;
+			cnt = (int)smc.update(nameSpace+"updateCrrHR",hrInfoVO);
+			return cnt;
+		}
+	    
+	    @Override
+	    public int updateCrr(HRInfoVO hrInfoVO) throws SQLException {
+	    	int cnt = 0;
+	    	cnt = (int)smc.update(nameSpace+"updateCrr",hrInfoVO);
+	    	return cnt;
+	    }
+	    
+	    @Override
+	    public List<HRCrrVO> selectCrr(int hrNo) throws SQLException {
+	    	List<HRCrrVO> crrList = null;
+	    	crrList = smc.queryForList(nameSpace+"selectCrr",hrNo);
+	    	return crrList;
+	    }
+	    
 }

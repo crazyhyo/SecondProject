@@ -6,6 +6,7 @@ import java.util.List;
 import com.ibatis.sqlmap.client.SqlMapClient;
 
 import kr.or.ddit.edu.vo.EduVO;
+import kr.or.ddit.hr.vo.HRInfoVO;
 import kr.or.ddit.util.SqlMapClientFactory;
 
 public class EduDaoImpl implements IEduDao{
@@ -33,4 +34,34 @@ public class EduDaoImpl implements IEduDao{
 	}
 
 
+    
+		@Override
+		public int insertEdu(HRInfoVO hrInfoVO) throws SQLException {
+			int eduNo = 0;
+			eduNo = (int)smc.insert(nameSpace+"insertEdu",hrInfoVO);
+	    	return eduNo;
+		}
+		
+		//
+		@Override
+		public int updateEduHR(HRInfoVO hrInfoVO) throws SQLException {
+			int cnt = 0;
+			cnt = (int)smc.update(nameSpace+"updateEduHR",hrInfoVO);
+			return cnt;
+		}
+	    
+	    @Override
+	    public int updateEdu(HRInfoVO hrInfoVO) throws SQLException {
+	    	int cnt = 0;
+	    	cnt = (int)smc.update(nameSpace+"updateEdu",hrInfoVO);
+	    	return cnt;
+	    }
+	
+	    @Override
+	    public List<EduVO> selectEdu(int hrNo) throws SQLException {
+	    	List<EduVO> eduList = smc.queryForList(nameSpace+"selectEdu",hrNo);
+	    	return eduList;
+	    }
+	    
+	
 }

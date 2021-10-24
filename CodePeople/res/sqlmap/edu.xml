@@ -8,6 +8,7 @@
 	<resultMap class="kr.or.ddit.edu.vo.EduVO" id="EduMap">
 		<result column="EDU_NO" property="eduNo"/>
 		<result column="EDU_CODE_NO" property="eduCodeNo"/>
+		<result column="EDU_CODE_NM" property="eduCodeNm"/>
 		<result column="EDU_SCH_NM" property="eduSchNm"/>
 		<result column="EDU_MAJOR" property="eduMajor"/>
 		<result column="EDU_GRA_TOT" property="eduGraTot"/>
@@ -21,5 +22,43 @@
 	<select id="selectEduCodeList" resultMap="EduCodeMap">
 		SELECT * FROM EDU_CODE
 	</select>
+	
+	
+		
+	
+	<insert id="insertEdu" parameterClass="kr.or.ddit.hr.vo.HRInfoVO">
+	 INSERT INTO EDU 
+ 	 VALUES(EDU_SEQ.NEXTVAL, #eduCodeNo#,#eduSchNm#,#eduMajor#,#eduGraTot#,#eduGraAvg#)
+ 	 
+ 	 <selectKey keyProperty="eduNo" resultClass="Integer">
+ 					select EDU_SEQ.CURRVAL FROM DUAL							
+	 </selectKey>
+	</insert>
+	
+	<update id="updateEduHR" parameterClass="kr.or.ddit.hr.vo.HRInfoVO">
+		UPDATE EDU_HR
+		   SET EDU_NO = #eduNo#
+		 WHERE HR_NO = #hrNo#
+	</update>
+	
+	
+	
+	<select id="selectEdu" parameterClass="int" resultMap="EduMap">
+	
+		SELECT A.EDU_NO,
+		       A.EDU_CODE_NO,
+		       B.EDU_CODE_NM,
+		       A.EDU_SCH_NM,
+		       A.EDU_MAJOR,
+		       A.EDU_GRA_TOT,
+		       A.EDU_GRA_AVG
+		
+		FROM EDU A, EDU_CODE B
+		WHERE EDU_NO IN  (SELECT EDU_NO 
+		                            FROM EDU_HR
+		                         WHERE HR_NO = #hrNo#) 
+	</select>
+	
+	
 	
 </sqlMap>

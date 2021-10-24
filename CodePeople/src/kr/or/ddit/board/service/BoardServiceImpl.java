@@ -7,6 +7,7 @@ import java.util.Map;
 import kr.or.ddit.board.dao.BoardDaoImpl;
 import kr.or.ddit.board.dao.IBoardDao;
 import kr.or.ddit.board.vo.BoardVO;
+import kr.or.ddit.board.vo.ReplyVO;
 import kr.or.ddit.cmm.vo.BoardPagingVO;
 import kr.or.ddit.edu.vo.EduVO;
 
@@ -79,17 +80,42 @@ public class BoardServiceImpl implements IBoardService{
 		return cnt;
 	}
 	@Override
-	public int boardDelete(Integer boardNo) {
+	public int boardDelete(BoardVO vo) {
 		int cnt = 0;
 		
 		try {
-			cnt = dao.boardDelete(boardNo);
+			cnt = dao.boardDelete(vo);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
 		return cnt;
 	}
+	
+	@Override
+	public List<Map<String, Object>> replySelect() {
+		List<Map<String, Object>> list = null;
+		try {
+			list = dao.replySelect();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+	
+	@Override
+	public int replyInsert(ReplyVO vo) {
+		int cnt = 0;
+		try {
+			cnt = dao.replyInsert(vo);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return cnt;
+	}
+	
+	
 		@Override
 	public List<Map<String, Object>> QuestionBoardPagingList(BoardPagingVO boardPagingVO) {
 		List<Map<String, Object>> list = null;
@@ -190,6 +216,97 @@ public class BoardServiceImpl implements IBoardService{
 		}
 		return cnt;
 	}
+	@Override
+	public int checkBoardRight(BoardVO vo) {
+		int cnt = 0;
+		try {
+			cnt = dao.checkBoardRight(vo);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return cnt;
+	}
+	@Override
+	public int checkReplyRight(ReplyVO vo) {
+		int cnt = 0;
+		try {
+			cnt = dao.checkReplyRight(vo);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return cnt;
+	}
+	@Override
+	public int replyUpdate(ReplyVO vo) {
+		int cnt = 0;
+		try {
+			cnt = dao.replyUpdate(vo);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return cnt;
+	}
+	@Override
+	public int replyDelete(int repNo) {
+		int cnt = 0;
+		try {
+			cnt = dao.replyDelete(repNo);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return cnt;
+	}
+	@Override
+	public int addBoardHit(BoardVO vo) {
+		int cnt = 0;
+		try {
+			cnt = dao.addBoardHit(vo);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return cnt;
+	}
+	@Override
+	public int addBoardRept(BoardVO vo) {
+		int cnt = 0;
+		try {
+			cnt = dao.addBoardRept(vo);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return cnt;
+	}
+	@Override
+	public int addBoardLike(BoardVO vo) {
+		int cnt = 0;
+		try {
+			cnt = dao.addBoardLike(vo);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return cnt;
+	}
+	@Override
+	public int addReplyRept(int repNo) {
+		int cnt = 0;
+		try {
+			cnt = dao.addReplyRept(repNo);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return cnt;
+	}
+	@Override
+	public int addReplyLike(int repNo) {
+		int cnt = 0;
+		try {
+			cnt = dao.addReplyLike(repNo);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return cnt;
+	}
+	
 	
 	
 }

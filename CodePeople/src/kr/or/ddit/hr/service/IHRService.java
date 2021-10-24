@@ -5,7 +5,9 @@ import java.util.List;
 
 import kr.or.ddit.cmm.vo.HRPagingVO;
 import kr.or.ddit.hr.vo.HRCardVO;
+import kr.or.ddit.hr.vo.HRCrrVO;
 import kr.or.ddit.hr.vo.HRFavVO;
+import kr.or.ddit.hr.vo.HRInfoVO;
 import kr.or.ddit.hr.vo.HRSearchVO;
 import kr.or.ddit.hr.vo.HRVO;
 
@@ -25,4 +27,14 @@ public interface IHRService {
 	public int addFavHr(HRFavVO hrFavVO);
 
 	public int deleteFavHr(HRFavVO hrFavVO);
+
+	public int updateJobInfo(HRInfoVO hrInfoVO);
+	
+	
+	
+	public int insertCrr(HRInfoVO hrInfoVO);
+
+	public int updateCrr (HRInfoVO hrInfoVO);
+	
+	public List<HRCrrVO> selectCrr(int hrNo);
 }

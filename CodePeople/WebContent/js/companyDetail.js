@@ -1,6 +1,8 @@
 
 comDetailListServer = function (currentPageNo) {
 
+
+  
 	$.ajax({
     type: "post",
     url: "/CodePeople/CompanyDetailList.do",

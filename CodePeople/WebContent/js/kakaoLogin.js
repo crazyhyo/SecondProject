@@ -10,27 +10,48 @@ function kakaoLogin() {
   //   success: function(resp){
   Kakao.Auth.login({
     success: function (authObj) {
+      
+      // 로그인 성공시, api를 호출합니다.
       Kakao.API.request({
         url: "/v2/user/me",
+
         success: function (resp) {
+          
           let kakao_account = resp.kakao_account;
           let properties = resp.properties;
 
-          console.log("<h2>로그인 성공</h2>");
-          console.log(`<h4>id : ${resp.id}</h4>`);
-          console.log(`<h4>connected time : ${resp.connected_at}</h4>`);
-
-          let email = "";
-          let nickname = "";
+          let memEmail = "";
+          let memNm = "";
+          let memBir = "";
           if (typeof kakao_account != "undefined") {
             // 변수에 속성 값 넣기
-            email = kakao_account.email;
-            nickname = properties.nickname;
+            memEmail = kakao_account.email;
+            memNm = properties.nickname;
+            memBir = kakao_account.birthday;
           }
 
-          console.log(`<h4>email : ${email}</h4>`);
-          console.log(`<h4>nickname : ${nickname}</h4>`);
+         $.ajax({
+           url: "/CodePeople/ExternalLogin.do",
+           data: {
+             "memEmail" : memEmail,
+             "memNm" : memNm,
+             "memBir" : memBir
+          },
+           type: "post",
+           dataType: "json",
+           success: function (resp) {
+             if(resp.flag == "true"){
+               alert('코드피플에 오신 것을 환영합니다!');
+               location.href = "/CodePeople/html/index.jsp";
+             }
+           },
+           error: function (xhr) {
+            alert("외부 로그인 api 에러 상태 : " + xhr.status);
+          },
+
+         });
         },
+        
         fail: function (error) {
           console.log("error : " + error);
         },

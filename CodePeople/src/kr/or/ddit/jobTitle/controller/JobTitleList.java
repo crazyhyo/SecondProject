@@ -29,6 +29,7 @@ public class JobTitleList extends HttpServlet{
 		
 		req.getRequestDispatcher("/WEB-INF/jsp/SSjobTitleList.jsp").forward(req, resp);
 	}
+	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		doGet(req, resp);

@@ -8,6 +8,8 @@ import java.util.Map;
 import com.ibatis.sqlmap.client.SqlMapClient;
 
 import kr.or.ddit.cmm.vo.JobOpeningPagingVO;
+import kr.or.ddit.jobOpening.vo.ApplyVO;
+import kr.or.ddit.jobOpening.vo.JOCardVO;
 import kr.or.ddit.jobOpening.vo.JobOpeningVO;
 import kr.or.ddit.util.SqlMapClientFactory;
 
@@ -89,6 +91,76 @@ public class JobOpeningDaoImpl implements IJobOpeningDao{
 		}
 	}
 
+	@Override
+	public JOCardVO joCardDetail(int joNo) throws SQLException {
+		JOCardVO vo = null;
+		vo = (JOCardVO)smc.queryForObject(nameSpace + "joCardDetail", joNo);
+		return vo;
+	}
 
+	@Override
+	public Integer getJtCodeNo(int joNo) throws SQLException {
+		Integer cnt = 0;
+		cnt = (Integer)smc.queryForObject(nameSpace + "getJtCodeNo", joNo);
+		return cnt;
+	}
+
+	@Override
+	public int applyJobOpening(ApplyVO applyVO) throws SQLException {
+		int cnt = 0;
+		cnt = (int)smc.insert(nameSpace + "applyJobOpening", applyVO);
+		return cnt;
+	}
+
+	@Override
+	public int insertClip(ApplyVO applyVO) throws SQLException {
+		int cnt = 0;
+		Object obj = null;
+		obj = smc.insert(nameSpace + "insertClip", applyVO);
+		cnt = obj == null ? 1 : 0;
+		return cnt;
+	}
+
+	@Override
+	public int deleteClip(ApplyVO applyVO) throws SQLException {
+		int cnt = 0;
+		cnt = smc.delete(nameSpace + "deleteClip", applyVO);
+		return cnt;
+	}
+
+	@Override
+	public int addClip(int joNo) throws SQLException {
+		int cnt = 0;
+		cnt = smc.update(nameSpace + "addClip", joNo);
+		return cnt;
+	}
+
+	@Override
+	public int subtractClip(int joNo) throws SQLException {
+		int cnt = 0;
+		cnt = smc.update(nameSpace + "subtractClip", joNo);
+		return cnt;
+	}
+	
+	@Override
+	public int deleteJobOpening(int joNo) throws SQLException {
+		int cnt = 0;
+		cnt = smc.delete(nameSpace + "deleteJobOpening", joNo);
+		return cnt;
+	}
+
+	@Override
+	public int checkJobOpeningRight(int joNo) throws SQLException {
+		int cnt = 0;
+		cnt = (int)smc.queryForObject(nameSpace + "checkJobOpeningRight", joNo);
+		return cnt;
+	}
+	
+	@Override
+	public int updateJobOpening(JobOpeningVO jobOpeningVO) throws SQLException {
+		int cnt = 0;
+		cnt = (int)smc.update(nameSpace + "updateJobOpening", jobOpeningVO);
+		return cnt;
+	}
 
 }

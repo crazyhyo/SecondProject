@@ -5,7 +5,9 @@ import java.util.List;
 
 import kr.or.ddit.cmm.vo.HRPagingVO;
 import kr.or.ddit.hr.vo.HRCardVO;
+import kr.or.ddit.hr.vo.HRCrrVO;
 import kr.or.ddit.hr.vo.HRFavVO;
+import kr.or.ddit.hr.vo.HRInfoVO;
 import kr.or.ddit.hr.vo.HRSearchVO;
 import kr.or.ddit.hr.vo.HRVO;
 
@@ -26,4 +28,18 @@ public interface IHRDao {
 	public int addFavHr(HRFavVO hrFavVO) throws SQLException;
 
 	public int deleteFavHr(HRFavVO hrFavVO) throws SQLException;
+	
+	public int updateJobInfo(HRInfoVO hrInfoVO) throws SQLException;
+
+	
+	
+	public int insertCrr(HRInfoVO hrInfoVO) throws SQLException;
+
+	public int updateCrr (HRInfoVO hrInfoVO) throws SQLException;
+	
+	public int updateCrrHR(HRInfoVO hrInfoVO) throws SQLException;
+	
+	public List<HRCrrVO> selectCrr(int hrNo) throws SQLException;
+	
+	
 }

@@ -14,6 +14,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import kr.or.ddit.member.service.IMemberService;
 import kr.or.ddit.member.service.MemberServiceImpl;
 import kr.or.ddit.member.vo.MemberVO;
+import kr.or.ddit.util.SHA256;
 
 @WebServlet("/MemberJoin.do")
 public class MemberJoin extends HttpServlet {
@@ -26,34 +27,39 @@ public class MemberJoin extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		resp.setContentType("UTF-8");
 		
-		MemberVO memVO = new MemberVO();
+		int res = 0;
+		MemberVO vo = new MemberVO();
 		
 		try {
-			BeanUtils.populate(memVO, req.getParameterMap());
+			BeanUtils.populate(vo, req.getParameterMap());
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
 		}
 		
+		String memOrignlPw = (String)(req.getParameter("memOrignlPw"));
+		String memPw = SHA256.getSHA256(memOrignlPw);
+		vo.setMemPw(memPw);
 		
 		// 1. service 객체 생성
 		IMemberService service = MemberServiceImpl.getInstance();
 		
-		int result = 0;
-		
+		System.out.println(vo.getMemCode());
 		// 2. service메서드 호출하기 - 결과값 받기
-		String memId = "";
+		// 기업회원은  HR테이블에 INSERT할 필요가 없음
+		if(vo.getMemCode() == 1) {
+			res = service.joinPerson(vo);
+		} else {
+			res = service.joinCompany(vo);
+		}
+		
 		
 		// 3. 결과값 request에 저장
-		req.setAttribute("memId", memId);
+		req.setAttribute("res", res);
 		
 		// 4. jsp로 forward하기
-		if(result == -1) {
-			req.getRequestDispatcher("home/login.jsp").forward(req, resp);
-		} else { // 회원가입 success 페이지로 이동
-			req.getRequestDispatcher("home/joinCompleted.html").forward(req, resp);
-		}
+		req.getRequestDispatcher("/WEB-INF/jsp/joinTest.jsp").forward(req, resp);
 	}
 
 }

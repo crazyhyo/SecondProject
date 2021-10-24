@@ -15,6 +15,8 @@
     
     <!-- Etc -->
     <script src="https://kit.fontawesome.com/d3ee6ce800.js" crossorigin="anonymous"></script>
+    <script src="../js//jquery.serializejson.min.js"></script>
+    <script src="../js/jquery-3.6.0.min.js"></script>
     
     <!-- Custom styles for this template -->
     <link rel="stylesheet" href="/CodePeople/css/main.css">
@@ -62,7 +64,7 @@
             <a class="header-link" href="/CodePeople/rehearsal/company.html">기업</a>
             <a class="header-link" href="/CodePeople/rehearsal/mainJo.html">채용</a>
             <a class="header-link" href="/CodePeople/rehearsal/mainBoard.html">커뮤니티</a>
-            <a class="header-link" href="/CodePeople/rehearsal/mainMypage.html">마이페이지</a>
+            <a class="header-link" href="#" onclick="alert('로그인이 필요합니다.')">마이페이지</a>
             </div>
           <div class="divider"></div>
           <a href="/CodePeople/rehearsal/home.html"><button id="header-login-btn" class="btn btn-primary btn-sm">로그인</button></a>
@@ -83,20 +85,20 @@
               </p>
             </div>
             <div class="col-md-10 mx-auto col-lg-5">
-              <form class="p-4 p-md-5 border rounded-3 bg-light">
+              <form class="p-4 p-md-5 border rounded-3 bg-light" id="login_form">
                 <div class="form-floating mb-3">
-                  <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com">
+                  <input type="text" class="form-control" id="floatingInput" placeholder="ID" name="memId">
                   <label for="floatingInput" style="opacity: 0.5;">아이디</label> 
                 </div>
                 <div class="form-floating mb-3">
-                  <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                  <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="memOriglPw">
                   <label for="floatingPassword" style="opacity: 0.5;">비밀번호</label>
                 </div>
                 <div class="forgot mb-3">
                   <a href="#id_form" id="id_pop" data-bs-toggle="modal" data-bs-target="#id_form">아이디 찾기</a>&nbsp;
                   <a href="#pass_form" id="pass_pop" data-bs-toggle="modal" data-bs-target="#pass_form">비밀번호 찾기</a>
                 </div>
-                <button class="w-100 btn btn-lg btn-primary" type="submit">로그인</button>
+                <button class="w-100 btn btn-lg btn-primary" type="button" id="login_btn">로그인</button>
                 <div class="ui horizontal login choice divider">or</div>
 
                 <!-- 외부 로그인 api-->

@@ -1,7 +1,6 @@
 package kr.or.ddit.member.vo;
 
 public class MemberVO {
-	private Integer memIsApi;
 	private Integer memNo;
 	private String memNm;
 	private String memId;
@@ -11,12 +10,13 @@ public class MemberVO {
 	private Integer provCodeNo;
 	private Integer cityCodeNo;
 	private Integer memCode;
-	private Integer memActive;
-	private Integer memGender;
-	private Integer memInCom;
+	private Integer memActive = 1;
+	private Integer memGender = 0;
+	private Integer memInCom = 0;
 	private String memBir;
 	private String memOrignlPw;
-	private Integer atchFileId;
+	private Integer atchFileId = 0;
+	private Integer memIsApi = 0;
 	
 	public Integer getMemIsApi() {
 		return memIsApi;

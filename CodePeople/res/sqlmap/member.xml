@@ -5,7 +5,7 @@
 
 <sqlMap namespace="member">
 
-	<resultMap id="memMap" class="memVO">
+	<resultMap id="memMap" class="kr.or.ddit.member.vo.MemberVO">
 		<result property="memNo"	  		column="MEM_NO"			/>
 		<result property="memNm"    		column="MEM_NM"			/>
 		<result property="memId"    		column="MEM_ID"			/>
@@ -26,29 +26,96 @@
 
 
 	<!-- 회원가입 프로토타입 -->
-	<insert id="joinMember" parameterClass="kr.or.ddit.member.vo.MemberVO">
-		INSERT INTO MEMBER (
-			MEM_NO, MEM_NM, MEM_ID,
-			MEM_PW, MEM_EMAIL, MEM_TEL,
-			MEM_ZIPCODE, MEM_ADDR1, MEM_ADDR2,
-			MEM_CODE, MEM_ACTIVE, MEM_GENDER,
-			ATCH_FILE_ID, MEM_IN_COM, MEM_BIR,
-			MEM_PASS_ORIGL, MEM_API_ID
-			)
-		VALUES (
-			#memNo#, #memNm#, #memId#,
-			#memPw#, #memEmail#, #memTel#,
-			#memZipcode#, #memAddr1#, #memAddr2#,
-			#memCode#, #memActive#, #memGender#,
-			#atchFileId#, #memInCom#, #memBir#,
-			#memPassOrigl#, #memApiId#
-			);
-			
+	<insert id="joinPerson" parameterClass="kr.or.ddit.member.vo.MemberVO">
+	INSERT INTO MEMBER (
+		MEM_NO,
+		MEM_NM,
+		MEM_ID,
+		MEM_PW,
+		MEM_EMAIL,
+		MEM_TEL,
+		PROV_CODE_NO,
+		CITY_CODE_NO,
+		MEM_CODE,
+		MEM_ACTIVE,
+		MEM_GENDER,
+		MEM_IN_COM,
+		MEM_BIR,
+		MEM_ORIGNL_PW,
+		ATCH_FILE_ID,
+		MEM_IS_API
+	)
+	VALUES (
+		MEMBER_SEQ.NEXTVAL,
+		#memNm#,
+		#memId#,
+		#memPw#,
+		#memEmail#,
+		#memTel#,
+		#provCodeNo#,
+		#cityCodeNo#,
+		#memCode#,
+		#memActive#,
+		#memGender#,
+		#memInCom#,
+		REPLACE(#memBir#,'-',''),
+		#memOrignlPw#,
+		#atchFileId#,
+		#memIsApi#
+	)
 		<!-- 중복되지 않는 속성값을 가지고 selectKey설정을 해준다. -->
-		<selectKey keyProperty="mem_id" resultClass="string">
-			SELECT MEM_ID FROM MEMBER
-			WHERE MEM_ID = #memId#
+		<selectKey keyProperty="memNo" resultClass="Integer">
+			SELECT MEMBER_SEQ.CURRVAL FROM DUAL
 		</selectKey>
+	</insert>
+	
+	<!-- 회원가입 프로토타입 -->
+	<insert id="joinCompany" parameterClass="kr.or.ddit.member.vo.MemberVO">
+		INSERT INTO MEMBER (
+		MEM_NO,
+		MEM_NM,
+		MEM_ID,
+		MEM_PW,
+		MEM_EMAIL,
+		MEM_TEL,
+		PROV_CODE_NO,
+		CITY_CODE_NO,
+		MEM_CODE,
+		MEM_ACTIVE,
+		MEM_GENDER,
+		MEM_IN_COM,
+		MEM_BIR,
+		MEM_ORIGNL_PW,
+		ATCH_FILE_ID,
+		MEM_IS_API
+	)
+	VALUES (
+		MEMBER_SEQ.NEXTVAL,
+		#memNm#,
+		#memId#,
+		#memPw#,
+		#memEmail#,
+		#memTel#,
+		#provCodeNo#,
+		#cityCodeNo#,
+		#memCode#,
+		#memActive#,
+		#memGender#,
+		#memInCom#,
+		REPLACE(#memBir#,'-',''),
+		#memOrignlPw#,
+		#atchFileId#,
+		#memIsApi#
+	)
+		<!-- 중복되지 않는 속성값을 가지고 selectKey설정을 해준다. -->
+		<selectKey keyProperty="memNo" resultClass="Integer">
+			SELECT MEMBER_SEQ.CURRVAL FROM DUAL
+		</selectKey>
+	</insert>
+	
+	<insert id="joinHr" parameterClass="Integer">
+		INSERT INTO HR (HR_NO, MEM_NO)
+		VALUES (HR_SEQ.NEXTVAL,	#memNo#)	
 		
 	</insert>
 	
@@ -59,45 +126,47 @@
 	</select>
 	
 	<!-- 회원 아이디 조회 -->
-	<select id="selectById">
+	<select id="selectById" resultClass="string" parameterClass="string">
 		SELECT MEM_ID FROM MEMBER WHERE MEM_ID = #memId#
 	</select>
 	
 	<!-- 로그인 -->
-	<select id="loginMember" parameterClass="String" resultMap="memMap">
-		SELECT * FROM MEMBER WHERE MEM_ID = #memId# AND MEM_PW = #memPw#
+	<select id="loginMember" parameterClass="kr.or.ddit.member.vo.MemberVO" resultMap="memMap">
+		SELECT * FROM MEMBER WHERE MEM_ID = #memId# AND MEM_ORIGNL_PW = #memOrignlPw#
 	</select>
 	
 	<!-- 회원수정 프로토타입 -->
-	<update id="updateMember">
-		UPDATE member
-		  SET
-		    a = b
-		WHERE
-		  MEM_NO 				= #memNo#       
-		  AND   MEM_NM 			= #memNm#       
-		  AND   MEM_ID 			= #memId#       
-		  AND   MEM_PW 			= #memPw#       
-		  AND   MEM_EMAIL 		= #memEmail#    
-		  AND   MEM_TEL 		= #memTel#      
-		  AND   MEM_ZIPCODE 	= #memZipcode#  
-		  AND   MEM_ADDR1 		= #memAddr1#    
-		  AND   MEM_ADDR2 		= #memAddr2#    
-		  AND   MEM_CODE	 	= #memCode#     
-		  AND   MEM_ACTIVE 		= #memActive#   
-		  AND   MEM_GENDER 		= #memGender#   
-		  AND   ATCH_FILE_ID 	= #atchFileId#  
-		  AND   MEM_IN_COM 		= #memInCom#    
-		  AND   MEM_BIR 		= #memBir#      
-		  AND   MEM_PASS_ORIGL 	= #memPassOrigl#
-		  AND   MEM_API_ID 		= #memApiId#
+	<update id="updateMember" parameterClass="kr.or.ddit.member.vo.MemberVO">
+		UPDATE MEMBER 
+		SET 
+			MEM_PW = #memPw#
+			, MEM_ORIGNL_PW = #memOrignlPw#
+			, MEM_TEL = #memTel#
+			, MEM_EMAIL = #memEmail#
+			, MEM_BIR = #memBir#
+			, PROV_CODE_NO = #provCodeNo#
+			, CITY_CODE_NO = #cityCodeNo#
+		WHERE MEM_ID = #memId#
 	</update>
 	
 	<!-- 회원삭제 프로토타입 -->
-	<delete id="deleteMember">
-		DELETE FORM MEMBER
-		WHERE MEM_PW = #memPw#
+	<delete id="deleteMember" parameterClass="kr.or.ddit.member.vo.MemberVO">
+		DELETE FROM MEMBER
+		WHERE MEM_ID = #memId# AND MEM_ORIGNL_PW = #memOrignlPw#
 	</delete>
+	
+	<!-- 세션에서 저장한 MemberVO의 정보를 꺼낼 때 사용하는 쿼리
+		 받아온 세션에서 MemberVO를 꺼내어 vo.getMemCodeNo로 개인회원임을 검사한 후 시행한다.
+		 인재번호를 리턴한다.
+	-->
+	<select id="getHrNo" parameterClass="kr.or.ddit.member.vo.MemberVO"
+		resultClass="Integer">
+		
+		SELECT HR_NO
+		  FROM HR
+		 WHERE MEM_NO = #memNo#
+		
+	</select>
 	
 </sqlMap>			
 

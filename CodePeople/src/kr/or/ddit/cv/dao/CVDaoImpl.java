@@ -41,6 +41,11 @@ public class CVDaoImpl implements ICVDao{
 		return list;
 	}
 
-
+	@Override
+	public List<CVVO> selectCV(int hrNo) throws SQLException {
+		List<CVVO> CVList = null;
+		CVList = (List<CVVO>)smc.queryForList(nameSpace+"selectCV",hrNo);
+		return CVList;
+	}
 
 }

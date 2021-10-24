@@ -88,3 +88,26 @@ body{
   line-height: 14px;
   color: #08a600;
 }
+
+.form-group{
+  display: flex;
+}
+.form-group #email{
+  margin-right: 10px;
+}
+
+.col-sm-7.col-md-7{
+  width: 90%;
+}
+
+.btn-group-sm>.btn, .btn-sm {
+  padding: 12px;
+  font-size: .875rem;
+  border-radius: .2rem;
+  margin-top: 4px;
+}
+
+#radioBtn .notActive{
+  color: #3276b1;
+  background-color: #fff;
+}

@@ -1,5 +1,6 @@
 package kr.or.ddit.cv.service;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import kr.or.ddit.cmm.vo.CVPagingVO;
@@ -42,4 +43,15 @@ public class CVServiceImpl implements ICVService{
 		return list;
 	}	
 
+	@Override
+	public List<CVVO> selectCV(int hrNo) {
+		List<CVVO> CVList = null;
+		try {
+			CVList = dao.selectCV(hrNo);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}		
+		return CVList;
+	}
+	
 }

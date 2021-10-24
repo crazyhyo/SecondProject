@@ -17,8 +17,6 @@
 <link rel="stylesheet" href="../css/main.css">
 
 
-
-
 <!--캘린더 관련 태그   -->
 <link href='../css/myCalendar.css' rel='stylesheet' />
 <link href='../css/myCalendar.min.css' rel='stylesheet' />
@@ -31,7 +29,9 @@
 <script>
 
       document.addEventListener('DOMContentLoaded', ()=> {
-        const calendarEl = document.querySelector('#myCalendar');
+
+    	  
+    	  const calendarEl = document.querySelector('#myCalendar');
         
         var calendar = new FullCalendar.Calendar(calendarEl, {
            headerToolbar: {
@@ -136,6 +136,22 @@
 				}
 			});
 		});
+ 
+ //마이페이지의 기본정보를 불러들이기 위한자바스크립트 
+ 
+      document.addEventListener('DOMContentLoaded', ()=> {
+ 
+ 		const    	  
+    	  
+    	  
+    	  
+    	  
+    	  
+      })    
+      
+      
+      
+      
     </script>
 
 <style>
@@ -203,8 +219,9 @@
 			<div class="nav-left-bar nav-my">
 				<div class="nav-sticky">
 					<ul class="list-group">
-						<li class="list-group-item "><a class="nav-link" href="#">인재정보</a></li>
-						<li class="list-group-item "><a class="nav-link" href="#cv">이력서</a></li>
+						<li class="list-group-item "><a class="nav-link" href="#">인재정보</a>						
+						</li>
+						
 						<li class="list-group-item"><a class="nav-link"
 							href="#fav-company">관심기업</a></li>
 						<li class="list-group-item"><a class="nav-link"
@@ -225,65 +242,7 @@
 			<!-- 바디 콘텐츠 -->
 			<div id="content">
 				<!-- 마이페이지 -->
-				<!-- 이력서 박스 -->
-				<div id="cv" class="content-box search-result jo my-main-cv">
-					<div class="my-box-item">
-						<div class="my-box-header">
-							<h1 class="h1">이력서</h1>
-							<div class="my-btn-box">
-								<button type="button" class="btn btn-outline-primary">이력서
-									등록</button>
-							</div>
-						</div>
-					</div>
-					<!-- 검색결과 카드 -->
-					<div class="card card-cv">
-						<!-- 카드의 이미지태그는 복사해서 사용할것 src alt값 변경 필-->
-						<div class="card-left">
-							<img src="logo.jpeg" alt="Card image"
-								style="width: 64px; height: 64px;">
-						</div>
-						<!-- 카드의 정보 -->
-						<div class="card-body card-right">
-							<div class="card-top-box">
-								<h4 class="card-title cv-title">업계 No.1이 되겠습니다 !</h4>
-								<div class="dropup">
-									<button type="button"
-										class="btn btn-outline-secondary dropdown-toggle btn-menu"
-										data-bs-toggle="dropdown"></button>
-									<!-- 카드 메뉴정보 -->
-									<ul class="dropdown-menu">
-										<!-- 카드 메뉴 헤더 -->
-										<li>
-											<h5 class="dropdown-header">공개설정</h5>
-										</li>
-										<!-- 카드 메뉴 옵션 -->
-										<li><a class="dropdown-item" href="#">공개</a></li>
-										<li><a class="dropdown-item" href="#">비공개</a></li>
-										<li>
-											<h5 class="dropdown-header">대표 이력서 설정</h5>
-										</li>
-										<li><a class="dropdown-item" href="#">대표 이력서 설정</a></li>
-									</ul>
-								</div>
-							</div>
-							<!-- 카드의 회사 소개, 직군 -->
-
-							<div class="card-text">
-								경력&nbsp;<span class="cv-career"></span>&nbsp;&nbsp;희망직무&nbsp;<span
-									class="cv-jobgroup"></span>
-							</div>
-							<div class="card-text">
-								활동분야&nbsp;<span class="cv-language"></span>&nbsp;&nbsp;희망지역
-								&nbsp;<span class="cv-city"></span>
-							</div>
-							<div class="my-btn-box my-btn-box-cv">
-								<button type="button" class="btn btn-outline-primary">수정</button>
-								<button type="button" class="btn btn-outline-primary">삭제</button>
-							</div>
-						</div>
-					</div>
-				</div>
+			
 				<!-- 관십기업 박스 -->
 				<div id="fav-company" class="content-box search-result company">
 					<div class="my-box-item">

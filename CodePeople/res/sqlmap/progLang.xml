@@ -12,4 +12,23 @@
 		SELECT * FROM PROG_LANG
 	</select>
 	
+	<update id="insertPl" parameterClass="kr.or.ddit.hr.vo.HRInfoVO">
+		UPDATE PL_HR
+		   SET PL_CODE_NO = #plCodeNo#
+		 WHERE HR_NO=#hrNo#
+		
+	</update>
+	
+	
+		<select id="selectPl" parameterClass="int" resultMap="ProgLangMap">
+	
+	     SELECT  PL_CODE_NO,
+       			 PL_CODE_NM
+    	   FROM PROG_LANG
+          WHERE PL_CODE_NO IN (SELECT PL_CODE_NO
+                 	             FROM PL_HR
+                    	        WHERE HR_NO = #hrNo#)
+                                                     
+	</select>
+	
 </sqlMap>

@@ -145,7 +145,7 @@ const HRCardPaging  = (currentPageNo) => {
                         <!-- 카드의 정보 -->
                         <div class="card-body card-right">
                             <div class="card-top-box">
-                                <a href="/CodePeople/rehearsal/hrDetail.html"><h4 class="card-title"><span class="memNm">${data.memNm}</span></h4></a>
+                                <a href="/CodePeople/HRDetail.do?hrNo=${data.hrNo}"><h4 class="card-title"><span class="memNm goDetail" idx="${data.hrNo}">${data.memNm}</span></h4></a>
                                 <div class="dropup">
                                     <button type="button" class="btn btn-outline-secondary dropdown-toggle btn-menu"
                                         data-bs-toggle="dropdown"></button>
@@ -230,7 +230,7 @@ const HRSearchCardPaging = () => {
                         <!-- 카드의 정보 -->
                         <div class="card-body card-right">
                             <div class="card-top-box hrNo" idx="${data.hrNo}">
-                                 <a href="/CodePeople/rehearsal/hrDetail.html"><h4 class="card-title"><span class="memNm">${data.memNm}</span></h4></a>
+                                 <a href="/CodePeople/HRDetail.do?hrNo=${data.hrNo}"><h4 class="card-title"><span class="memNm goDetail" idx="${data.hrNo}">${data.memNm}</span></h4></a>
                                 <div class="dropup">
                                     <button type="button" class="btn btn-outline-secondary dropdown-toggle btn-menu"
                                         data-bs-toggle="dropdown"></button>

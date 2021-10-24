@@ -26,7 +26,7 @@ public class FileUploadRequestWrapper extends HttpServletRequestWrapper {
 	private static Logger logger = Logger.getLogger(FileUploadRequestWrapper.class);	// 로거 생성
 
 //    public static final String UPLOAD_DIRECTORY = "d:/D_Other/upload_files";		// 업로드 경로 설정
-    public static final String UPLOAD_DIRECTORY = "D:/A_TeachingMaterial";		// 업로드 경로 설정
+    public static final String UPLOAD_DIRECTORY = "D:/A_TeachingMaterial/3.HighJava/workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/ServletExam/upload_files";		// 업로드 경로 설정
     private boolean isMultipart = false;												// 멀티파트여부
 
     // 여러개를 받기 위해 배열로 저장한다

@@ -57,6 +57,9 @@ public class InsertJobOpeining extends HttpServlet{
 		
 		System.out.println("result : " + result);
 		
+		req.setAttribute("result", result);
+		
+		req.getRequestDispatcher("/WEB-INF/jsp/result.jsp").forward(req, resp);
 		
 	}
 	
