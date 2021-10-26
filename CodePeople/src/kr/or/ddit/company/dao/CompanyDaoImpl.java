@@ -43,9 +43,15 @@ public class CompanyDaoImpl implements ICompanyDao{
 
 	@Override
 	public int companyInsert(CompanyVO companyVO) throws SQLException {
+		Object obj = null;
 		int cnt = 0;
 		
-		cnt = (int)smc.insert(nameSpace + "companyInsert" , companyVO);
+		obj = smc.insert(nameSpace + "companyInsert" , companyVO);
+		if(obj == null) {
+			cnt = 1;
+		} else {
+			cnt = 0;
+		}
 		
 		return cnt;
 	}
@@ -97,16 +103,9 @@ public class CompanyDaoImpl implements ICompanyDao{
 
 	@Override
 	public int addFavCompany(ComFavVO comFavVO) throws SQLException {
-		Object obj = null;
 		int cnt = 0;
 		
-		obj = smc.insert(nameSpace + "addFavCompany", comFavVO);
-		
-		if(obj == null) {
-			cnt = 1;
-		} else {
-			cnt = 0;
-		}
+		cnt = smc.update(nameSpace + "addFavCompany", comFavVO);
 		
 		return cnt;
 	}
@@ -120,6 +119,63 @@ public class CompanyDaoImpl implements ICompanyDao{
 		return cnt;
 	}
 
+	@Override
+	public CompanyVO getCompany(int comNo) throws SQLException {
+		CompanyVO cv = null;
+		cv = (CompanyVO)smc.queryForObject(nameSpace + "getCompany", comNo);
+		return cv;
+	}
 
+	@Override
+	public int updateCompany(CompanyVO companyVO) throws SQLException {
+		int cnt = 0;
+		
+		cnt = smc.update(nameSpace + "updateCompany", companyVO);
+		
+		return cnt;
+	}
+
+	@Override
+	public int companyCount(int memNo) throws SQLException {
+		int cnt = 0;
+		
+		cnt = (int) smc.queryForObject(nameSpace + "companyCount", memNo); 
+		
+		return cnt;
+	}
+
+	@Override
+	public int deleteCompany(int comNo) throws SQLException {
+		int cnt = 0;
+		
+		cnt = (int) smc.delete(nameSpace + "deleteCompany", comNo);
+		
+		return cnt;
+	}
+
+	@Override
+	public int checkFavCompany(ComFavVO comFavVO) throws SQLException {
+		int cnt = 0;
+		
+		cnt = (int) smc.queryForObject(nameSpace + "checkFavCompany", comFavVO);
+		
+		return cnt;
+	}
+
+	@Override
+	public List<CompanyVO> getFolCompany(int hrNo) throws SQLException {
+		
+		List<CompanyVO> folComList = null;
+		folComList =  smc.queryForList(nameSpace + "getFolCompany", hrNo);
+		return folComList;
+	}
+
+
+@Override
+public List<CompanyVO> getFavCompany(int hrNo) throws SQLException {
+	List<CompanyVO> favComList = null;
+	favComList =  smc.queryForList(nameSpace + "getFavCompany", hrNo);
+	return favComList;
+}
 
 }

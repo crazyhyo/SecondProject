@@ -7,14 +7,14 @@ import kr.or.ddit.member.vo.MemberVO;
 public interface IMemberService {
 
 	/**
-	 * 아이디 중복 확인을 위한 메서드
+	 * �븘�씠�뵒 以묐났 �솗�씤�쓣 �쐞�븳 硫붿꽌�뱶
 	 * @param inputId
-	 * @return 데이터베이스에서 꺼내온 아이디 값
+	 * @return �뜲�씠�꽣踰좎씠�뒪�뿉�꽌 爰쇰궡�삩 �븘�씠�뵒 媛�
 	 */
 	public String selectById(String inputId);
 	
 	/**
-	 * 로그인을 위한 메서드
+	 * 濡쒓렇�씤�쓣 �쐞�븳 硫붿꽌�뱶
 	 * @param memId
 	 * @param memPw
 	 * @return MemberVO
@@ -22,7 +22,7 @@ public interface IMemberService {
 	public MemberVO loginMember(MemberVO vo);
 	
 	/**
-	 * 회원가입이 성공적이면 양수, 실패하면 0를 반환하는 메서드
+	 * �쉶�썝媛��엯�씠 �꽦怨듭쟻�씠硫� �뼇�닔, �떎�뙣�븯硫� 0瑜� 諛섑솚�븯�뒗 硫붿꽌�뱶
 	 * @param vo
 	 * @return int
 	 * @throws SQLException
@@ -32,15 +32,22 @@ public interface IMemberService {
 	public int joinHr(int memNo);
 
 	/**
-	 * 회원 정보 수정
+	 * �쉶�썝 �젙蹂� �닔�젙
 	 * @param vo
-	 * @return 성공 양수, 실패 음수
+	 * @return �꽦怨� �뼇�닔, �떎�뙣 �쓬�닔
 	 */
 	public int updateMember(MemberVO vo);
 
 	public int deleteMember(MemberVO vo);
 	
-	// 인재번호 조회
-	public int getHrNo(MemberVO vo);
+	// �씤�옱踰덊샇 議고쉶
+	public int getHrNo(int memNo);
 	
+	public int getComNo(int memNo);
+	
+	public int checkRegisterdCorp(int memNo);
+	
+	public String searchId(MemberVO vo);
+	public int searchPass(MemberVO vo);
+	public int setPassword(MemberVO vo);
 }

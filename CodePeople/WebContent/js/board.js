@@ -39,8 +39,8 @@ listServer = function() {
 			        			${v.boardCont} 
 			        		</span>
 			        		<div class="my-btn-box my-btn-box-cv">
-				        		<button type="button" name="update" idx= '${v.boardNo}' class="btn btn-outline-primary action updatebtn">수정</button>
-				        		<button type="button" name="delete" idx= '${v.boardNo}' class="btn btn-outline-primary action">삭제</button>
+				        		<button type="button" name="update" idx= '${v.boardNo}' idy='${v.boardCodeNo}' class="btn btn-outline-primary action updatebtn">수정</button>
+				        		<button type="button" name="delete" idx= '${v.boardNo}' idy='${v.boardCodeNo}' class="btn btn-outline-primary action">삭제</button>
 			        		</div>
 		        		</div>
 		        		<div class="board-divider"></div>
@@ -152,8 +152,8 @@ replyListServer = function(t, vidx) { // html의 등록버튼
 		            <div class="card-body" id="rcontent"><span class="reply-content">${v.repCont}</span></div>
 		            <div class="reply-card-icon-box">  
 		                <div class="board-icon-item"><i class="far fa-thumbs-up"></i>&nbsp;<span class="reply-like board-sm-font">좋아요</span></div>
+						<div class="board-icon-item"><i class="far fa-frown"></i>&nbsp; <span class="reply-report board-sm-font">신고</span></div>
 		                <div class="board-icon-item"><i class="far fa-comment"></i>&nbsp;<span class="reply-reply-cnt board-sm-font">대댓글</span></div>
-		                <div class="board-icon-item"><i class="far fa-frown"></i>&nbsp; <span class="reply-report board-sm-font">신고</span></div>
 		            </div>
 		            <div class="my-btn-box-cv reply-btn-box">
 		                <button type="button" idx="${v.repNo}" name="rmodify" class="btn btn-outline-secondary action">수정</button>
@@ -281,7 +281,27 @@ replyDeleteServer = function(btn) {
 	})
 }
 
+fileUploadServer = function() {
+	
+	$.ajax({
+		type : 'post',
+		url : "CodePeople/upload",
+		data : {
+				"fileCn" : fileCn
+			},
+		dataType : 'json',
+		success : function(res) {
+			
+		},
+		error : function(xhr) {
+			alert("상태 : " + xhr.status)
+		}
+	})
+}
 
+replyCommentListServer = function() {
+	
+}
 
 
 

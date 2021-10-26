@@ -190,4 +190,26 @@ public class JobOpeningServiceImpl implements IJobOpeningService{
 		return cnt;
 	}
 	
+	@Override
+	public List<JOCardVO> getClipByCom(int comNo) {
+		List<JOCardVO> clipCom = null;
+		try {
+			clipCom = dao.getClipByCom(comNo);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return clipCom;
+	}
+	
+	@Override
+	public List<JOCardVO> getClipByHR(int hrNo) {
+		List<JOCardVO> clipHR = null;
+		try {
+			clipHR = dao.getClipByHR(hrNo);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return clipHR;
+	}
+	
 }

@@ -40,15 +40,15 @@ public class EduServiceImpl implements IEduService{
 		int cnt = 0;
 		try {
 			int eduNo = dao.insertEdu(hrInfoVO);
-			System.out.println(eduNo);
+			
+			System.out.println("eduNo"
+					+eduNo);
 			
 			hrInfoVO.setEduNo(eduNo);
 			
-			System.out.println(hrInfoVO.getEduNo());
-			System.out.println(hrInfoVO.getHrNo());
+			cnt = dao.insertEduHR(hrInfoVO);
 			
-			cnt = dao.updateEduHR(hrInfoVO);
-			 
+			System.out.println("cnt"+cnt); 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -74,5 +74,33 @@ public class EduServiceImpl implements IEduService{
     	return eduList;
 	
 	
+	}
+	
+	
+	
+	@Override
+	public int deleteEdu(HRInfoVO hrInfoVO) {
+
+		int cnt = 0;
+		
+		
+		try {
+	
+			int flag  = dao.deleteEdu(hrInfoVO);
+			   cnt = dao.deleteEduHR(hrInfoVO);
+			
+		  System.out.println(flag);
+
+		  System.out.println(cnt);
+			if(flag>0) {
+				
+			}
+		
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		return cnt;
 	}
 }

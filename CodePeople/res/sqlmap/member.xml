@@ -130,6 +130,16 @@
 		SELECT MEM_ID FROM MEMBER WHERE MEM_ID = #memId#
 	</select>
 	
+	<!-- 회원 아이디 찾기 -->
+	<select id="searchId" parameterClass="kr.or.ddit.member.vo.MemberVO" resultClass="string">
+		SELECT MEM_ID FROM MEMBER WHERE MEM_NM = #memNm# AND MEM_EMAIL = #memEmail#
+	</select>
+	
+	<!-- 회원 비밀번호 찾기 -->
+	<select id="searchPass" parameterClass="kr.or.ddit.member.vo.MemberVO" resultClass="Integer">
+		SELECT COUNT(MEM_ID) FROM MEMBER WHERE MEM_ID = #memId# AND MEM_EMAIL = #memEmail#
+	</select>
+	
 	<!-- 로그인 -->
 	<select id="loginMember" parameterClass="kr.or.ddit.member.vo.MemberVO" resultMap="memMap">
 		SELECT * FROM MEMBER WHERE MEM_ID = #memId# AND MEM_ORIGNL_PW = #memOrignlPw#
@@ -149,6 +159,13 @@
 		WHERE MEM_ID = #memId#
 	</update>
 	
+	<!-- 회원 비밀번호 재설정 -->
+	<update id="setPassword" parameterClass="kr.or.ddit.member.vo.MemberVO">
+		UPDATE MEMBER
+		SET	MEM_ORIGNL_PW = #memOrignlPw#
+		WHERE MEM_ID = #memId#
+	</update>
+	
 	<!-- 회원삭제 프로토타입 -->
 	<delete id="deleteMember" parameterClass="kr.or.ddit.member.vo.MemberVO">
 		DELETE FROM MEMBER
@@ -159,7 +176,7 @@
 		 받아온 세션에서 MemberVO를 꺼내어 vo.getMemCodeNo로 개인회원임을 검사한 후 시행한다.
 		 인재번호를 리턴한다.
 	-->
-	<select id="getHrNo" parameterClass="kr.or.ddit.member.vo.MemberVO"
+	<select id="getHrNo" parameterClass="Integer"
 		resultClass="Integer">
 		
 		SELECT HR_NO
@@ -167,6 +184,25 @@
 		 WHERE MEM_NO = #memNo#
 		
 	</select>
+	
+	<!-- 세션에서 저장한 MemberVO의 정보를 꺼낼 때 사용하는 쿼리
+		 받아온 세션에서 MemberVO를 꺼내어 vo.getMemCodeNo로 기업회원임을 검사한 후 시행한다.
+		 등록한 기업이 있다면 양수를 리턴한다. -->
+	<select id="checkRegisterdCorp" parameterClass="Integer" resultClass="Integer">
+		SELECT COUNT(*) FROM COMPANY
+		 WHERE MEM_NO = #memNo#
+	</select>
+	
+	<!-- 세션에서 저장한 MemberVO의 정보를 꺼낼 때 사용하는 쿼리
+	 받아온 세션에서 MemberVO를 꺼내어 vo.getMemCodeNo로 기업회원임을 검사한 후 시행한다.
+	 바로 위의 checkRegisterdCorp를 검사한 후 시행한다.
+	 등록한 기업의 기업번호를 리턴한다. -->
+ 	<select id="getComNo" parameterClass="Integer" resultClass="Integer">
+         SELECT COM_NO
+           FROM COMPANY
+          WHERE MEM_NO = #memNo#
+          		AND ROWNUM = 1
+    </select>
 	
 </sqlMap>			
 

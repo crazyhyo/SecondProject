@@ -103,18 +103,23 @@ function JOCardPaging(PageNo){
 			let paginationCode = "";
 			
 			res.joInfo.forEach(function(data){
+				
+				let imageHref = "/CodePeople/images/logo" + Math.floor(parseInt(data.rnum/15)) + ".png";
+				
+				console.log(imageHref);
+				
 				cardCode +=                     
 				`
 				<div class="card card-jo">
                 <!-- 카드의 이미지태그는 복사해서 사용할것 src alt값 변경 필-->
                 <div class="card-left">
-                    <img src="../logo.jpeg" alt="Card image" style="width:64px; height: 64px;">
+                    <img src="${imageHref}" alt="Card image" style="width:64px; height: 64px;">
                 </div>
                 <!-- 카드의 정보 -->
                 <div class="card-body card-right">
-                    <div class="card-top-box">
-                        <h4 class="card-title">${data.comNm}</h4>
-                    </div>
+                    <a href="/CodePeople/JOCardDetil.do?joNo=${data.rnum}"><div class="card-top-box">
+                        <h4 class="card-title">${data.joTitle}</h4>
+                    </div></a>
                     <!-- 카드의 회사 소개, 직군 -->
                     <div class="card-text card-jobs-detail-company-intro"><span class="company-intor">${data.comIntro}</span></div>
                     <div class="card-text card-jobs-detail-company-jobgroup"><span class="company-jobgroup">${data.jgCodeNm}</span></div>
@@ -123,7 +128,7 @@ function JOCardPaging(PageNo){
                         <div class="divider"></div>
                         <div class="jobs-detail-top">
                             <div class="jobs-detail">
-                                <a href="#" class="card-link"><span class="jo-title">${data.joTitle}</span></a>&nbsp;&nbsp;
+                                <a href="#" class="card-link"><span class="jo-title">${data.comNm}</span></a>&nbsp;&nbsp;
                                 <span class="jo-salary jo-sm-font">${data.joSalTypeNm}</span>
                                 <span class="jo-sm-font">/</span>
                                 <span class="jo-career jo-sm-font">경력</span>
@@ -243,7 +248,7 @@ function JOSearchCardPaging(PageNo) {
 		    				<div class="card card-jo">
 		                    <!-- 카드의 이미지태그는 복사해서 사용할것 src alt값 변경 필-->
 		                    <div class="card-left">
-		                        <img src="../logo.jpeg" alt="Card image" style="width:64px; height: 64px;">
+		                        <img src="/CodePeople/images/logo.jpeg" alt="Card image" style="width:64px; height: 64px;">
 		                    </div>
 		                    <!-- 카드의 정보 -->
 		                    <div class="card-body card-right">
@@ -449,4 +454,3 @@ BoardPaging = function(pageNo, boardCode) {
     });
 	
 }
-

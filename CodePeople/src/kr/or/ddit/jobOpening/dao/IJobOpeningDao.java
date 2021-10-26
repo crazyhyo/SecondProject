@@ -52,4 +52,9 @@ public interface IJobOpeningDao {
 	public int checkJobOpeningRight(int joNo) throws SQLException;
 	
 	public int updateJobOpening(JobOpeningVO jobOpeningVO) throws SQLException;
+	
+	public List<JOCardVO> getClipByHR (int hrNo) throws SQLException;
+	
+	public List<JOCardVO> getClipByCom (int comNo) throws SQLException;
+	
 }

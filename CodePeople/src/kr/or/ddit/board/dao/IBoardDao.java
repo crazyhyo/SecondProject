@@ -14,21 +14,33 @@ public interface IBoardDao {
 	
 	public List<BoardVO> boardPagingList(BoardPagingVO boardPagingVO) throws SQLException;
 	
-	//占쏙옙체 占쏙옙占쏙옙트
+	//게시글 리스트 조회
 	public List<Map<String, Object>> selectAll() throws SQLException;
 	
-	//占쌜억옙占쏙옙 
+	//게시글 삽입
 	public int boardInsert(BoardVO vo) throws SQLException;
 	
-	//占쌜쇽옙占쏙옙
+	//게시글 수정
 	public int boardUpdate(BoardVO vo) throws SQLException;
 	
-	//占쌜삼옙占쏙옙
+	//게시글 삭제
 	public int boardDelete(BoardVO vo) throws SQLException;
 	
-	//占쏙옙占� 占쏙옙占쏙옙트
+	//댓글 리스트
 	public List<Map<String, Object>> replySelect() throws SQLException;
 	
+	//댓글 등록
+	public int replyInsert(ReplyVO vo) throws SQLException;
+	
+	//댓글 수정
+	public int replyUpdate(ReplyVO vo) throws SQLException;
+	
+	//댓글 삭제
+	public int replyDelete(int vo) throws SQLException;
+	
+	//대댓글 리스트 
+	public List<Map<String, Object>> replyCommentSelect() throws SQLException;
+
 	public List<Map<String, Object>> QuestionBoardPagingList(BoardPagingVO boardPagingVO) throws SQLException;
 	
 	public int countQuestionBoard() throws SQLException;
@@ -49,15 +61,10 @@ public interface IBoardDao {
 	
 	public int countCareerBoard() throws SQLException;
 	
-	public int replyInsert(ReplyVO vo) throws SQLException;
-	
 	public int checkBoardRight(BoardVO vo) throws SQLException;
 	
 	public int checkReplyRight(ReplyVO vo) throws SQLException;
 	
-	public int replyUpdate(ReplyVO vo) throws SQLException;
-	
-	public int replyDelete(int vo) throws SQLException;
 	
 	public int addBoardHit(BoardVO vo) throws SQLException;
 	

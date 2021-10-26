@@ -29,5 +29,20 @@ public interface ICompanyDao {
 	public int addFavCompany(ComFavVO comFavVO) throws SQLException;
 
 	public int deleteFavCompany(ComFavVO comFavVO) throws SQLException;
+
+	public CompanyVO getCompany(int comNo) throws SQLException;
 	
+	public int updateCompany(CompanyVO companyVO) throws SQLException;
+	
+	public int deleteCompany(int comNo) throws SQLException;
+	
+	public int companyCount(int memNo) throws SQLException;
+	
+	public int checkFavCompany(ComFavVO comFavVO) throws SQLException;
+	
+	public List<CompanyVO> getFolCompany(int hrNo) throws SQLException;
+
+	public List<CompanyVO> getFavCompany(int hrNo) throws SQLException;
+
+
 }

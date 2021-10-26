@@ -4,6 +4,8 @@
 <%@page import="kr.or.ddit.member.vo.MemberVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+      
 <!-- 
 	
 	
@@ -67,7 +69,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/jquery-3.6.0.min.js"></script>
 
     <!-- include summernote css/js/ codemirror-->
     <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/codemirror.css">
@@ -79,10 +81,10 @@
     <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js"></script>
     
     
-    <link rel="stylesheet" href="../resource/main.css">
-    <script src="../js/board.js"></script>    
-    <script src="../js/jquery.serializejson.min.js"></script>
-    <script src="../js/PagingTest.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
+    <script src="${pageContext.request.contextPath}/js/board.js"></script>    
+    <script src="${pageContext.request.contextPath}/js/jquery.serializejson.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/PagingTest.js"></script>
 
 	
     
@@ -90,8 +92,8 @@
 
 	reply = {};
 	
-    $(() => {
-    	
+	window.onload = function(){
+		
     	BoardPaging(currentPageNo, boardCodeNo);
     	
         $(document).ready(function () {
@@ -134,13 +136,19 @@
         //글 수정,삭제 / 댓글 등록 수정 삭제 버튼 이벤트 
         $(document).on('click', '.action' , function() {
        
-           vname = $(this).attr('name');
-           vidx = $(this).attr('idx');
+        	 var vname = $(this).attr('name');
+             var vidx = $(this).attr('idx');
+             var vidy = $(this).attr('idy');
               
+             console.log(this);
+             
+             $('.getBoardNo').val(vidx);
+             $('.getBoardCodeNo').val(vidy);
         	
         	if(vname == "update"){
-        		//alert(vidx + "번 글 수정");
-        		//alert(vname + "버튼네임이다 네임")
+        		alert(vidy + "번 코드");
+        		alert(vidx + "번 글 수정");
+        		alert(vname + "버튼네임이다 네임")
         		btnupdate = this;
         		
         		parent = $(this).parents('.card');
@@ -197,26 +205,102 @@
         		console.log("list")
         		
         		replyListServer(this , vidx);
+        		//replyCommentListServer(this, vdix);
+        		
+        	}else if(vname == 'rmodify'){
+        		//alert("댓글수정버튼")
+         		//parent = $(this).parents('.rep')
+        		
+        		//댓글 원본 가져오기
+        		mcont = $(this).parents('.reply-card').find('.reply-content');
+        		
+        		
+        		console.log("댓글 원본" + mcont);
+        		
+        		
+         		//$('#modiForm textarea').val(mcont);
+        		
+        		$(this).parents('.reply-card').find('.card-body').empty().append($('#modiForm'));
+        		$('#modiForm').show();
+        	
+        	}else if(vname == 'rdelete'){
+        		
+        		reply.repNo = vidx;
+        		
+        		replyDeleteServer(this);
+        		
         		
         	}
         	
         });
         //수정 완료 버튼 클릭시 이벤트
+      //수정 완료 버튼 클릭시 이벤트
         $('#upsend').on('click', function() {
 			
-        	udatas = $('#updateModal form').serialize();
-			console.log("유데이터 : " + udatas)
+        	var udatas = $('#updateBoard').serializeJSON();
+        	
+        	alert(JSON.stringify(udatas));
+			console.log("유데이터 : " + udatas);
 			
-			updateBoardServer();
+			$.ajax({
+				type : 'post',
+				url : "/CodePeople/BoardUpdate.do",
+				data : udatas,
+				dataType : 'json',
+				success : function(res) {
+					alert(res.flag);
+					
+					$(btnupdate).parents('.card');
+					$(parent).find('.title').text(udatas.title);
+					$(parent).find('.content').text(udatas.content);
+					
+					listServer();
+				},
+				error : function(xhr) {
+					
+					alert("상태 : " + xhr);
+					
+				}
+				
+			})
 			
 			$('#updateModal .fin').val("");
 			$('#updateModal').modal('hide');
 			
+		});
+        
+      //댓글수정 취소버튼 이벤트
+        $('#btnreset').on('click', function() {
+			
+        	replyReset();
+		})
+        
+        //댓글수정 확인 버튼 클릭 시 이벤트
+        $('#btnok').on('click', function() {
+			
+        	mcont = $('#modiForm textarea').val()
+        	
+        	cp = $('#modiForm').parent();
+        	
+        	$('body').append($('#modiForm'));
+        	$('#modiForm').hide();
+        	
+        	reply.repCont = mcont;
+        	reply.repNo = vidx;
+        	console.log("수정된 댓글" + reply.repCont);
+        	console.log("수정된 댓글 번호" + reply.repNo);
+        	
+        	replyUpdateServer();
+		});
+        
+        $('#btnupload').on('click', function() {
+			
+        	fileUploadServer()
+        	
 		})
         
         
-
-    });
+    };
 
 </script>
 
@@ -611,6 +695,12 @@
   height: 1px;
 }
 
+/* 게시판 등록 및 수정 Modal */
+.modal-body label{
+            width: 150px;
+       }
+       
+
 /* 게시판의 글카드 안 제목과 조회수를 담는 박스 */
 .board-main .board-detail {
   display: flex;
@@ -924,56 +1014,73 @@
 									    <label>작성자</label><input class="mobody-input writer" type="text" name="memId" disabled="disabled"><br>
 									    <label>제목</label><input class="mobody-input title" type="text" name="boardTitle"><br>
 									    <label>Tags</label><input class="mobody-input tag" type="text" name="boardHead">
+									    <input type="hidden" name="memNo" value="<%=memNo%>">
 <!--                                         <div class="mobody-input" name="note" id="summernote"></div>  -->
                                         <textarea name="boardCont" class="summernote"></textarea>
                                     </form>
+<!--                                      action="/CodePeople/upload" method="post" enctype="multipart/form-data" -->
+                                    <form id="fileUpload">
                                     <button type="button" id="send" class="btn btn-primary" data-bs-dismiss="modal">작성완료</button>
+                                   	<input type="file" name="uploadfile" class="btn btn-primary">
+                                   	<button type="submit" id="btnupload" value="업로드" class="btn btn-primary">업로드</button>
+									<button type="button" class="btn btn-primary" data-bs-dismiss="modal">닫기</button>
+                                    </form>
 								</div>
 
 								<!-- Modal footer -->
 								<div class="modal-footer">
-									<button type="button" class="btn btn-primary" data-bs-dismiss="modal">닫기</button>
 								</div>
 
 							</div>
 						</div>
 					</div>
+					
+					
 				<!-- 게시글 수정 폼 -->
-				<div class="modal" id="updateModal">
-					<div class="modal-dialog modal-lg">
-						<div class="modal-content">
-			
-							<!--Modal Header  -->
-							<div class="modal-header">
-								
-								<h4 class="modal-title">수정하기</h4>
-								<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-							</div>
-			
-							<!-- Modal body -->
-							<div class="modal-body">
-								<form >
-									<label>작성자</label><input class="mobody-input fin mwriter" type="text" name="memId" disabled="disabled"><br>
-									<label>제목</label><input class="mobody-input fin mtitle" type="text" name="boardTitle"><br> 
-									<label>Tags</label><input class="mobody-input fin mtag" type="text" name="boardHead">
-			<!-- 					<div class="mobody-input" name="note" id="summernote"></div>  -->
-									<textarea name="boardCont" class="summernote fin mcont" placeholder="hi"></textarea>
-									<input type='hidden' name="boardNo" class="boardNo" value="">
-								</form>
-								<button type="button" id="upsend" class="btn btn-primary" data-bs-dismiss="modal">수정완료</button>
-							</div>
-			
-							<!-- Modal footer -->
-							<div class="modal-footer">
-								<button type="button" class="btn btn-primary" data-bs-dismiss="modal">닫기</button>
-							</div>
-						</div>
-					</div>
+		<div class="modal" id="updateModal">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+
+				<!--Modal Header  -->
+				<div class="modal-header">
+					
+					<h4 class="modal-title">수정하기</h4>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 				</div>
-				
+
+				<!-- Modal body -->
+				<div class="modal-body">
+					<form id="updateBoard">
+						<label>작성자</label><input class="mobody-input fin mwriter" type="text" name="memId" readonly><br>
+						<label>제목</label><input class="mobody-input fin mtitle" type="text" name="boardTitle"><br> 
+						<label>Tags</label><input class="mobody-input fin mtag" type="text" name="boardHead">
+<!-- 					<div class="mobody-input" name="note" id="summernote"></div>  -->
+						<textarea name="boardCont" class="summernote fin mcont" placeholder="hi"></textarea>
+						<input type='hidden' name="boardNo" class="boardNo" value="" id="getBoardNo">
+						<input type='hidden' name="boardCodeNo" class="boardCodeNo" value="" id="getboardCodeNo">
+					<button type="button" id="upsend" class="btn btn-primary" data-bs-dismiss="modal">수정완료</button>
+					</form>
+				</div>
+
+				<!-- Modal footer -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-bs-dismiss="modal">닫기</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+			<!-- 댓글 수정폼 -->
+		<div id="modiForm" style="display: none">
+	      <textarea rows="5" cols="30"></textarea>
+	      <input type="button" id="btnok" value="확인"> 
+	      <input type="button" id="btnreset" value="취소">
+	   </div>
+	   
+	   
 				<div class="board-body">
                 <div class="divider"></div>
-                <!-- 아코디언 : 게시판 게시글들 시작 -->
+                <!-- 아코디언 게시글들의 시작 -->
                     <div id="accordion">
                     	<% for(Map<String, Object> vo : boardList){%>
 		                <div class="card">

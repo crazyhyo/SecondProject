@@ -162,5 +162,20 @@ public class JobOpeningDaoImpl implements IJobOpeningDao{
 		cnt = (int)smc.update(nameSpace + "updateJobOpening", jobOpeningVO);
 		return cnt;
 	}
+	
+	@Override
+	public List<JOCardVO> getClipByCom(int comNo) throws SQLException {
+		List<JOCardVO> clipCom = null;
+		clipCom = smc.queryForList(nameSpace+"getClipByCom",comNo);
+		return clipCom;
+	}
+	
+	@Override
+	public List<JOCardVO> getClipByHR(int hrNo) throws SQLException {
+		List<JOCardVO> clipHR = null;
+		clipHR = smc.queryForList(nameSpace+"getClipByHR",hrNo);
+		return clipHR;
+		}
+	
 
 }

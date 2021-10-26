@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Bootstrap Example</title>
+    <title>게시판 기본</title>
     <meta charset="utf-8">
     <script src="https://kit.fontawesome.com/d3ee6ce800.js" crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -20,7 +20,7 @@
     <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js"></script>
     
     
-        <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/main.css">
     <script src="../js/board.js"></script>    
     <script src="../js/jquery.serializejson.min.js"></script>
     
@@ -48,7 +48,6 @@
             $('#summernote').summernote();
         });
 		
-        	
         //'작성완료' 전송 버튼 이벤트
         $('#send').on('click', function () {
             var fdata = $('#fid').serializeJSON();
@@ -136,6 +135,7 @@
         		console.log("list")
         		
         		replyListServer(this , vidx);
+        		replyCommentListServer(this, vdix);
         		
         	//댓글 수정
         	}else if(vname == 'rmodify'){
@@ -159,7 +159,10 @@
         		reply.repNo = vidx;
         		
         		replyDeleteServer(this);
+        		
+        		
         	}
+        	
         	
         	
         });
@@ -199,6 +202,12 @@
         	
         	replyUpdateServer();
 		});
+        
+        $('#btnupload').on('click', function() {
+			
+        	fileUploadServer()
+        	
+		})
         
         
 
@@ -293,6 +302,7 @@
                     <div class="board-name">
                         <i class="fas fa-building"></i>&nbsp;<h1 class="h1">회사생활</h1>
                     </div>
+                    
                     <div class="my-btn-box">
                         <button id="write" type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#writeModal">글쓰기</button>
                     </div>
@@ -314,15 +324,21 @@
 									    <label>작성자</label><input class="mobody-input writer" type="text" name="memId" disabled="disabled"><br>
 									    <label>제목</label><input class="mobody-input title" type="text" name="boardTitle"><br>
 									    <label>Tags</label><input class="mobody-input tag" type="text" name="boardHead">
+									    <input type="hidden" name="memNo" value="<%=vo.getMemNo%>">
 <!--                                         <div class="mobody-input" name="note" id="summernote"></div>  -->
                                         <textarea name="boardCont" class="summernote"></textarea>
                                     </form>
+<!--                                      action="/CodePeople/upload" method="post" enctype="multipart/form-data" -->
+                                    <form id="fileUpload">
                                     <button type="button" id="send" class="btn btn-primary" data-bs-dismiss="modal">작성완료</button>
+                                   	<input type="file" name="uploadfile" class="btn btn-primary">
+                                   	<button type="submit" id="btnupload" value="업로드" class="btn btn-primary">업로드</button>
+									<button type="button" class="btn btn-primary" data-bs-dismiss="modal">닫기</button>
+                                    </form>
 								</div>
 
 								<!-- Modal footer -->
 								<div class="modal-footer">
-									<button type="button" class="btn btn-primary" data-bs-dismiss="modal">닫기</button>
 								</div>
 
 							</div>
@@ -392,6 +408,19 @@
                                     <div class="reply-card bg-light text-dark">                                        
                                         <div class="reply-writer-box">&nbsp;&nbsp;작성자&nbsp;&nbsp;<span class="reply-writer">홍**</span></div> 
                                         <div class="card-body"><span class="reply-content">이것은 댓글입니다. 드랍 박스내부에 대댓글을 항목으로 넣어 구현할까 생각 중이에요. 그리고 추천과 신고 대댓글 갯수를 넣으려면, 게시글 위에 보이는 이미지들을 또 쓰겠죠.....그리고 수정 삭제도 드랍박스 안에 넣을 꺼에요.아 모르겠다 이제 ㄴ일 해야지 모두들 꿋잠...</span></div>
+                                        <div class="reply-card-icon-box">  
+                                            <div class="board-icon-item"><i class="far fa-thumbs-up"></i>&nbsp;<span class="reply-like board-sm-font">좋아요</span></div>
+                                            <div class="board-icon-item"><i class="far fa-comment"></i>&nbsp;<span class="reply-reply-cnt board-sm-font">대댓글</span></div>
+                                            <div class="board-icon-item"><i class="far fa-frown"></i>&nbsp; <span class="reply-report board-sm-font">신고</span></div>
+                                        </div>
+                                        <div class="my-btn-box-cv reply-btn-box">
+                                            <button type="button" class="btn btn-outline-secondary">수정</button>
+                                            <button type="button" class="btn btn-outline-secondary">삭제</button>
+                                        
+                                        </div>
+                                    <div class="reply-card bg-light text-dark" style="width:200px">                                        
+                                        <div class="reply-writer-box">&nbsp;&nbsp;작성자&nbsp;&nbsp;<span class="reply-writer">홍**</span></div> 
+                                        <div class="card-body"><span class="reply-content">. 그리고 추천과 신고 대댓글 갯수를 넣으려면, 게시글 위에 보이는 이미지들을 또 쓰겠죠.....그리고 수정 삭제도 드랍박스 안에 넣을 꺼에요.아 모르겠다 이제 ㄴ일 해야지 모두들 꿋잠...</span></div>
                                         <div class="reply-card-icon-box">  
                                             <div class="board-icon-item"><i class="far fa-thumbs-up"></i>&nbsp;<span class="reply-like board-sm-font">좋아요</span></div>
                                             <div class="board-icon-item"><i class="far fa-comment"></i>&nbsp;<span class="reply-reply-cnt board-sm-font">대댓글</span></div>

@@ -8,6 +8,7 @@ import kr.or.ddit.hr.vo.HRCardVO;
 import kr.or.ddit.hr.vo.HRCrrVO;
 import kr.or.ddit.hr.vo.HRFavVO;
 import kr.or.ddit.hr.vo.HRInfoVO;
+import kr.or.ddit.hr.vo.HRMyInfoVO;
 import kr.or.ddit.hr.vo.HRSearchVO;
 import kr.or.ddit.hr.vo.HRVO;
 
@@ -37,4 +38,24 @@ public interface IHRService {
 	public int updateCrr (HRInfoVO hrInfoVO);
 	
 	public List<HRCrrVO> selectCrr(int hrNo);
+	
+
+	public int hrCntUp (int hrNo);
+	
+	public int getHrNo(int memNo);
+	
+	public HRMyInfoVO selectMyInfo(int memNo);
+	
+	
+	public int deleteCrr (HRInfoVO hrInfoVO);
+
+	public int checkFavHr(HRFavVO hrFavVO);
+	
+	public int getMemNo(int hrNo);
+	
+	public int checkNew(int memNo);
+	
+	public List<HRCardVO> getFolHR (int comNo);
+	
+	public List<HRCardVO> getFavHR (int comNo);
 }

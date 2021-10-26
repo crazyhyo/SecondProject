@@ -96,7 +96,8 @@
 		                          FROM COMPANY A
 		                        INNER JOIN JOB_OPENING B ON(A.COM_NO = B.COM_NO)
 		                        INNER JOIN JOB_GROUP C ON(A.JG_CODE_NO = C.JG_CODE_NO)
-		                        INNER JOIN JOB_TITLE D ON(C.JG_CODE_NO = D.JT_CODE_NO)) E) A) AA
+		                        INNER JOIN JOB_TITLE D ON(C.JG_CODE_NO = D.JT_CODE_NO)
+		                        ORDER BY B.JO_NO) E) A) AA
 		 WHERE AA.RNUM BETWEEN #firstRecNo# AND #lastRecNo#
 	</select>
 	
@@ -330,5 +331,56 @@
 		DELETE FROM JOB_OPENING
 		 WHERE JO_NO = #joNo#
 	</delete>
+	
+	
+	<select id="getClipByHR" parameterClass="int" resultMap="JOCardMap">
+	 	SELECT E.COM_NM,        E.COM_HPG,      E.COM_FAV,
+		       E.COM_INTRO,     A.JO_TITLE,     A.JO_CLIP,
+		       A.JO_MTHD,       B.JG_CODE_NM,   C.JT_CODE_NM,
+		       D.PL_CODE_NM,    A.JO_RANK,      A.JO_SAL,
+		       A.JO_SDATE,      A.JO_EDATE,     G.CITY_CODE_NM,
+		       F.PROV_CODE_NM,  A.JO_NO
+		  FROM JOB_OPENING A
+		       INNER JOIN JOB_GROUP B ON (A.JG_CODE_NO = B.JG_CODE_NO)
+		       INNER JOIN JOB_TITLE C ON (A.JT_CODE_NO = C.JT_CODE_NO
+		                              AND B.JG_CODE_NO = C.JG_CODE_NO)
+		       INNER JOIN PROG_LANG D ON (A.PL_CODE_NO = D.PL_CODE_NO)
+		       INNER JOIN COMPANY   E ON (A.COM_NO = E.COM_NO)
+		       INNER JOIN PROV      F ON (A.PROV_CODE_NO = F.PROV_CODE_NO)
+		       INNER JOIN CITY      G ON (A.CITY_CODE_NO = G.CITY_CODE_NO
+		                              AND G.CITY_CODE_NO = F.CITY_CODE_NO)
+		 WHERE A.JO_NO IN
+         
+         (SELECT JO_NO 
+          FROM CLIP
+          WHERE HR_NO = #hrNo#)
+	</select> 
+	
+	<select id="getClipByCom" parameterClass="int" resultMap="JOCardMap">
+	
+	 	SELECT E.COM_NM,        E.COM_HPG,      E.COM_FAV,
+		       E.COM_INTRO,     A.JO_TITLE,     A.JO_CLIP,
+		       A.JO_MTHD,       B.JG_CODE_NM,   C.JT_CODE_NM,
+		       D.PL_CODE_NM,    A.JO_RANK,      A.JO_SAL,
+		       A.JO_SDATE,      A.JO_EDATE,     G.CITY_CODE_NM,
+		       F.PROV_CODE_NM,  A.JO_NO
+		  FROM JOB_OPENING A
+		       INNER JOIN JOB_GROUP B ON (A.JG_CODE_NO = B.JG_CODE_NO)
+		       INNER JOIN JOB_TITLE C ON (A.JT_CODE_NO = C.JT_CODE_NO
+		                              AND B.JG_CODE_NO = C.JG_CODE_NO)
+		       INNER JOIN PROG_LANG D ON (A.PL_CODE_NO = D.PL_CODE_NO)
+		       INNER JOIN COMPANY   E ON (A.COM_NO = E.COM_NO)
+		       INNER JOIN PROV      F ON (A.PROV_CODE_NO = F.PROV_CODE_NO)
+		       INNER JOIN CITY      G ON (A.CITY_CODE_NO = G.CITY_CODE_NO
+		                              AND G.CITY_CODE_NO = F.CITY_CODE_NO)
+		 WHERE A.JO_NO IN
+         
+         (SELECT JO_NO 
+          FROM JOB_OPENING
+          WHERE COM_NO = #comNo#)
+	
+	
+	</select>
+	
 	
 </sqlMap>

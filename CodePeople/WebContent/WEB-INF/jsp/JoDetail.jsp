@@ -35,6 +35,122 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<style>
+	.button-center-box{
+		display : flex;
+		justify-content: center;
+	}
+
+	</style>
+
+
+	<!--  jquery사용 -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<!--  serializeJSON함수 사용 -->
+	<script src="${pageContext.request.contextPath}/js/jquery.serializejson.min.js"></script>
+	<script src="${pageContext.request.contextPath}/js/PagingTest.js"></script>
+	<script src="${pageContext.request.contextPath}/js/formDropDown.js"></script>
+	<script src="${pageContext.request.contextPath}/js/DropDownsTest.js"></script>
+	
+	<!-- form.js연결 -->
+	<script src="${pageContext.request.contextPath}/js/form.js"></script>
+	<script src="${pageContext.request.contextPath}/js/joinTest.js"></script>
+
+	<script>
+
+
+		/* let isSearchMode = false;
+			function doSearch(pageNo){
+			if(isSearchMode == false){
+					JOSearchCardPaging(1);
+					isSearchMode = true;
+			}else{
+				pageNo = currentPageNo;
+				JOSearchCardPaging(currentPageNo);
+				
+			}
+			
+		}; */
+		
+		document.addEventListener("DOMContentLoaded", () => {
+			console.log("DOM is ready");
+
+			const dropdownBtns = document.querySelectorAll('.dropdown button');
+
+			const dropdownFormBtns = document.querySelectorAll('.dropdown.form button');
+			
+			
+			//상세지역의 값을 가져오기 위한, 대분류 지역의 값
+			let cityCodeNo = "";
+
+			//현재 클릭한 드랍다운
+			let dropdownBtn = "";
+
+
+			const bringOptions = (btn) => {
+
+				
+				let key = btn.textContent;
+				if (key === "직군") {
+					initJobGroupList(btn);
+				} else if (key === "활동분야") {
+					initProgLangList(btn);
+				} else if (key === "지역") {
+					initCityList(btn);
+				} else if (key === "상세지역") {
+					initProvList(btn);
+				} else if (key === "직무") {
+					initJobTitleList(btn);
+				} else if (key === "진행상태") {
+					initStateList(btn);
+				} else if (key === "보상") {
+					initSalaryList(btn);
+				}
+				
+
+
+			};
+			
+			const bringFormOptions = (btn) => {
+				
+				
+				let key = btn.textContent;
+				if (key === "'직군'") {
+					initJobGroupList2(btn);
+				console.log('bringFormOptions');
+				} else if (key === "'활동분야'") {
+					initProgLangList2(btn);
+				console.log('bringFormOptions');
+				} else if (key === "'직무'") {
+					initJobTitleList2(btn);
+				console.log('bringFormOptions');
+				}
+				
+				
+			}
+
+
+
+
+			dropdownBtns.forEach(btn => {
+				btn.addEventListener("click", event => {
+					dropdownBtn = event.currentTarget;
+					bringOptions(dropdownBtn);
+
+				})
+			})
+
+			dropdownFormBtns.forEach(btn => {
+				btn.addEventListener("click", event => {
+					dropdownBtn = event.currentTarget;
+					bringFormOptions(dropdownBtn);
+
+				})
+			})
+		})
+
+	</script>
 
 
 
@@ -143,6 +259,35 @@
 				}
 			}) 
 	    });
+	    /* $('#update').on('click', function(){
+	    	
+	    	let joNo = $('#update').attr('idx');
+	    	console.log(joNo);
+
+	    	console.log($('#updateJo'));
+	    	$('#updateJo').modal();
+	    	
+	    	
+	    	
+ 	    	$.ajax({
+				url : '/CodePeople/DeleteJobOpening.do',
+				type : 'get',
+				dataType : 'json',
+				data : { "joNo" : joNo },
+				success : function(res){
+					
+					if(res.flag === "success"){
+	    				alert("삭제가 완료되었습니다.");
+					}else{
+						alert("삭제에 실패했습니다.");
+					}
+					
+				},
+				error : function(xhr){
+					alert(`status : ${xhr.status}\ntext : ${xhr.statusText}`);
+				}
+			})  
+	    }); */
     });
     
     
@@ -408,6 +553,10 @@
                 <input type="hidden" id="joNo" value="<%=joNo %>">
                 
                 <button type="button" id="remove" idx="<%=joNo %>" class="btn btn-success">삭제테스트</button>
+                
+                <button type="button" id="update" idx="<%=joNo %>" class="btn btn-success" data-bs-toggle="modal"
+							data-bs-target="#updateJo">수정테스트</button>
+							
                 <span class="jo-start jo-sm-font"><i class="far fa-calendar-alt">&nbsp;</i><%=joSdate %> </span> &nbsp;<span
                 	class="jo-start jo-sm-font">~</span>&nbsp; <span class="jo-end jo-sm-font"><i
                 		class="far fa-calendar-alt">&nbsp;</i><%=joEdate %>
@@ -422,6 +571,148 @@
   <div id="footer">
     <div id="footer-container"></div>
   </div>
+
+	<div class="modal" id="updateJo">
+		<div class="modal-dialog modal-dialog-scrollable modal-lg">
+			<div class="modal-content">
+
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<h4 class="modal-title">글쓰기</h4>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+				</div>
+
+				<!-- Modal body -->
+				<div class="modal-body"><div class="container mt-3 formsizing company-register">
+						<h1>채용공고 등록</h1>
+						<form action="/action_page.php" id="joForm">
+							<div class="mb-3 mt-3">
+								<label>채용공고 제목</label> <br>
+								<label class="la2" for="email">*&nbsp;주식회사, (주) 등의 표기 없이 입력해주세요</label>
+								<input type="text" class="form-control" name="joTitle" placeholder="[비바리퍼블리카(자동완성)] 품질관리 신입사원 및 경력자 모집"
+									>
+							</div>
+
+							<div class="mb-3">
+								<label>급여</label>
+								<input type="text" class="form-control" name="joSal" placeholder="예) 3,000만원 이상 - 면접 후 결정">
+							</div>
+
+							<input type="hidden" class="form-control" id="joNO" name="joNo" value="<%=joNo %>">
+							
+							<div class="mb-3">
+								<label>직군</label>
+								<input type="text" class="form-control" id="jg-display" placeholder="직군을 선택주세요">
+								<input type="text" class="form-control hide" id="jgCodeNo" name="jgCodeNo">
+							</div>
+							<div class="dropdown form">
+								<button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">'직군'</button>
+								<ul class="dropdown-menu"></ul>
+							</div>
+						
+
+							<div class="mb-3">
+								<label>직무</label>
+								<input type="text" class="form-control" id="jt-displany" placeholder="직무를 입력해주세요.">
+								<input type="text" class="form-control hide" id="jtCodeNo" name="jtCodeNo">
+							</div>
+							<div class="dropdown form">
+								<button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">'직무'</button>
+								<ul class="dropdown-menu"></ul>
+							</div>
+							<div class="mb-3">
+								<label>대표이메일</label>
+								<input type="text" class="form-control" placeholder="aaa241@gmail.com(자동완성)"
+									disabled>
+							</div>
+
+							<div class="mb-3">
+								<label>직급</label>
+								<input type="text" class="form-control" name="joRank" placeholder="직급을 입력해주세요.">
+							</div>
+
+							<div class="mb-3">
+								<label>대표연락처</label>
+								<input type="text" class="form-control" placeholder="010-0000-0241(자동완성)"
+									disabled>
+							</div>
+							
+							<div class="mb-3">
+								<label>지원링크</label>
+								<input type="text" class="form-control" name="joLink" placeholder="지원링크를 입력해주세요">
+							</div>
+							
+							<div class="mb-3">
+								<label>활동분야</label>
+								<input type="text" class="form-control" id="pl-display" placeholder="활동분야를 선택해주세요">
+								<input type="text" class="form-control hide" id="plCodeNo" name="plCodeNo">
+							</div>
+							<div class="dropdown form">
+								<button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">'활동분야'</button>
+								<ul class="dropdown-menu"></ul>
+							</div>
+							<div class="mb-3">
+								<label>채용일정</label>
+								<input type="date" class="form-control" name="joSdate">
+								<label class="la2" for="email">~</label>
+								<input type="date" class="form-control" name="joEdate">
+							</div>
+
+					          <div class="mb-3 zip">
+					            <label>우편번호</label>
+					            <div class="zipInput">
+					              <input type="text" class="form-control zip" id="postCode" disabled>
+					              <input type="button" onclick="proc();" value="우편번호 검색" />
+					            </div>
+					          </div>
+					          
+					          <div class="mb-3">
+					            <label>주소1</label>
+					            <input type="text" class="form-control" id=roadAddress disabled>
+					          </div>
+					          
+					          <div class="mb-3">
+					            <label>주소2</label>
+					            <input type="text" class="form-control" id="detailAddress">
+					          </div>
+					          
+					          <div id="prov-box"></div>
+					          
+					          <div class="mb-3">
+					            <input type="text" class="form-control hide" id=cityCodeNo name="cityCodeNo">
+					          </div>
+					          
+					          <div class="mb-3">
+					            <input type="text" class="form-control hide" id="provCodeNo" name="provCodeNo">
+					          </div>
+
+							<div class="mb-3">
+								<input type="text" class="form-control hide" name="joFile" value = 0>
+							</div>
+
+							<div class="mb-3">
+								<label>내용</label> <br>
+								<textarea style="height: 200px; width: 100%;" class="form-control" name="joMthd"
+									placeholder="채용공고 내용을 입력해주세요."></textarea>
+							</div>
+							<div class="button-center-box">
+								<button type="button" class="btn btn-primary btn-lg" data-bs-dismiss="modal" onclick="updateJobOpening()">등록하기</button>
+							</div>
+						</form>
+					</div>
+				
+					</div>
+
+				<button type="button" id="send" class="btn btn-primary" data-bs-dismiss="modal">작성완료</button>
+			</div>
+
+			<!-- Modal footer -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-bs-dismiss="modal">닫기</button>
+			</div>
+
+		</div>
+	</div>
 
 
 </body>

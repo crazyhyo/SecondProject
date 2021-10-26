@@ -7,7 +7,7 @@
   --padding-header-left: 16px;
   --padding-header-right: 12px;
   --padding-header-ver: 9.94px;
-
+    
   --padding-bodydivs-ver: 14px;
   --padding-bodydivs-hor: 10px;
   --padding-card-left: 16px;
@@ -18,7 +18,7 @@
 
   --page-width: 1092px;
   --header-width-left: 345px;
-  --header-width-right: 474.52px;
+  --header-width-right: 470px;
   --nav-left-var-width: 270px;
   --body-content-width: 790px;
   --board-card-width: 740px;
@@ -143,7 +143,7 @@
   margin-left: var(--padding-header-right);
   margin-right: var(--padding-header-right);
   font-size: 12px;
-  width: 55.14px;
+  width: 75px;
   height: 32px;
 }
 #header-right-menu .divider {

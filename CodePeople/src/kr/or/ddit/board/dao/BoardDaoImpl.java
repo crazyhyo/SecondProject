@@ -220,6 +220,15 @@ public class BoardDaoImpl implements IBoardDao{
 		cnt = (int)smc.update(nameSpace + "addReplyLike", repNo);  
 		return cnt;
 	}
+
+	@Override
+	public List<Map<String, Object>> replyCommentSelect() throws SQLException {
+		List<Map<String, Object>> list = null;
+		
+		list = smc.queryForList(nameSpace + "replyCommentSelect");
+		
+		return list;
+	}
 	
 
 }

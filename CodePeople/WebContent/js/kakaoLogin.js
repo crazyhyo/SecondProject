@@ -1,3 +1,5 @@
+
+
 // SDK를 초기화 합니다. 사용할 앱의 JavaScript 키를 설정해 주세요.
 Kakao.init("582c43c5379e1cd6033238a735875c5f");
 // SDK 초기화 여부를 판단합니다.
@@ -16,42 +18,42 @@ function kakaoLogin() {
         url: "/v2/user/me",
 
         success: function (resp) {
-          
           let kakao_account = resp.kakao_account;
           let properties = resp.properties;
 
           let memEmail = "";
           let memNm = "";
           let memBir = "";
+          let memImg = "";
           if (typeof kakao_account != "undefined") {
             // 변수에 속성 값 넣기
             memEmail = kakao_account.email;
             memNm = properties.nickname;
             memBir = kakao_account.birthday;
+            memImg = properties.profile_image;
           }
 
-         $.ajax({
-           url: "/CodePeople/ExternalLogin.do",
-           data: {
-             "memEmail" : memEmail,
-             "memNm" : memNm,
-             "memBir" : memBir
-          },
-           type: "post",
-           dataType: "json",
-           success: function (resp) {
-             if(resp.flag == "true"){
-               alert('코드피플에 오신 것을 환영합니다!');
-               location.href = "/CodePeople/html/index.jsp";
-             }
-           },
-           error: function (xhr) {
-            alert("외부 로그인 api 에러 상태 : " + xhr.status);
-          },
-
-         });
+          $.ajax({
+            url: "/CodePeople/ExternalLogin.do",
+            data: {
+              "memEmail": memEmail,
+              "memNm": memNm,
+              "memBir": memBir,
+            },
+            type: "post",
+            dataType: "json",
+            success: function (resp) {
+              if (resp.flag == "true") {
+                alert("코드피플에 오신 것을 환영합니다!");
+                location.href = "/CodePeople/rehearsal/index.jsp";
+              }
+            },
+            error: function (xhr) {
+              alert("외부 로그인 api 에러 상태 : " + xhr.status);
+            },
+          });
         },
-        
+
         fail: function (error) {
           console.log("error : " + error);
         },

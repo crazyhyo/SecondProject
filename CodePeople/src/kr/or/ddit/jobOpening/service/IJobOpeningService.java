@@ -38,6 +38,11 @@ public interface IJobOpeningService {
 	public int deleteJobOpening(int joNo);
 	
 	public int checkJobOpeningRight(int joNo);
-	
+
 	public int updateJobOpening(JobOpeningVO jobOpeningVO);
+	
+	public List<JOCardVO> getClipByHR (int hrNo);
+	
+	public List<JOCardVO> getClipByCom (int comNo);
+
 }

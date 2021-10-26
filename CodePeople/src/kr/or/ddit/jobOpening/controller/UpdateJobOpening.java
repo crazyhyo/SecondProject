@@ -30,16 +30,19 @@ public class UpdateJobOpening extends HttpServlet{
 		
 		HttpSession session = req.getSession();
 		
-		MemberVO loginMember = (MemberVO)session.getAttribute("vo");
+		MemberVO loginMember = (MemberVO)session.getAttribute("memVO");
+		
+		req.setAttribute("joNo", joNo);
 		
 		int result = 0;
 		
-//		if(loginMember == null) {
-//			req.setAttribute("result", 0);
-//			req.getRequestDispatcher("/WEB-INF/jsp/result.jsp").forward(req, resp);
-//		}else {
-//			int memNo = loginMember.getMemNo();
-			int memNo = 241;
+		if(loginMember == null) {
+			result = 3;
+			req.setAttribute("result", result);
+			req.getRequestDispatcher("/WEB-INF/jsp/result.jsp").forward(req, resp);
+		}else {
+			int memNo = loginMember.getMemNo();
+			
 			if(memNo == jobOpeningService.checkJobOpeningRight(joNo)) {
 				
 				resp.setCharacterEncoding("UTF-8");
@@ -68,15 +71,22 @@ public class UpdateJobOpening extends HttpServlet{
 				
 				System.out.println("result : " + result);
 				
+				if(result > 0) {
+					result = 4;
+				}else {
+					result = 5;
+				}
+				
 				req.setAttribute("result", result);
 				
 				req.getRequestDispatcher("/WEB-INF/jsp/result.jsp").forward(req, resp);
 				
 			}else {			
-				req.setAttribute("result", 0);
+				System.out.println("수정권한이 없습니다");
+				req.setAttribute("result", 6);
 				req.getRequestDispatcher("/WEB-INF/jsp/result.jsp").forward(req, resp);
 			}
-//		}
+		}
 		
 		
 	}

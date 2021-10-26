@@ -30,6 +30,10 @@ public class BoardPagingList extends HttpServlet{
 		int boardCode = req.getParameter("boardCode") == null ?
 				1 : Integer.parseInt(req.getParameter("boardCode"));
 		
+		req.setAttribute("currentPageNo", currentPageNo);
+		req.setAttribute("boardCode", boardCode);
+		
+		
 		int totalCount = 0;
 		
 		switch(boardCode) {
@@ -83,7 +87,9 @@ public class BoardPagingList extends HttpServlet{
 		
 		req.setAttribute("boardPagingVO", boardPagingVO);
 		
-		req.getRequestDispatcher("/WEB-INF/jsp/BoardPagingList.jsp").forward(req, resp);
+		
+		
+		req.getRequestDispatcher("/mainJsp/EachBoard.jsp").forward(req, resp);
 		
 		
 	}

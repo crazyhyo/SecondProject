@@ -26,7 +26,7 @@
 	
 		
 	
-	<insert id="insertEdu" parameterClass="kr.or.ddit.hr.vo.HRInfoVO">
+	 <insert id="insertEdu" parameterClass="kr.or.ddit.hr.vo.HRInfoVO">
 	 INSERT INTO EDU 
  	 VALUES(EDU_SEQ.NEXTVAL, #eduCodeNo#,#eduSchNm#,#eduMajor#,#eduGraTot#,#eduGraAvg#)
  	 
@@ -35,26 +35,38 @@
 	 </selectKey>
 	</insert>
 	
-	<update id="updateEduHR" parameterClass="kr.or.ddit.hr.vo.HRInfoVO">
-		UPDATE EDU_HR
-		   SET EDU_NO = #eduNo#
-		 WHERE HR_NO = #hrNo#
-	</update>
+	<insert id="insertEduHR" parameterClass="kr.or.ddit.hr.vo.HRInfoVO">
+		INSERT INTO EDU_HR (EDU_NO, HR_NO)
+		 VALUES (#eduNo#,#hrNo#)
+	</insert>
 	
 	
+	<delete id="deleteEdu" parameterClass="kr.or.ddit.hr.vo.HRInfoVO">
+		DELETE FROM EDU
+		WHERE EDU_NO = #eduNo#
+		
+	</delete>
+	
+	<delete id="deleteEduHR" parameterClass="kr.or.ddit.hr.vo.HRInfoVO">
+		DELETE FROM EDU_HR
+		WHERE EDU_NO = #eduNo#
+		  AND HR_NO = #hrNo#
+	
+	</delete>
 	
 	<select id="selectEdu" parameterClass="int" resultMap="EduMap">
 	
 		SELECT A.EDU_NO,
-		       A.EDU_CODE_NO,
-		       B.EDU_CODE_NM,
-		       A.EDU_SCH_NM,
-		       A.EDU_MAJOR,
-		       A.EDU_GRA_TOT,
-		       A.EDU_GRA_AVG
+		       B.EDU_CODE_NO,
+		       NVL(B.EDU_CODE_NM,0) AS EDU_CODE_NM,
+		       NVL(A.EDU_SCH_NM,0) AS EDU_SCH_NM,
+		       NVL(A.EDU_MAJOR,0) AS EDU_MAJOR,
+		       NVL(A.EDU_GRA_TOT,0) AS EDU_GRA_TOT,
+		       NVL(A.EDU_GRA_AVG,0) AS EDU_GRA_AVG
 		
 		FROM EDU A, EDU_CODE B
-		WHERE EDU_NO IN  (SELECT EDU_NO 
+		WHERE A.EDU_CODE_NO = B.EDU_CODE_NO
+		    AND A.EDU_NO IN  (SELECT EDU_NO 
 		                            FROM EDU_HR
 		                         WHERE HR_NO = #hrNo#) 
 	</select>

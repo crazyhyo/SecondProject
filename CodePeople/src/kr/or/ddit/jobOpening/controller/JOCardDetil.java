@@ -14,7 +14,7 @@ import kr.or.ddit.jobOpening.vo.JOCardVO;
 
 @WebServlet("/JOCardDetil.do")
 public class JOCardDetil extends HttpServlet{
-	String prefix = "/WEB-INF/jsp/";
+	String prefix = "/mainJsp/";
 	String suffix = ".jsp";
 	
 	@Override
@@ -25,12 +25,21 @@ public class JOCardDetil extends HttpServlet{
 		
 		IJobOpeningService jobOpeningService = JobOpeningServiceImpl.getInstance();
 		
-		joNo = 4;
+		System.out.println("joNo : " + joNo);
+		
+		String imageHref = "/CodePeople/images/logo" + (int)Math.floor(joNo / 15) + ".png";
 		
 		JOCardVO joCardDetail = jobOpeningService.joCardDetail(joNo);
 		
+		System.out.println(joCardDetail == null);
+		
+		System.out.println(imageHref);
+
+		req.setAttribute("imageHref", imageHref);
+		
 		req.setAttribute("joCardDetail", joCardDetail);
 		
+//		req.getRequestDispatcher(prefix + "JoDetail" + suffix).forward(req, resp);
 		req.getRequestDispatcher(prefix + "JoDetail" + suffix).forward(req, resp);
 		
 		

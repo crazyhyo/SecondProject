@@ -55,7 +55,7 @@ public class Login extends HttpServlet {
 		System.out.println(memVO);
 		
 		req.setAttribute("num", num);
-		session.setAttribute("vo", memVO);
+		session.setAttribute("memVO", memVO);
 		
 		
 		req.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(req, resp);

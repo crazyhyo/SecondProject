@@ -18,23 +18,23 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.log4j.Logger;
 
 /**
- * FileUpload API를 사용하는 HttpServletRequestWrapper 클래스
- * (HttpServletRequest에 기반한 API를 사용하면서 멀티파트처리 기능이 추가되었음.)
+ * FileUpload API瑜� �궗�슜�븯�뒗 HttpServletRequestWrapper �겢�옒�뒪
+ * (HttpServletRequest�뿉 湲곕컲�븳 API瑜� �궗�슜�븯硫댁꽌 硫��떚�뙆�듃泥섎━ 湲곕뒫�씠 異붽��릺�뿀�쓬.)
  */
 public class FileUploadRequestWrapper extends HttpServletRequestWrapper {
 
-	private static Logger logger = Logger.getLogger(FileUploadRequestWrapper.class);	// 로거 생성
+	private static Logger logger = Logger.getLogger(FileUploadRequestWrapper.class);	// 濡쒓굅 �깮�꽦
 
-//    public static final String UPLOAD_DIRECTORY = "d:/D_Other/upload_files";		// 업로드 경로 설정
-    public static final String UPLOAD_DIRECTORY = "D:/A_TeachingMaterial/3.HighJava/workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/ServletExam/upload_files";		// 업로드 경로 설정
-    private boolean isMultipart = false;												// 멀티파트여부
+//    public static final String UPLOAD_DIRECTORY = "d:/D_Other/upload_files";		// �뾽濡쒕뱶 寃쎈줈 �꽕�젙
+    public static final String UPLOAD_DIRECTORY = "C:/code/A_TeachingMaterial/3.HighJava/workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/ServletExam/upload_files";		// �뾽濡쒕뱶 寃쎈줈 �꽕�젙
+    private boolean isMultipart = false;												// 硫��떚�뙆�듃�뿬遺�
 
-    // 여러개를 받기 위해 배열로 저장한다
-    private Map<String, String[]> parameterMap;											// 폼필드(파라미터) 데이터를 담기 위한 맵
-    private Map<String, FileItem[]> fileItemMap;										// fileItem객체를 담기위한 맵
+    // �뿬�윭媛쒕�� 諛쏄린 �쐞�빐 諛곗뿴濡� ���옣�븳�떎
+    private Map<String, String[]> parameterMap;											// �뤌�븘�뱶(�뙆�씪誘명꽣) �뜲�씠�꽣瑜� �떞湲� �쐞�븳 留�
+    private Map<String, FileItem[]> fileItemMap;										// fileItem媛앹껜瑜� �떞湲곗쐞�븳 留�
 
     /**
-     * 생성자
+     * �깮�꽦�옄
      * @param request
      * @throws FileUploadException
      */
@@ -44,12 +44,12 @@ public class FileUploadRequestWrapper extends HttpServletRequestWrapper {
     }
 
     /**
-     * 생성자
-     * @param request 기본 요청 객체
-     * @param memoryThreshold 메모리 임계크기(이 크기가 넘어가면 레파지토리 위치에 임시파일로 저장됨)
-     * @param fileSizeMax 파일 1개당 최대크기
-     * @param maxRequestSize 요청 파일 최대 크기
-     * @param repositoryPath 임시파일 저장경로
+     * �깮�꽦�옄
+     * @param request 湲곕낯 �슂泥� 媛앹껜
+     * @param memoryThreshold 硫붾え由� �엫怨꾪겕湲�(�씠 �겕湲곌� �꽆�뼱媛�硫� �젅�뙆吏��넗由� �쐞移섏뿉 �엫�떆�뙆�씪濡� ���옣�맖)
+     * @param fileSizeMax �뙆�씪 1媛쒕떦 理쒕��겕湲�
+     * @param maxRequestSize �슂泥� �뙆�씪 理쒕� �겕湲�
+     * @param repositoryPath �엫�떆�뙆�씪 ���옣寃쎈줈
      * @throws FileUploadException
      */
     public FileUploadRequestWrapper(HttpServletRequest request,
@@ -60,19 +60,19 @@ public class FileUploadRequestWrapper extends HttpServletRequestWrapper {
     }
 
     /**
-     * 멀티파트 데이터를 파싱하여 두개의 맵에 나누어 담는다.
+     * 硫��떚�뙆�듃 �뜲�씠�꽣瑜� �뙆�떛�븯�뿬 �몢媛쒖쓽 留듭뿉 �굹�늻�뼱 �떞�뒗�떎.
      * @param request
-     * @param memoryThreshold 메모리 임계크기(이 크기가 넘어가면 레파지토리 위치에 임시파일로 저장됨)
-     * @param fileSizeMax 파일 1개당 최대 크기
-     * @param maxRequestSize 요청 파일 최대 크기
-     * @param repositoryPath 임시파일 저장경로
+     * @param memoryThreshold 硫붾え由� �엫怨꾪겕湲�(�씠 �겕湲곌� �꽆�뼱媛�硫� �젅�뙆吏��넗由� �쐞移섏뿉 �엫�떆�뙆�씪濡� ���옣�맖)
+     * @param fileSizeMax �뙆�씪 1媛쒕떦 理쒕� �겕湲�
+     * @param maxRequestSize �슂泥� �뙆�씪 理쒕� �겕湲�
+     * @param repositoryPath �엫�떆�뙆�씪 ���옣寃쎈줈
      * @throws FileUploadException
      */
     private void parsing(HttpServletRequest request,
         int memoryThreshold, long fileSizeMax, long maxRequestSize, String repositoryPath) throws FileUploadException {
 
         if (ServletFileUpload.isMultipartContent(request)) {
-            isMultipart = true; // 멀티파트임을 설정함.
+            isMultipart = true; // 硫��떚�뙆�듃�엫�쓣 �꽕�젙�븿.
 
             parameterMap = new HashMap<>();
             fileItemMap = new HashMap<>();
@@ -81,7 +81,7 @@ public class FileUploadRequestWrapper extends HttpServletRequestWrapper {
             if (memoryThreshold != -1) {
             	factory.setSizeThreshold(memoryThreshold);
             }
-            if (repositoryPath != null) {// 저장 경로가 설정되지 않았으면...
+            if (repositoryPath != null) {// ���옣 寃쎈줈媛� �꽕�젙�릺吏� �븡�븯�쑝硫�...
             	factory.setRepository(new File(repositoryPath));
             }else {
             	factory.setRepository(new File(System.getProperty("java.io.tmpdir")));
@@ -94,12 +94,12 @@ public class FileUploadRequestWrapper extends HttpServletRequestWrapper {
             List<FileItem> list = servletFileUpload.parseRequest(request);
             for (int i = 0 ; i < list.size() ; i++) {
                 FileItem fileItem = (FileItem) list.get(i);
-                String name = fileItem.getFieldName(); // 필드명 가져오기
+                String name = fileItem.getFieldName(); // �븘�뱶紐� 媛��졇�삤湲�
 
-                if (fileItem.isFormField()) { // 폼필드인 경우...
+                if (fileItem.isFormField()) { // �뤌�븘�뱶�씤 寃쎌슦...
                     String value = "";
 					try {
-						// 폼필드의 값이 한글인 경우에는 해당 문자열을 적절히 변환을 해주어야 한다.
+						// �뤌�븘�뱶�쓽 媛믪씠 �븳湲��씤 寃쎌슦�뿉�뒗 �빐�떦 臾몄옄�뿴�쓣 �쟻�젅�엳 蹂��솚�쓣 �빐二쇱뼱�빞 �븳�떎.
 						//value = new String(fileItem.getString().getBytes("8859_1"), "UTF-8");
 						value = fileItem.getString("UTF-8");
 						logger.info(name +  " : " + value);
@@ -107,9 +107,9 @@ public class FileUploadRequestWrapper extends HttpServletRequestWrapper {
 						e.printStackTrace();
 					}
                     String[] values = (String[]) parameterMap.get(name);
-                    if (values == null) { // 처음 만드는 경우...
+                    if (values == null) { // 泥섏쓬 留뚮뱶�뒗 寃쎌슦...
                         values = new String[] { value };
-                    } else { // 기존에 이미 존재하는 경우...
+                    } else { // 湲곗〈�뿉 �씠誘� 議댁옱�븯�뒗 寃쎌슦...
                         String[] tempValues = new String[values.length + 1];
                         System.arraycopy(values, 0, tempValues, 0, values.length);
                         tempValues[tempValues.length - 1] = value;
@@ -117,14 +117,14 @@ public class FileUploadRequestWrapper extends HttpServletRequestWrapper {
                     }
                     parameterMap.put(name, values);
 
-                } else { // 파일인 경우...
+                } else { // �뙆�씪�씤 寃쎌슦...
 
-                	if(fileItem.getSize() > 0) { // 파일이 존재하는 경우...
+                	if(fileItem.getSize() > 0) { // �뙆�씪�씠 議댁옱�븯�뒗 寃쎌슦...
 
                 		FileItem[] values = fileItemMap.get(name);
-                        if (values == null) { // 처음 만드는 경우...
+                        if (values == null) { // 泥섏쓬 留뚮뱶�뒗 寃쎌슦...
                             values = new FileItem[] { fileItem };
-                        } else { // 기존에 이미 존재하는 경우...
+                        } else { // 湲곗〈�뿉 �씠誘� 議댁옱�븯�뒗 寃쎌슦...
                         	FileItem[] tempValues = new FileItem[values.length + 1];
                             System.arraycopy(values, 0, tempValues, 0, values.length);
                             tempValues[tempValues.length - 1] = fileItem;
@@ -134,20 +134,20 @@ public class FileUploadRequestWrapper extends HttpServletRequestWrapper {
                 	}
                 }
             }
-            //addTo(); // 현재 객체를 속성값으로 설정한다.(멀티파트 여부 체크를 위해 설정함)
+            //addTo(); // �쁽�옱 媛앹껜瑜� �냽�꽦媛믪쑝濡� �꽕�젙�븳�떎.(硫��떚�뙆�듃 �뿬遺� 泥댄겕瑜� �쐞�빐 �꽕�젙�븿)
         }
     }
 
     /**
-     * 멀티파트 컨텐츠인지 확인하기 위한 메서드
-     * @return 멀티파트이면 true, 아니면 false
+     * 硫��떚�뙆�듃 而⑦뀗痢좎씤吏� �솗�씤�븯湲� �쐞�븳 硫붿꽌�뱶
+     * @return 硫��떚�뙆�듃�씠硫� true, �븘�땲硫� false
      */
     public boolean isMultipartContent() {
         return this.isMultipart;
     }
 
     /**
-     * 파라미터 정보 가져오기
+     * �뙆�씪誘명꽣 �젙蹂� 媛��졇�삤湲�
      */
     public String getParameter(String name) {
         if (this.isMultipart) {
@@ -183,7 +183,7 @@ public class FileUploadRequestWrapper extends HttpServletRequestWrapper {
     }
 
     /**
-     * parameterMap 가져오기
+     * parameterMap 媛��졇�삤湲�
      */
     public Map<String, String[]> getParameterMap() {
         if (this.isMultipart)
@@ -193,7 +193,7 @@ public class FileUploadRequestWrapper extends HttpServletRequestWrapper {
     }
 
     /**
-     * fileItemMap 가져오기
+     * fileItemMap 媛��졇�삤湲�
      * @return
      */
     public Map<String, FileItem[]> getFileItemMap() {
@@ -204,9 +204,9 @@ public class FileUploadRequestWrapper extends HttpServletRequestWrapper {
     }
 
     /**
-     * 속성이름을 이용하여 FileItem배열을 가져온다.
-     * @param name 속성이름
-     * @return FileItem 배열
+     * �냽�꽦�씠由꾩쓣 �씠�슜�븯�뿬 FileItem諛곗뿴�쓣 媛��졇�삩�떎.
+     * @param name �냽�꽦�씠由�
+     * @return FileItem 諛곗뿴
      */
     public FileItem[] getFileItems(String name) {
         if (this.isMultipart)
@@ -216,7 +216,7 @@ public class FileUploadRequestWrapper extends HttpServletRequestWrapper {
     }
 
     /**
-     * fileItemMap에 존재하는 FileItem을 삭제한다.
+     * fileItemMap�뿉 議댁옱�븯�뒗 FileItem�쓣 �궘�젣�븳�떎.
      */
     public void delete() {
         if (this.isMultipart) {
@@ -224,7 +224,7 @@ public class FileUploadRequestWrapper extends HttpServletRequestWrapper {
             while( fileItemIter.hasNext()) {
                 FileItem[] fileItemArr = (FileItem[])fileItemIter.next();
                 for(FileItem fileItem : fileItemArr) {
-                	fileItem.delete(); // 임시저장 데이터 삭제
+                	fileItem.delete(); // �엫�떆���옣 �뜲�씠�꽣 �궘�젣
                 }
             }
         }

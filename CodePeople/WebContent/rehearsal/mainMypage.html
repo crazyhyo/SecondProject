@@ -28,11 +28,37 @@
 
 <script>
 
-      document.addEventListener('DOMContentLoaded', ()=> {
-
+ document.addEventListener('DOMContentLoaded', ()=> {
     	  
-    	  const calendarEl = document.querySelector('#myCalendar');
-        
+    const calendarEl = document.querySelector('#myCalendar');
+       
+    
+
+ /*    let memNo = 1; 
+     //화면 로딩 시 자동으로 mwmNo를 저장하도록 한다.
+     
+     
+    let goInfoBtn = document.querySelector('#goInfoBtn');
+     console.log(goInfoBtn);
+     goInfoBtn.addEventListener('click',()=>{
+   	 console.log('click');
+   	  $.ajax({
+	    		url : '/CodePeople/HRMyInfo.do',
+	    		type : 'get',
+	    		data : {"memNo" :memNo},
+	    		dataType : 'json',
+	    		success : function(res){
+	    			console.log(res);
+	    		},
+	    		error : function(xhr){
+	    			alert(`status : ${xhr.status}\ntext : ${xhr.statusText}`);
+	    		}
+	    	})
+     })
+     */
+    
+    
+    
         var calendar = new FullCalendar.Calendar(calendarEl, {
            headerToolbar: {
                 left: 'prev,next today',
@@ -122,36 +148,27 @@
           ]
           
         });
+        
+        
+        
         calendar.render();
+        
+        
+        $(".list-group .memInfo").click(function (e) { 
+			let submenu = $(this).next("ul");
+
+			if (submenu.is(":visible")) {
+				submenu.slideUp();
+			} else {
+				submenu.slideDown();
+			}
+		});
       });
 
-      $(function () {
-			$(".list-group .memInfo").click(function (e) { 
-				let submenu = $(this).next("ul");
-
-				if (submenu.is(":visible")) {
-					submenu.slideUp();
-				} else {
-					submenu.slideDown();
-				}
-			});
-		});
- 
- //마이페이지의 기본정보를 불러들이기 위한자바스크립트 
- 
-      document.addEventListener('DOMContentLoaded', ()=> {
- 
- 		const    	  
-    	  
-    	  
-    	  
-    	  
-    	  
-      })    
       
       
       
-      
+  
     </script>
 
 <style>
@@ -208,7 +225,7 @@
 				</div>
 				<div class="divider"></div>
 				<!-- 로그인버튼 -->
-				<a href="/CodePeople/rehearsal/home.html"><button id="header-login-btn" class="btn btn-primary btn-sm">로그인</button></a>
+				<a href="/CodePeople/rehearsal/home.html"><button id="header-login-btn" class="btn btn-primary btn-sm">로그아웃</button></a>
 			</div>
 		</div>
 	</div>
@@ -219,7 +236,8 @@
 			<div class="nav-left-bar nav-my">
 				<div class="nav-sticky">
 					<ul class="list-group">
-						<li class="list-group-item "><a class="nav-link" href="#">인재정보</a>						
+						<!-- 하드코딩 -->
+						<li class="list-group-item"><a class="nav-link" href="/CodePeople/HRMyInfo.do?memNo=8">인재정보</a>						
 						</li>
 						
 						<li class="list-group-item"><a class="nav-link"

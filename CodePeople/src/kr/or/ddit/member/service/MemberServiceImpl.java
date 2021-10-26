@@ -123,16 +123,78 @@ public class MemberServiceImpl implements IMemberService{
 	}
 
 	@Override
-	public int getHrNo(MemberVO vo) {
+	public int getHrNo(int memNo) {
 		int cnt = 0;
 		try {
-			cnt = memberDao.getHrNo(vo);
+			cnt = memberDao.getHrNo(memNo);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return cnt;
 	}
 	
-	
-	
+	@Override
+	public int getComNo(int memNo) {
+		int cnt = 0;
+		
+		try {
+			cnt = memberDao.getComNo(memNo);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return cnt;
+	}
+
+	@Override
+	public int checkRegisterdCorp(int memNo) {
+		int cnt = 0;
+		
+		try {
+			cnt = memberDao.checkRegisterdCorp(memNo);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return cnt;
+	}
+
+	@Override
+	public String searchId(MemberVO vo) {
+		String memId = "";
+		
+		try {
+			memId = memberDao.searchId(vo);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return memId;
+	}
+
+	@Override
+	public int searchPass(MemberVO vo) {
+		int cnt = 0;
+		
+		try {
+			cnt = memberDao.searchPass(vo);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return cnt;
+	}
+
+	@Override
+	public int setPassword(MemberVO vo) {
+		int cnt = 0;
+		
+		try {
+			cnt = memberDao.setPassword(vo);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return cnt;
+	}
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.ibatis.sqlmap.client.SqlMapClient;
 
+import kr.or.ddit.schedule.vo.ScheduleVO;
 import kr.or.ddit.util.SqlMapClientFactory;
 
 public class ScheduleDaoImpl implements IScheduleDao{
@@ -21,6 +22,13 @@ public class ScheduleDaoImpl implements IScheduleDao{
 			dao = new ScheduleDaoImpl();
 		}
 		return dao;
+	}
+
+	@Override
+	public List<ScheduleVO> joScheduleList() throws SQLException {
+		List<ScheduleVO> list = null;
+		list = (List<ScheduleVO>)smc.queryForList(nameSpace + "joScheduleList");
+		return list;
 	}
 
 

@@ -1,41 +1,17 @@
-var prod_no = 0;
+var prodNo = 0;
 
 $(function () {
 	$('#btn1').on('click', function () {
-		prod_no = 1;
-		$.ajax({
-			type: "post",
-			url: "/CodePeople/ProdList.do",
-			data: { "prod_no": prod_no },
-			dataType: "json",
-			success: function (res) {
-				
-				var prodNo = res.prodNo;
-				var prodNm = res.prodNm;
-				var prodPrice = res.prodPrice;
-				
-				pageGoPost({
-					url: "../html/kakaoPay.jsp" ,
-					target: "popup",
-					vals: [
-						["prodNo", prodNo],
-						["prodNm", prodNm],
-						["prodPrice", prodPrice]
-					]
-				});
-			},
-			error: function (xhr) {
-				alert("상태 : " + xhr.status + "  text : " + xhr.statusText);
-			}
-		});
+		prodNo = 1;
+		doPost(prodNo);
 	});
 	$('#btn2').on('click', function () {
-		prod_no = 2;
-
+		prodNo = 2;
+		doPost(prodNo);
 	});
 	$('#btn3').on('click', function () {
-		prod_no = 3;
-
+		prodNo = 3;
+		doPost(prodNo);
 	});
 
 });
@@ -59,3 +35,31 @@ function pageGoPost(d) {
 	goform.submit();
 }
 
+
+function doPost(prodNo){
+	$.ajax({
+		type: "post",
+		url: "/CodePeople/ProdList.do",
+		data: { "prodNo": prodNo },
+		dataType: "json",
+		success: function (res) {
+			
+			var prodNo = res.prodNo;
+			var prodNm = res.prodNm;
+			var prodPrice = res.prodPrice;
+			
+			pageGoPost({
+				url: "../html/kakaoPay.jsp" ,
+				target: "_blank",
+				vals: [
+					["prodNo", prodNo],
+					["prodNm", prodNm],
+					["prodPrice", prodPrice]
+				]
+			});
+		},
+		error: function (xhr) {
+			alert("상태 : " + xhr.status + "  text : " + xhr.statusText);
+		}
+	});
+}

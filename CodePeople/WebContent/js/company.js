@@ -1,6 +1,7 @@
-
+var comNoValue = 0;
 comListServer = function (currentPageNo) {
 
+	
   $.ajax({
     type: "get",
     url: "/CodePeople/CompanyPagingList.do",
@@ -13,7 +14,7 @@ comListServer = function (currentPageNo) {
 
         code += `<div class="card" idx="${v.comNo}">
                         <div class="card-left">
-                            <img src="../images/blue.jpg" alt="Card image" style="width:64px; height: 64px;">
+                            <img src="/CodePeople/images/logo${i}.png" alt="Card image" style="width:64px; height: 64px;">
                         </div>
                         <div class="card-body card-right">
                           <div class="card-top-box">
@@ -37,46 +38,40 @@ comListServer = function (currentPageNo) {
                             <div class="card-rating-box">
                                   <p>${v.comIntro}</p>
                             </div>
-                            <a href="./companyDetail.html#review" class="card-link">리뷰</a>
-                            <a href="./companyDetail.html#board" class="card-link">게시물</a>
-                            <a href="./companyDetail.html#salary" class="card-link">연봉</a>
-                            <a href="./companyDetail.html#hr" class="card-link">채용</a>
+                            <a href="/CodePeople/CompanyDetailList.do?comNo=${v.comNo}#review" class="card-link">리뷰</a>
+                            <a href="/CodePeople/CompanyDetailList.do?comNo=${v.comNo}#board" class="card-link">게시물</a>
+                            <a href="/CodePeople/CompanyDetailList.do?comNo=${v.comNo}#salary" class="card-link">연봉</a>
+                            <a href="/CodePeople/CompanyDetailList.do?comNo=${v.comNo}#hr" class="card-link">채용</a>
                         </div>
                     </div>`;
       });
 
       let parent = document.querySelector('#company-card-list');
-			parent.innerHTML= code;
-			
-			addFav = document.querySelectorAll('.addFav');
-			deleteFav = document.querySelectorAll('.deleteFav');
-			
-			addFav.forEach(a=>{
-				a.addEventListener('click',event=>{
-					let comCard = event.currentTarget;
-					let comNoValue = comCard.getAttribute('idx');
-					console.log(comNoValue);
-					let comNo = document.querySelector('#comNo');
-					let hrNo = document.querySelector('#hrNo');
-					
-					hrNo.value = 1;
-					comNo.value = comNoValue;
-					addFavCompany();
-				})
-			})
-			
-			deleteFav.forEach(a=>{
-				a.addEventListener('click',event=>{
-					let comCard = event.currentTarget;
-					let comNoValue = comCard.getAttribute('idx');
-					let comNo = document.querySelector('#comNo');
-					let hrNo = document.querySelector('#hrNo');
-					
-					hrNo.value = 1;
-					comNo.value = comNoValue;	
-					deleteFavCompany();			
-				})
-			})
+      parent.innerHTML= code;
+      
+      
+      addFav = document.querySelectorAll('.addFav');
+      deleteFav = document.querySelectorAll('.deleteFav');
+      
+      
+      addFav.forEach( a=>{
+      	a.addEventListener('click',event=>{
+      		let comCard = event.currentTarget;
+      		comNoValue = comCard.getAttribute('idx');
+      		console.log(comNoValue);
+      		addFavCompany();
+      	})
+      })
+
+      deleteFav.forEach( a=>{
+      	a.addEventListener('click',event=>{
+      		let comCard = event.currentTarget;
+      		comNoValue = comCard.getAttribute('idx');
+      		console.log(comNoValue);
+      		deleteFavCompany();			
+      	})
+      })
+      
     },
     error: function (xhr) {
       alert("상태 : " + xhr.status + " text : " + xhr.statusText);
@@ -86,14 +81,14 @@ comListServer = function (currentPageNo) {
 }
 
 
+
+
+
 $(function() {
 	
 	$('#cpn-btn').on('click', function () {
 		
 	    var cdata = $('#comInsert').serializeJSON();
-	    if(cdata.jgCodeNo == '개발 1'){
-	    	cdata.jgCodeNo = 1;
-	    }
 	    console.log(cdata);
 	    
 	    $.ajax({
@@ -103,7 +98,12 @@ $(function() {
 	        dataType: "json",
 	        success: function (res) {
 	          
-	        	alert("메롱");
+	        	if(res.flag == 'true'){
+	        		alert("기업등록이 완료되었습니다!");
+	        	location.href = "/CodePeople/CompanyPagingList.do";
+	        	} else {
+	        		alert("기업등록에 실패하였습니다.")
+	        	}
 	        	
 	        },
 	        error : function (xhr) {
@@ -114,6 +114,86 @@ $(function() {
 	  });
 })
   
+
+$(function() {
+	
+	$('#upd-btn').on('click', function () {
+		
+	    var cdata = $('#comInsert').serializeJSON();
+	    console.log(cdata);
+	    
+	    $.ajax({
+	        type: "post",
+	        url: "/CodePeople/CompanyUpdate.do",
+	        data: cdata,
+	        dataType: "json",
+	        success: function (res) {
+	          
+	        	if(res.flag == 'true'){
+	        		alert("기업수정이 완료되었습니다!");
+	        	location.href = "/CodePeople/CompanyPagingList.do";
+	        	} else {
+	        		alert("기업수정에 실패하였습니다.")
+	        	}
+	        	
+	        },
+	        error : function (xhr) {
+	         alert("상태 : " + xhr.status + "  text : " + xhr.statusText);
+	        }
+	      });
+	    
+	  });
+})
+
+$(function() {
+	
+	$('#del-btn').on('click', function () {
+		
+	    var comNo = $('#comNo').val();
+	    console.log(comNo);
+	    $.ajax({
+	        type: "post",
+	        url: "/CodePeople/CompanyDelete.do",
+	        data: {"comNo" : comNo},
+	        dataType: "json",
+	        success: function (res) {
+	          
+	        	if(res.flag == 'true'){
+	        		alert("기업삭제가 완료되었습니다.");
+	        	location.href = "/CodePeople/CompanyPagingList.do";
+	        	} else {
+	        		alert("기업삭제에 실패하였습니다.")
+	        	}
+	        	
+	        },
+	        error : function (xhr) {
+	         alert("상태 : " + xhr.status + "  text : " + xhr.statusText);
+	        }
+	      });
+	    
+	  });
+})
+
+//세션에서 회원의 회원번호를 반환하는 메서드, 비회원인 경우 0을 반환
+function CheckMemRight(){
+	
+	$.ajax({
+		url: '/CodePeople/CheckRight.do',
+		type: 'get',
+		dataType: 'json',
+		success: function(res){
+			
+			alert('회원구분코드 : ' + res.memCode + '\n' + '회원번호 : ' + res.memNo);
+			
+			memNo = res.memNo;
+			
+		},
+		error: function(err){
+			alert(`status : ${err.status}`);
+		}		
+	})
+	
+}
 
 function execDaumPostcode() {
   new daum.Postcode({
@@ -198,31 +278,33 @@ function setValue(ddVal){
 let addFav = "";
 let deleteFav="";
  const addFavCompany = () => {
+	 	
+	console.log('addFavCompany called...');
 	 
-         let favComData = $('#favComForm').serializeJSON();
-         alert(JSON.stringify(favComData));
          $.ajax({
                url : '/CodePeople/AddFavCompany.do',
                type : 'get',
-               data : favComData,
+               data : {"comNo" : comNoValue},
+               dataType:"json",
                success : function(res){
                    /*  응답에 따라 alert 효과 발생하도록 해야함*/
-                   console.log(res)
+            	   alert(res.result);
                },
               error :function(xhr){
                   console.log(`status: ${xhr.satus}\n text : ${xhr.statusText}`);
-              }
+              }  
            })
-    }
+    };
 
 const deleteFavCompany = () => {
-    let favComData = $('#favComForm').serializeJSON();
+	
     $.ajax({
         url :'/CodePeople/DeleteFavCompany.do',
         type:'get',
-        data:favComData,
+        data:{"comNo" : comNoValue},
+        dataType:"json",
         success: function(res){
-            console.log(res)
+        	alert(res.result);
         },
         error:function(xhr){
          console.log(`status: ${xhr.status}\ntext : ${xhr.statusText}`);

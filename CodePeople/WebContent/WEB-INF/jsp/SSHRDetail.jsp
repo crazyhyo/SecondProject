@@ -1,3 +1,4 @@
+<%@page import="kr.or.ddit.hr.vo.HRMyInfoVO"%>
 <%@page import="kr.or.ddit.hr.vo.HRCrrVO"%>
 <%@page import="kr.or.ddit.cv.vo.CVVO"%>
 <%@page import="kr.or.ddit.certification.vo.CertificationVO"%>
@@ -12,6 +13,7 @@
 
 
 <%
+int memNo = (int)(request.getAttribute("memNo"));
 int hrNo = (int)(request.getAttribute("hrNo"));
 
 int certListSize = (int)(request.getAttribute("certListSize"));
@@ -19,6 +21,7 @@ int plListSize = (int)(request.getAttribute("plListSize"));
 int crrListSize = (int)(request.getAttribute("crrListSize"));
 int eduListSize = (int)(request.getAttribute("eduListSize"));
 
+int infoFlag = (int)request.getAttribute("infoFlag");
 
 %>
 
@@ -95,7 +98,67 @@ int eduListSize = (int)(request.getAttribute("eduListSize"));
       <!-- 바디 콘텐츠 -->
       <div id="content">
         <!-- 마이페이지 -->
-
+<!--기본정보   -->
+		<div id="cv" class="content-box search-result jo my-main-cv">
+                    <div class="my-box-item">
+                        <div class="my-box-header">
+                            <h1 class="h1">인재정보</h1> 
+  
+                        </div>
+                    </div>
+ <%
+ if (infoFlag == 0){
+%>
+	 <p> 입력된 정보가 없습니다.</p>
+<% 
+ }else{
+	HRMyInfoVO myInfoVO = (HRMyInfoVO)request.getAttribute("myInfoVO");
+	
+%>	 
+ <!-- 검색결과 카드 -->
+                    <div class="card card-cv">
+                        <!-- 카드의 이미지태그는 복사해서 사용할것 src alt값 변경 필-->
+                        <div class="card-left">
+                            <img src="" alt="Card image" style="width:64px; height: 64px;">
+                        </div>
+                        <!-- 카드의 정보 -->
+                        <div class="card-body card-right">
+                            <div class="card-top-box">
+                                <h4 class="card-title cv-title"><%=myInfoVO.getHrCmt() %></h4>
+                                
+                            </div>
+                            <!-- 카드의 회사 소개, 직군 -->  
+                                            
+                            <div >
+                            <label style="display: inline-block; width: 80px; font-weight: bold;">이름 </label><span class="memNm" name="memNo" value="<%=myInfoVO.getMemNo()%>"><%=myInfoVO.getMemNm() %></span>
+                            </div>
+                            <div >
+                           <label style="display: inline-block; width: 80px; font-weight: bold;">직군  </label><span class="jgCodeNm" name="jgCodeNo" value="<%=myInfoVO.getJgCodeNo()%>"><%=myInfoVO.getJgCodeNm() %></span>
+                            </div>
+                            <div>
+                            <label style="display: inline-block; width: 80px; font-weight: bold;">직무  </label><span class="jtCodeNm" name="jtCodeNo" value="<%=myInfoVO.getJtCodeNo()%>"><%=myInfoVO.getJtCodeNm() %></span>
+                            </div>
+                            <div>
+                            <label style="display: inline-block; width: 80px; font-weight: bold;">재직회사  </label><span class="hrCurrCom"><%=myInfoVO.getHrCurrCom() %></span>
+                           	</div>
+                           	<div>
+                            <label style="display: inline-block; width: 80px; font-weight: bold;">희망연봉  </label><span class="hrSal"><%=myInfoVO.getHrSal() %></span>
+                            </div>
+                            <div>
+                            <label style="display: inline-block; width: 80px; font-weight: bold;">한마디  </label><span class="hrCmt"><%=myInfoVO.getHrCmt() %></span>
+                            </div>
+                            <div>
+                            <label style="display: inline-block; width: 80px; font-weight: bold;">자기소개 </label><span class="hrIntro"><%=myInfoVO.getHrIntro() %></span>
+                            </div>
+                        
+                        </div>
+                    </div>
+	 
+<%	 
+ }
+ %> 
+                   
+                </div>
 
         <!-- 학력-->
         <div id="edu" class="content-box search-result board board-main board-best">
@@ -121,6 +184,16 @@ int eduListSize = (int)(request.getAttribute("eduListSize"));
 			for(int i = 0; i< eduList.size(); i++){
 				EduVO edu = eduList.get(i);
 				if(!edu.getEduCodeNm().equals("학력무관") ){
+				 String eduSchNm = edu.getEduSchNm();
+				 String eduMajor = edu.getEduMajor();
+			
+				 if(eduSchNm=="0"){
+					 eduSchNm = "기재사항 없음";
+				 }
+				 if(eduMajor=="0"){
+					 eduMajor = "기재사항 없음";
+				 }
+					
 %>				
 			<!-- 게시글의 한단위  -->
               <!-- card-hear 안 a태그와 게시글의 아이디를 맞춰주세요 -->
@@ -136,8 +209,8 @@ int eduListSize = (int)(request.getAttribute("eduListSize"));
 				
                     <span class="board-detail-content">
                       <label for="">구분&nbsp;</label>:&nbsp;&nbsp;<span class="board-title eduCodeNm" ><%=edu.getEduCodeNm()%></span><br>
-                      <label for="">학교&nbsp;</label>:&nbsp;&nbsp;<span class="board-title eduSchNm" ><%=edu.getEduSchNm()%></span><br>
-                      <label for="">전공&nbsp;</label>:&nbsp;&nbsp;<span class="board-title eduMajor" ><%=edu.getEduMajor()%></span><br>
+                      <label for="">학교&nbsp;</label>:&nbsp;&nbsp;<span class="board-title eduSchNm" ><%=eduSchNm%></span><br>
+                      <label for="">전공&nbsp;</label>:&nbsp;&nbsp;<span class="board-title eduMajor" ><%=eduMajor%></span><br>
        
   
          <%

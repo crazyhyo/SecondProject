@@ -22,6 +22,7 @@ import kr.or.ddit.hr.service.HRServiceImpl;
 import kr.or.ddit.hr.service.IHRService;
 import kr.or.ddit.hr.vo.HRCrrVO;
 import kr.or.ddit.hr.vo.HRInfoVO;
+import kr.or.ddit.hr.vo.HRMyInfoVO;
 import kr.or.ddit.progLang.service.IProgLangService;
 import kr.or.ddit.progLang.service.ProgLangServiceImpl;
 import kr.or.ddit.progLang.vo.ProgLangVO;
@@ -33,9 +34,10 @@ import kr.or.ddit.progLang.vo.ProgLangVO;
 public class HRDetail extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-	 
-		String prefix = "/WEB-INF/jsp/";
-		String suffix = ".jsp";
+	String prefix = "/mainJsp/";
+	String suffix = ".jsp";
+	
+	
 	
 	
     /**
@@ -52,8 +54,21 @@ public class HRDetail extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		int hrNo = Integer.parseInt(request.getParameter("hrNo"));
+		
+		
+	
+		//count up
+		IHRService hrService = HRServiceImpl.getInstance();
+		int cnt = hrService.hrCntUp(hrNo);
+		
+		
+		//get basic list 
+	    int memNo = hrService.getMemNo(hrNo);
+		
+		HRMyInfoVO myInfoVO =  hrService.selectMyInfo(memNo);
 
-		System.out.println(hrNo);
+		
+		
 		
 		//get certification list
 		ICertService certService = CertServiceImpl.getInstance();
@@ -64,7 +79,6 @@ public class HRDetail extends HttpServlet {
 		List<ProgLangVO> plList = plService.selectPl(hrNo);
 		
 		//get career List
-		IHRService hrService = HRServiceImpl.getInstance();
 		List<HRCrrVO> crrList = hrService.selectCrr(hrNo);
 		
 		
@@ -83,8 +97,21 @@ public class HRDetail extends HttpServlet {
 		
 
 		
+
 		
+		request.setAttribute("memNo", memNo);
 		request.setAttribute("hrNo", hrNo);
+		
+		
+		if(myInfoVO ==null) {
+			request.setAttribute("infoFlag", 0);
+		}else {
+			request.setAttribute("infoFlag", 1);
+				
+			request.setAttribute("myInfoVO", myInfoVO);
+		}
+		
+		
 		
 		if(certList.size()==0) {
 			request.setAttribute("certListSize", 0);
@@ -118,7 +145,7 @@ public class HRDetail extends HttpServlet {
 		
 
 		
-		request.getRequestDispatcher(prefix+"SSHRDetail"+suffix).forward(request, response);
+		request.getRequestDispatcher(prefix+"hrInfoDetail"+suffix).forward(request, response);
 	}
 
 	/**

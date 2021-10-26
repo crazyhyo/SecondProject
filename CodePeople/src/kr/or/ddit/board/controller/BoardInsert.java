@@ -8,12 +8,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.beanutils.BeanUtils;
 
 import kr.or.ddit.board.service.BoardServiceImpl;
 import kr.or.ddit.board.service.IBoardService;
 import kr.or.ddit.board.vo.BoardVO;
+import kr.or.ddit.member.vo.MemberVO;
 
 @WebServlet("/BoardInsert.do")
 public class BoardInsert extends HttpServlet {
@@ -26,25 +28,51 @@ public class BoardInsert extends HttpServlet {
 		
 		BoardVO vo = new BoardVO();
 		
+		HttpSession session = request.getSession();
+		MemberVO mv = session.getAttribute("memVO") == null?
+				null : (MemberVO)session.getAttribute("memVO");
 		
-		try {
-			BeanUtils.populate(vo, request.getParameterMap());
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
+		if(mv != null) {
+			
+			Integer memNo = mv.getMemNo();
+			
+			try {
+				BeanUtils.populate(vo, request.getParameterMap());
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				e.printStackTrace();
+			}
+			
+			Integer boardCodeNo = vo.getBoardCodeNo();
+			
+			      if(boardCodeNo == 1) {
+				vo.setBoardCodeNo(2);
+			}else if(boardCodeNo == 2) {
+				vo.setBoardCodeNo(3);
+			}else if(boardCodeNo == 3) {
+				vo.setBoardCodeNo(5);
+			}else if(boardCodeNo == 4) {
+				vo.setBoardCodeNo(4);
+			}else if(boardCodeNo == 5) {
+				vo.setBoardCodeNo(1);
+			}
+			
+			System.out.println(vo);
+			
+			vo.setMemNo(memNo);
+			
+			IBoardService service = BoardServiceImpl.getInstance();
+			
+			
+			int num =service.boardInsert(vo);
+			
+			
+			request.setAttribute("boardinsert", num);
+			
+			request.getRequestDispatcher("/WEB-INF/jsp/BoardInsert.jsp").forward(request, response);
+			
 		}
-		
-		System.out.println(vo);
-		
-		IBoardService service = BoardServiceImpl.getInstance();
-		
-		
-		int num =service.boardInsert(vo);
-		System.out.println("넘버를 테스트합니다 test : " + num);
-		request.setAttribute("boardinsert", num);
-		
-		request.getRequestDispatcher("/WEB-INF/jsp/BoardInsert.jsp").forward(request, response);
 		
 		
 	}

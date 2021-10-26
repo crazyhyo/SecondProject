@@ -10,6 +10,7 @@ import kr.or.ddit.hr.vo.HRCardVO;
 import kr.or.ddit.hr.vo.HRCrrVO;
 import kr.or.ddit.hr.vo.HRFavVO;
 import kr.or.ddit.hr.vo.HRInfoVO;
+import kr.or.ddit.hr.vo.HRMyInfoVO;
 import kr.or.ddit.hr.vo.HRSearchVO;
 import kr.or.ddit.hr.vo.HRVO;
 import kr.or.ddit.util.SqlMapClientFactory;
@@ -31,6 +32,15 @@ public class HRDaoImpl implements IHRDao{
 		return dao;
 	}
 
+	@Override
+	public int getHrNo(int memNo) throws SQLException {
+		int hrNo = 0;
+		hrNo = (int)smc.queryForObject(nameSpace + "getHrNo",memNo);
+		return hrNo;
+	
+	
+	}
+	
 	
 	@Override
 	public int getTotalHRCount() throws SQLException {
@@ -104,9 +114,12 @@ public class HRDaoImpl implements IHRDao{
 		
 		//
 		@Override
-		public int updateCrrHR(HRInfoVO hrInfoVO) throws SQLException {
+		public int insertCrrHR(HRInfoVO hrInfoVO) throws SQLException {
 			int cnt = 0;
-			cnt = (int)smc.update(nameSpace+"updateCrrHR",hrInfoVO);
+			Object obj = null;
+			cnt = (int)smc.update(nameSpace+"insertCrrHR",hrInfoVO);
+			
+			cnt = obj == null ? 1 : 0;
 			return cnt;
 		}
 	    
@@ -124,4 +137,76 @@ public class HRDaoImpl implements IHRDao{
 	    	return crrList;
 	    }
 	    
+	    
+	    @Override
+	    public int hrCntUp(int hrNo) throws SQLException {
+	    	int cnt=0;
+	    	cnt = smc.update(nameSpace+"hrCntUp",hrNo);
+	    	return cnt;
+	    }
+	    
+	    
+	    @Override
+	    public HRMyInfoVO selectMyInfo(int memNo) throws SQLException {
+	    
+	    	HRMyInfoVO myInfoVO = null;
+	    	myInfoVO = (HRMyInfoVO)smc.queryForObject(nameSpace+"selectMyInfo",memNo);
+	    	return myInfoVO;
+	    }
+	    
+	    @Override
+	    public int deleteCrr(HRInfoVO hrInfoVO) throws SQLException {
+	    	int cnt = 0;
+	    	cnt = smc.delete(nameSpace+"deleteCrr", hrInfoVO);
+	    	
+	    	return cnt;
+	    }
+	    
+	    @Override
+	    public int deleteCrrHR(HRInfoVO hrInfoVO) throws SQLException {
+	    
+	    	int cnt = 0;
+	    	
+	    	cnt = smc.delete(nameSpace+"deleteCrrHR", hrInfoVO);
+	    	return cnt;
+	    }
+	    
+	    @Override
+	    public int getMemNo(int hrNo) throws SQLException {
+	    
+	    	int memNo = 0;
+	    	memNo = (int) smc.queryForObject(nameSpace+"getMemNo", hrNo);
+	    	return memNo;
+	    }
+	    
+	    @Override
+	    public int checkFavHr(HRFavVO hrFavVO) throws SQLException {
+	    	int cnt = 0;
+	    	cnt = (int) smc.queryForObject(nameSpace+"checkFavHr", hrFavVO);
+	    	return cnt;
+	    }
+	    
+	    @Override
+	    public int checkNew(int memNo) throws SQLException {
+	    	int cnt = 0;
+	    	cnt = (int) smc.queryForObject(nameSpace+"checkNew",memNo);
+	    	return cnt;
+	    }
+	    
+	    @Override
+	    public List<HRCardVO> getFolHR(int comNo) throws SQLException {
+	    	List<HRCardVO> folHRList = null;
+	    	folHRList = smc.queryForList(nameSpace+"getFolHR", comNo);
+	    
+	    	return folHRList;
+	    }
+	    
+	    
+	    @Override
+	    public List<HRCardVO> getFavHR(int comNo) throws SQLException {
+	    	List<HRCardVO> favHRList = null;
+	    	favHRList = smc.queryForList(nameSpace+"getFavHR", comNo);
+	    
+	    	return favHRList;
+	    }
 }

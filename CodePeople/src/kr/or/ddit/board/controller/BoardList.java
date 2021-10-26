@@ -38,6 +38,8 @@ public class BoardList extends HttpServlet {
 		
 		List<Map<String, Object>> list = service.selectAll();
 		
+		System.out.println("게시판 리스트 : " + list);
+		
 		request.setAttribute("boardList", list);
 		
 		request.getRequestDispatcher("/WEB-INF/jsp/BoardList.jsp").forward(request, response);

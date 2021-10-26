@@ -10,6 +10,7 @@ import kr.or.ddit.hr.vo.HRCardVO;
 import kr.or.ddit.hr.vo.HRCrrVO;
 import kr.or.ddit.hr.vo.HRFavVO;
 import kr.or.ddit.hr.vo.HRInfoVO;
+import kr.or.ddit.hr.vo.HRMyInfoVO;
 import kr.or.ddit.hr.vo.HRSearchVO;
 import kr.or.ddit.hr.vo.HRVO;
 
@@ -22,12 +23,28 @@ public class HRServiceImpl implements IHRService{
 		dao = HRDaoImpl.getInstance();
 	}
 
+	
+
 	public static IHRService getInstance() {
 		if(service == null) {
 			service = new HRServiceImpl();
 		}
 		return service;
 	}
+
+	
+	@Override
+	public int getHrNo(int memNo) {
+		int hrNo = 0;
+		try {
+			hrNo = dao.getHrNo(memNo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return hrNo;
+	}
+	
+	
 	@Override
 	public int getTotalHRCount() {
 		int cnt = 0;
@@ -129,8 +146,9 @@ public class HRServiceImpl implements IHRService{
 			int crrNo = dao.insertCrr(hrInfoVO);
 			
 			hrInfoVO.setCrrNo(crrNo);
+			
 			System.out.println(hrInfoVO.getCrrNo());
-			cnt = dao.updateCrrHR(hrInfoVO);
+			cnt = dao.insertCrrHR(hrInfoVO);
 			 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -156,4 +174,113 @@ public class HRServiceImpl implements IHRService{
     	return crrList;
 	}
 	
+	
+	@Override
+	public int hrCntUp(int hrNo) {
+	
+		int cnt = 0;
+		try {
+			cnt = dao.hrCntUp(hrNo);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return cnt;
+	}
+	
+	@Override
+	public HRMyInfoVO selectMyInfo(int memNo) {
+		
+		HRMyInfoVO myInfoVO = null;
+		try {
+			myInfoVO = dao.selectMyInfo(memNo);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return myInfoVO;
+	}
+	
+	@Override
+	public int deleteCrr(HRInfoVO hrInfoVO) {
+	
+		int cnt = 0;
+		try {
+			int flag = dao.deleteCrr(hrInfoVO);
+			
+			if(flag>0) {
+				cnt = dao.deleteCrrHR(hrInfoVO);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		
+		return cnt;
+	}
+	
+	
+	@Override
+	public int getMemNo(int hrNo) {
+	int memNo = 0;
+	try {
+		memNo = dao.getMemNo(hrNo);
+	} catch (SQLException e) {
+		
+		e.printStackTrace();
+	};
+		
+		return memNo;
+	}
+	
+	
+	@Override
+	public int checkFavHr(HRFavVO hrFavVO) {
+	int cnt = 0;
+	   try {
+		cnt = dao.checkFavHr(hrFavVO);
+	} catch (SQLException e) {
+
+		e.printStackTrace();
+	}
+		return cnt;
+	}
+	
+	@Override
+	public int checkNew(int memNo) {
+		int cnt = 0;
+		try {
+			cnt = dao.checkNew(memNo);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return cnt;
+	}
+	
+	@Override
+	public List<HRCardVO> getFolHR(int comNo) {
+	
+		List<HRCardVO> folHRList = null;
+		try {
+			folHRList = dao.getFolHR(comNo);
+		} catch (SQLException e) {
+		
+			e.printStackTrace();
+		}
+		return folHRList;
+	}
+	
+	@Override
+	public List<HRCardVO> getFavHR(int comNo) {
+	
+		List<HRCardVO> favHRList = null;
+		try {
+			favHRList = dao.getFavHR(comNo);
+		} catch (SQLException e) {
+		
+			e.printStackTrace();
+		}
+		return favHRList;
+	}
 }

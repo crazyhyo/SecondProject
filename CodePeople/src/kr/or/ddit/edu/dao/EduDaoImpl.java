@@ -44,9 +44,11 @@ public class EduDaoImpl implements IEduDao{
 		
 		//
 		@Override
-		public int updateEduHR(HRInfoVO hrInfoVO) throws SQLException {
+		public int insertEduHR(HRInfoVO hrInfoVO) throws SQLException {
 			int cnt = 0;
-			cnt = (int)smc.update(nameSpace+"updateEduHR",hrInfoVO);
+		
+			cnt = smc.update(nameSpace+"insertEduHR",hrInfoVO);
+			
 			return cnt;
 		}
 	    
@@ -62,6 +64,19 @@ public class EduDaoImpl implements IEduDao{
 	    	List<EduVO> eduList = smc.queryForList(nameSpace+"selectEdu",hrNo);
 	    	return eduList;
 	    }
+	    @Override
+	    public int deleteEdu(HRInfoVO hrInfoVO) throws SQLException {
+	    int cnt = 0;
+	    cnt = smc.delete(nameSpace+"deleteEdu",hrInfoVO);
+	    	// TODO Auto-generated method stub
+	    	return cnt;
+	    }
+	    @Override
+	    public int deleteEduHR(HRInfoVO hrInfoVO) throws SQLException {
 	    
+	    	int cnt = 0;
+	    	cnt = smc.delete(nameSpace+"deleteEduHR", hrInfoVO);
+	    	return cnt;
+	    }
 	
 }

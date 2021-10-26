@@ -15,8 +15,13 @@ public interface IEduDao {
 
 	public int updateEdu (HRInfoVO hrInfoVO) throws SQLException;
 	
-	public int updateEduHR(HRInfoVO hrInfoVO) throws SQLException;
+	public int insertEduHR(HRInfoVO hrInfoVO) throws SQLException;
 	
 	public List<EduVO> selectEdu(int hrNo) throws SQLException;
+	
+	public int deleteEdu(HRInfoVO hrInfoVO)  throws SQLException;
+	
+	public int deleteEduHR(HRInfoVO hrInfoVO) throws SQLException;
+	
 	
 }

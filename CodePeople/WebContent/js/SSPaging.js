@@ -90,36 +90,36 @@ function CVPaging(currentPageNo){
 //인재 관심설정을 위한 메서드
 let addFav = "";
 let deleteFav="";
- const addFavHr = () => {
+ const addFavHr = (hrNoValue) => {
 	 
-     	let favHrData = $('#favHrForm').serializeJSON();
+     
    		$.ajax({
    			url : '/CodePeople/AddFavHR.do',
    			type : 'get',
-   			data : favHrData,
+   			data : {"hrNo":hrNoValue},
    			success : function(res){
-   				/*  응답에 따라 alert 효과 발생하도록 해야함*/
-   				console.log(res)
+   				alert(res.result);
    			},
    		   error :function(xhr){
    			   console.log(`status: ${xhr.satus}\ntext : ${xhr.statusText}`);
-   		   }
+   		   },
+   		   dataType: "json"
    		})
     }
     
-const deleteFavHr = () => {
-	let favHrData = $('#favHrForm').serializeJSON();
+const deleteFavHr = (hrNoValue) => {
+	
 	$.ajax({
 		url :'/CodePeople/DeleteFavHR.do',
 		type:'get',
-		data:favHrData,
+		data:{"hrNo":hrNoValue},
 		success: function(res){
-			console.log(res)
+			alert(res.result);
 		},
 		error:function(xhr){
 		 console.log(`status: ${xhr.satus}\ntext : ${xhr.statusText}`);
-		}
-		
+		},
+		dataType:"json"
 	})
 }
 
@@ -180,12 +180,10 @@ const HRCardPaging  = (currentPageNo) => {
 				a.addEventListener('click',event=>{
 					let hrCard = event.currentTarget;
 					let hrNoValue = hrCard.getAttribute('idx');
-					let comNo = document.querySelector('#comNo');
 					let hrNo = document.querySelector('#hrNo');
 					
-					comNo.value = 1;
 					hrNo.value = hrNoValue;
-					addFavHr();
+					addFavHr(hrNoValue);
 				})
 			})
 			
@@ -193,12 +191,10 @@ const HRCardPaging  = (currentPageNo) => {
 				a.addEventListener('click',event=>{
 					let hrCard = event.currentTarget;
 					let hrNoValue = hrCard.getAttribute('idx');
-					let comNo = document.querySelector('#comNo');
 					let hrNo = document.querySelector('#hrNo');
 					
-					comNo.value = 1;
 					hrNo.value = hrNoValue;		
-					deleteFavHr();			
+					deleteFavHr(hrNoValue);			
 				})
 			})
 			
@@ -230,7 +226,8 @@ const HRSearchCardPaging = () => {
                         <!-- 카드의 정보 -->
                         <div class="card-body card-right">
                             <div class="card-top-box hrNo" idx="${data.hrNo}">
-                                 <a href="/CodePeople/HRDetail.do?hrNo=${data.hrNo}"><h4 class="card-title"><span class="memNm goDetail" idx="${data.hrNo}">${data.memNm}</span></h4></a>
+                                 <a href="/CodePeople/HRDetail.do?hrNo=${data.hrNo}"><h4 class="card-title">
+								<span class="memNm goDetail" idx="${data.hrNo}">${data.memNm}</span></h4></a>
                                 <div class="dropup">
                                     <button type="button" class="btn btn-outline-secondary dropdown-toggle btn-menu"
                                         data-bs-toggle="dropdown"></button>
@@ -241,8 +238,8 @@ const HRSearchCardPaging = () => {
                                             <h5 class="dropdown-header">관심등록</h5>
                                         </li>
                                         <!-- 카드 메뉴 옵션 -->
-                                        <li><a class="dropdown-item addFav">관심등록</a></li>
-                                        <li><a class="dropdown-item deleteFav">관심해제</a></li>
+                                        <li><a class="dropdown-item addFav"" idx="${data.hrNo}" >관심등록</a></li>
+                                        <li><a class="dropdown-item deleteFav" idx="${data.hrNo}" >관심해제</a></li>
                                         <li>
                                         </ul>
                                 </div>
@@ -257,6 +254,31 @@ const HRSearchCardPaging = () => {
 			})
 			let parent = document.querySelector('#human-card-list');
 			parent.innerHTML= code;
+			
+		addFav = document.querySelectorAll('.addFav');
+			deleteFav = document.querySelectorAll('.deleteFav');
+			
+			addFav.forEach(a=>{
+				a.addEventListener('click',event=>{
+					let hrCard = event.currentTarget;
+					let hrNoValue = hrCard.getAttribute('idx');
+					let hrNo = document.querySelector('#hrNo');
+					
+					hrNo.value = hrNoValue;
+					addFavHr(hrNoValue);
+				})
+			})
+			
+			deleteFav.forEach(a=>{
+				a.addEventListener('click',event=>{
+					let hrCard = event.currentTarget;
+					let hrNoValue = hrCard.getAttribute('idx');
+					let hrNo = document.querySelector('#hrNo');
+					
+					hrNo.value = hrNoValue;		
+					deleteFavHr(hrNoValue);			
+				})
+			})
 			
 		},
 		error:function(xhr){

@@ -46,18 +46,31 @@ public class BoardUpdate extends HttpServlet {
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
 		}
+		Integer boardCodeNo = vo.getBoardCodeNo();
 		
-	
+		if (boardCodeNo == 1) {
+			vo.setBoardCodeNo(2);
+		} else if (boardCodeNo == 2) {
+			vo.setBoardCodeNo(3);
+		} else if (boardCodeNo == 3) {
+			vo.setBoardCodeNo(5);
+		} else if (boardCodeNo == 4) {
+			vo.setBoardCodeNo(4);
+		} else if (boardCodeNo == 5) {
+			vo.setBoardCodeNo(1);
+		}
+		 System.out.println(vo.getBoardCodeNo());
 		
 		System.out.println(vo.getBoardNo()); 
 		
 		IBoardService service = BoardServiceImpl.getInstance();
 		
 		int cnt = service.boardUpdate(vo);
-		System.out.println("¼­ºí¸´ÀÇ vo °ªÀ» cnt¿¡ ³ÖÀº °ª" + cnt);
+		System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ vo ï¿½ï¿½ï¿½ï¿½ cntï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½" + cnt);
+		
 		request.setAttribute("boardinsert", cnt);
 		
-		System.out.println("update ¼­ºí¸´ÀÇ cnt°ª" + cnt);
+		System.out.println("update ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ cntï¿½ï¿½" + cnt);
 		
 		request.getRequestDispatcher("/WEB-INF/jsp/BoardInsert.jsp").forward(request, response);
 		

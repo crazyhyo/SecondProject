@@ -17,7 +17,7 @@
 <script src="/CodePeople/js/jquery-3.6.0.min.js"></script>
 <script src="/CodePeople/js/jquery.serializejson.min.js"></script>
 
-
+<script src="/CodePeople/js/CheckRight.js"></script>
 <script src="/CodePeople/js/company.js"></script>
 
 
@@ -49,7 +49,7 @@
 			style="margin-left: auto; margin-right: auto; display: block;" />
 	</div>
 
-		<form action="/action_page.php">
+		<form action="/action_page.php" id="comInsert">
 			<div class="mb-3 mt-3">
 				<label>한글 기업명</label> <br> <label class="la2" for="email">*&nbsp;주식회사,
 					(주) 등의 표기 없이 입력해주세요</label> <input type="text" class="form-control"
@@ -158,10 +158,14 @@
 					name="officer">
 			</div>
 
+			<input type="hidden" id="memNo" name="memNo">
+
+
 			<div class="btn-center-box">
-				<button type="button" class="btn btn-primary btn-lg"
-					data-bs-dismiss="modal">등록하기</button>
+				<button type="button" class="btn btn-primary btn-lg" id="cpn-btn">등록하기</button>
 			</div>
+			
+			in
 		</form>
 </body>
 </html>

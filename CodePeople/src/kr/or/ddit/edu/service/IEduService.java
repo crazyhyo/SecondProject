@@ -17,5 +17,5 @@ public interface IEduService {
 	
 	public List<EduVO> selectEdu(int hrNo);
 	
-	
+	public int deleteEdu (HRInfoVO hrInfoVO);
 }

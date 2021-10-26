@@ -6,6 +6,7 @@ import java.util.List;
 import kr.or.ddit.hr.vo.HRInfoVO;
 import kr.or.ddit.progLang.dao.IProgLangDao;
 import kr.or.ddit.progLang.dao.ProgLangDaoImpl;
+import kr.or.ddit.progLang.vo.PLHRVO;
 import kr.or.ddit.progLang.vo.ProgLangVO;
 
 public class ProgLangServiceImpl implements IProgLangService{
@@ -55,5 +56,18 @@ public class ProgLangServiceImpl implements IProgLangService{
 		}
 		
 		return plList;
+	}
+	
+	
+	
+	@Override
+	public int deletePl(PLHRVO plhrvo) {
+		int cnt = 0;
+		try {
+			cnt = dao.deletePl(plhrvo);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return cnt;
 	}
 }

@@ -16,6 +16,7 @@ const setOptions = () => {
   options = document.querySelectorAll('.option');  
   options.forEach(option => {
     option.addEventListener("click", event => {
+	console.log('setOption');
       let tag = event.currentTarget;
       addTag(tag);
     });
@@ -26,24 +27,69 @@ const setCityOptions = () =>{
     cityOptions = document.querySelectorAll('.cityOption');
     cityOptions.forEach(option=>{
         option.addEventListener('click', event=>{
+	console.log('cityOption');
         	cityOptionNo = event.currentTarget.value;
         	 let tag = event.currentTarget;
 	             addTag(tag);
         })
     })
 }
+
+
+
 //태그넣기 메서드
 const addTag = (tag) =>{
 	//검색 태그 값을 넣을 박스
 	const tagBox = document.querySelector('.search-tags');
+      let tagName = $(tag).attr('idx');
+	  let category = $(tag).attr('name');
+	  let tagValue = $(tag).val();
+
+	if(category=="jgCodeNo"){
+		document.querySelector('#jgCodeNo').value = tagValue;
+	}else if(category=="plCodeNo"){
+		document.querySelector('#plCodeNo').value = tagValue;
+	}else if(category=="eduCodeNo"){
+		 document.querySelector('#eduCodeNo').value= tagValue;
+	}else if(category=="cityCodeNo"){
+		document.querySelector('#cityCodeNo').value = tagValue;
+	}else if(category=="provCodeNo"){
+		document.querySelector('#cityCodeNo').value = tagValue;
+	}
+	
 
 	if(tagBox.classList.contains('hide')){
           tagBox.classList.remove('hide');
         }
 	
-    tagBox.insertAdjacentHTML('beforeEnd',`<div class="tag" onclick="this.remove();">
+    tagBox.insertAdjacentHTML('beforeEnd',`<div class="tag" idx="${tagName}" name="${category}" value="${tagValue}">
                         <span class="badge rounded-pill bg-secondary">${tag.textContent}&nbsp;<span class="badge bg-danger">x</span></span>
                       </div>`)
+
+	let tags = document.querySelectorAll('.tag');
+	console.log(tags);
+	tags.forEach(t=>{
+		t.addEventListener('click',event=>{
+			let rm = event.currentTarget;
+			rmName = $(rm).attr('idx');
+			category = $(rm).attr('name');
+			if(category=="jgCodeNo"){
+				document.querySelector('#jgCodeNo').value = 0;
+			}else if(category=="plCodeNo"){
+				document.querySelector('#plCodeNo').value = 0;
+			}else if(category=="eduCodeNo"){
+				 document.querySelector('#eduCodeNo').value= 0;
+			}else if(category=="cityCodeNo"){
+				document.querySelector('#cityCodeNo').value = 0;
+			}else if(category=="provCodeNo"){
+				document.querySelector('#cityCodeNo').value = 0;
+			}
+			rm.remove();
+		});
+	});
+	
+
+
  }
 
 //드랍박스 직군의 옵션에서만 적용되는 메서드
@@ -110,7 +156,7 @@ const initProvList = (target) => {
 			let code = '<li><h5 class="dropdown-header">도시소분류</h5></li>';
 			let datas= res;
 			datas.forEach(data=>{
-				code += `<li class="dropdown-item option" name="prov_code_no" value="${data.provCodeNo}">${data.provCodeNm}</li>`;
+				code += `<li class="dropdown-item option" name="provCodeNo" idx="${data.provCodeNm}" value="${data.provCodeNo}">${data.provCodeNm}</li>`;
 			})
 			let parent = target.parentElement.querySelector('.dropdown-menu');
 			parent.innerHTML = code;
@@ -131,7 +177,7 @@ const initCityList = (target) => {
 			let code = '<li><h5 class="dropdown-header">지역</h5></li>';
 			let datas = res;
 			datas.forEach(data=>{
-				code += `<li class="dropdown-item cityOption" idx="${data.cityCodeNm}" value="${data.cityCodeNo}">${data.cityCodeNm}</li>`;
+				code += `<li class="dropdown-item cityOption" name="cityCodeNo" idx="${data.cityCodeNm}" value="${data.cityCodeNo}">${data.cityCodeNm}</li>`;
 			})
 			let parent = target.parentElement.querySelector('.dropdown-menu');
 			parent.innerHTML = code;
@@ -157,7 +203,7 @@ const initJobGroupList = (target) => {
 			let code = '<li><h5 class="dropdown-header">직군</h5></li>';
 			let datas = res;
 			datas.forEach(data=>{
-				code +=  `<li class="dropdown-item jobGroupOption" idx="${data.jgCodeNm}" value="${data.jgCodeNo}">${data.jgCodeNm}</li>`;
+				code +=  `<li class="dropdown-item jobGroupOption" name="jgCodeNo" idx="${data.jgCodeNm}" value="${data.jgCodeNo}">${data.jgCodeNm}</li>`;
 			});
 			let parent = target.parentElement.querySelector('.dropdown-menu');
 			parent.innerHTML = code;	
@@ -179,7 +225,7 @@ const initProgLangList = (target) => {
 			let code = '<li><h5 class="dropdown-header">활동분야</h5></li>';
 			let datas = res;
 			datas.forEach(data=>{
-				code += `<li class="dropdown-item option" idx="${data.plCodeNm}" value="${data.plCodeNo}">${data.plCodeNm}</li>`;
+				code += `<li class="dropdown-item option" name="plCodeNo" idx="${data.plCodeNm}" value="${data.plCodeNo}">${data.plCodeNm}</li>`;
 			})
 			let parent = target.parentElement.querySelector('.dropdown-menu');
 			parent.innerHTML = code;	
@@ -202,7 +248,7 @@ const initJobTitleList = (target) => {
 			let datas= res;
 			if(jobGroupOptionNo !== 0){
 				datas.forEach(data=>{
-					code += `<li class="dropdown-item option" idx="${data.jtCodeNm}" value="${data.jtCodeNo}">${data.jtCodeNm}</li>`;
+					code += `<li class="dropdown-item option" idx="${data.jtCodeNm}" name="jtCodeNo" value="${data.jtCodeNo}">${data.jtCodeNm}</li>`;
 				})
 			}else{
 				code += `<li>직무를 선택해주세요</li>`;
@@ -228,7 +274,7 @@ const initEduTypeList = (target) => {
 			let code = '<li><h5 class="dropdown-header">학력</h5></li>';
 			let datas = res;
 			datas.forEach(data=>{
-				code += `<li class="dropdown-item option" idx="${data.eduCodeNm}" value="${data.eduCodeNo}">${data.eduCodeNm}</li>`;
+				code += `<li class="dropdown-item option" idx="${data.eduCodeNm}" name="eduCodeNo" value="${data.eduCodeNo}">${data.eduCodeNm}</li>`;
 			})
 			let parent = target.parentElement.querySelector('.dropdown-menu');
 			parent.innerHTML = code;
@@ -249,7 +295,7 @@ const initCertList = (target) =>{
 			let code = '<li><h5 class="dropdown-header">자격증</h5></li>';
 			let datas = res;
 			datas.forEach(data=>{
-				code += `<li class="dropdown-item option" idx="${data.certCodeNm}" value="${data.certCodeNo}">${data.certCodeNm}</li>`;
+				code += `<li class="dropdown-item option" idx="${data.certCodeNm}" name="eduCodeNo"value="${data.certCodeNo}">${data.certCodeNm}</li>`;
 			})
 			let parent = target.parentElement.querySelector('.dropdown-menu');
 			parent.innerHTML = code;

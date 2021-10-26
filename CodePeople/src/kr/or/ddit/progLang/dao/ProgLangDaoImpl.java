@@ -6,6 +6,7 @@ import java.util.List;
 import com.ibatis.sqlmap.client.SqlMapClient;
 
 import kr.or.ddit.hr.vo.HRInfoVO;
+import kr.or.ddit.progLang.vo.PLHRVO;
 import kr.or.ddit.progLang.vo.ProgLangVO;
 import kr.or.ddit.util.SqlMapClientFactory;
 
@@ -46,5 +47,12 @@ public class ProgLangDaoImpl implements IProgLangDao{
 		List<ProgLangVO> plList = null;
 		plList = (List<ProgLangVO>)smc.queryForList(nameSpace+"selectPl",hrNo);
 		return plList;
+	}
+	
+	@Override
+	public int deletePl(PLHRVO plhrvo) throws SQLException {
+	int cnt = 0;
+	cnt = smc.delete(nameSpace+"deletePl", plhrvo);
+		return cnt;
 	}
 }

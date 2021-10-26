@@ -21,6 +21,7 @@
 <script>
    document.addEventListener("DOMContentLoaded", () => {
     console.log("DOM is ready");
+ 
     
     let currentPageNo = 1;
     //기본리스트를 출력하는 메서드 currentPage값으로 1을 hardcoding에서 넘겨준다. 
@@ -31,17 +32,31 @@
     //현재 클릭한 드랍다운
     let dropdownBtn = "";
     
-    let jgCodeNoI = document.querySelector('#jgCodeNo');
-    let plCodeNoI = document.querySelector('#plCodeNo');
-    let eduCodeNoI = document.querySelector('#eduCodeNo');
-    let cityCodeNoI = document.querySelector('#cityCodeNo');
-    let provCodeNoI = document.querySelector('#provCodeNo');
+ 
     
     const searchBtn = document.querySelector('#searchBtn');
     searchBtn.addEventListener('click',()=>{
     	HRSearchCardPaging();
     })
     
+    $(document).on('click','.tag', function(){
+    	console.log('remove');
+       let tagName = $(this).attr('idx');
+  	  let category = $(this).attr('name');
+  	  let tagValue = $(this).val();
+  	
+	  	if(category=="jgCodeNo"){
+	  		document.querySelector('#jgCodeNo').value = 0;
+	  	}else if(category=="plCodeNo"){
+	  		document.querySelector('#plCodeNo').value=0;
+	  	}else if(category=="eduCodeNo"){
+	  		 document.querySelector('#eduCodeNo').value= 0;
+	  	}else if(category=="cityCodeNo"){
+	  		document.querySelector('#cityCodeNo').value = 0;
+	  	}else if(category=="provCodeNo"){
+	  		document.querySelector('#cityCodeNo').value = 0;
+	  	}	
+	})
    
     $(document).on("click",".goDetail",function(){
     let option = this;
@@ -124,7 +139,7 @@
                 </div>
                 <div class="divider"></div>
                 <!-- 로그인버튼 -->
-                <button id="header-login-btn" class="btn btn-primary btn-sm">로그인</button>
+                <a href="/CodePeople/rehearsal/home.html"><button id="header-login-btn" class="btn btn-primary btn-sm">로그인</button></a>
             </div>
         </div>
     </div>
@@ -144,11 +159,11 @@
 <!--             목록에서 선택한 갑사을 보낼 폼데이터 -->
             <form id="formDatas">
            	    <input type="hidden" name ="currentPageNo" id ="currentPageNo" value="1">
-                <input type="hidden" name ="jgCodeNo" id ="jgCodeNo" value="">
-                <input type="hidden" name ="plCodeNo" id ="plCodeNo" value="3"> 
-                <input type="hidden" name ="eduCodeNo" id ="eduCodeNo" value="">
-                <input type="hidden" name ="cityCodeNo" id ="cityCodeNo" value="">
-                <input type="hidden" name ="provCodeNo" id ="provCodeNo"value="">
+                <input type="hidden" name ="jgCodeNo" id ="jgCodeNo" value="0">
+                <input type="hidden" name ="plCodeNo" id ="plCodeNo" value="0"> 
+                <input type="hidden" name ="eduCodeNo" id ="eduCodeNo" value="0">
+                <input type="hidden" name ="cityCodeNo" id ="cityCodeNo" value="0">
+                <input type="hidden" name ="provCodeNo" id ="provCodeNo"value="0">
             </form>
             <form id="favHrForm">
 	            <input type="hidden" name="comNo" id="comNo" value="1">

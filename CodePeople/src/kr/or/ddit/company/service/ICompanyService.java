@@ -29,4 +29,18 @@ public interface ICompanyService {
 	public int addFavCompany(ComFavVO comFavVO);
 
 	public int deleteFavCompany(ComFavVO comFavVO);
+	
+	public CompanyVO getCompany(int comNo);
+	
+	public int updateCompany(CompanyVO companyVO);
+
+	public int deleteCompany(int comNo);
+	
+	public int companyCount(int memNo);
+	
+	public int checkFavCompany(ComFavVO comFavVO);
+	
+	public List<CompanyVO> getFolCompany(int hrNo);
+
+	public List<CompanyVO> getFavCompany(int hrNo);
 }

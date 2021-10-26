@@ -30,6 +30,7 @@
 	<!-- form.js연결 -->
 	<script src="../js/form.js"></script>
 	<script src="../js/joinTest.js"></script>
+	<script src="../js/CheckRight.js"></script>
 
 	<script>
 
@@ -179,28 +180,13 @@
 					<ul class="list-group">
 						<li class="list-group-item active" id="">채용 공고</li>
 						<li class="list-group-item">채용 달력</li>
-						<li class="list-group-item" id="write" class="btn btn-outline-primary" data-bs-toggle="modal"
-							data-bs-target="#registerJo">채용 등록</li>
+						<li class="list-group-item" id="write" class="btn btn-outline-primary" onclick="insert()">채용 등록</li>
 					</ul>
 				</div>
 			</div>
 			<!-- 바디 콘텐츠 -->
 			<div id="content">
-				<form id="formTest" style="display:none;">
-					<input type="hidden" name="JG_CODE_NO" class="jg-code-hidden">직군
-					<input type="hidden" name="JT_CODE_NO" class="jt-code-hidden">직무
-					<input type="hidden" name="PL_CODE_NO" class="pl-code-hidden">활동분야
-					<input type="hidden" name="SAL_TYPE" class="sal-type-hidden">연봉
-					<input type="hidden" name="PROV_CODE_NO" class="city-code-hidden">지역
-					<input type="hidden" name="CITY_CODE_NO" class="prov-code-hidden">도시
-					<input type="hidden" name="STATE" class="state-hidden">진행상태
-					<input type="hidden" name="EDU_CODE_NO" class="edu-code-hidden">학력
-					<input type="hidden" name="CRR_YEARS_TYPE" class="crr-type-hidden">경력
-					<input type="hidden" name="CERT_CODE_NO" class="cert-code-hidden">자격증
-					<input type="hidden" name="HCNT_TYPE" class="hcnt-type-hidden">인원
-					<button id="postTest" value="test" type="button">테스트</button>
-					<input type="reset" value="reset"></input>
-				</form>
+
 
 				<!-- 콘텐츠 채용 검색 -->
 				<div class="filter-box content-box jo">
@@ -241,7 +227,21 @@
 						<input type="text" class="form-control" placeholder="검색어 입력">
 					</div>
 					<div class="filter-save-box">
-						<button type="button" class="btn btn-outline-primary filter-save">검색 조건 저장</button>
+						<form id="formTest">
+							<input type="hidden" name="JG_CODE_NO" class="jg-code-hidden">
+							<input type="hidden" name="JT_CODE_NO" class="jt-code-hidden">
+							<input type="hidden" name="PL_CODE_NO" class="pl-code-hidden">
+							<input type="hidden" name="SAL_TYPE" class="sal-type-hidden">
+							<input type="hidden" name="PROV_CODE_NO" class="city-code-hidden">
+							<input type="hidden" name="CITY_CODE_NO" class="prov-code-hidden">
+							<input type="hidden" name="STATE" class="state-hidden">
+							<input type="hidden" name="EDU_CODE_NO" class="edu-code-hidden">
+							<input type="hidden" name="CRR_YEARS_TYPE" class="crr-type-hidden">
+							<input type="hidden" name="CERT_CODE_NO" class="cert-code-hidden">
+							<input type="hidden" name="HCNT_TYPE" class="hcnt-type-hidden">
+							<input type="button" id="postTest" value="검색" class="btn btn-outline-primary filter-save">
+							<input type="hidden" value="reset"></input>
+						</form>
 					</div>
 				</div>
 				<!-- 콘턴츠 검색 결과의 구분은 기존의 클래스와 같고, 유료는 vip를 추가한다. -->

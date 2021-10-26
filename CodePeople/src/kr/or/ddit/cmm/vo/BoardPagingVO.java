@@ -2,8 +2,8 @@ package kr.or.ddit.cmm.vo;
 
 public class BoardPagingVO {
 
-	private int pageCount = 10;			// 페이지 목록 게시되는 페이지 수 (초기값: 10)
-	private int countPerPage = 20;		// 한 페이지당 게시되는 게시물 건 수(초기값: 10)
+	private int pageCount = 100;			// 페이지 목록 게시되는 페이지 수 (초기값: 10)
+	private int countPerPage = 100;		// 한 페이지당 게시되는 게시물 건 수(초기값: 10)
 	private int currentPageNo;			// 현재 페이지 번호
 	private int totalCount;				// 전체 게시물 건 수
 	

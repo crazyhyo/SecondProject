@@ -49,7 +49,7 @@
 	    			let code = '<li><h5 class="dropdown-header">직군</h5></li>';
 	    			let datas = res;
 	    			datas.forEach(data=>{
-	    				code +=  `<li class="dropdown-item jobGroupOption" idx="${data.jgCodeNm}" value="${data.jgCodeNo}">${data.jgCodeNm}</li>`;
+	    				code +=  `<li class="dropdown-item jobGroupOption" idx="${data.jgCodeNm}" value="${data.jgCodeNo}" category="jgCodeNo">${data.jgCodeNm}</li>`;
 	    			});
 	    			let parent = target.parentElement.querySelector('.dropdown-menu');
 	    			parent.innerHTML = code;	
@@ -142,6 +142,7 @@
 	    				code += `<li class="dropdown-item option" idx="${data.plCodeNm}" value="${data.plCodeNo}" category="plCodeNo">${data.plCodeNm}</li>`;
 	    			})
 	    			let parent = target.parentElement.querySelector('.dropdown-menu');
+	    		 	console.log(parent);
 	    			parent.innerHTML = code;	
 	    			setOptions();
 	    		},
@@ -286,7 +287,8 @@ margin-top:40px;
 			<div class="nav-left-bar">
 				<div class="nav-sticky">
 					<ul class="list-group">
-					
+						<a href="/CodePeople/HRMyInfo.do"><li class="list-group-item" >등록 완료</li></a>
+						
 						<li class="list-group-item" id="hr1">학력 추가</li>
 						<li class="list-group-item" id="hr2">경력 추가</li>
 						<li class="list-group-item" id="hr3">활동분야 추가</li>
@@ -313,22 +315,52 @@ margin-top:40px;
 							<ul class="dropdown-menu"></ul>
 							<input type="text" class="form-control textValue" placeholder="직군을 선택해주세요." disabled>
 						</div>
-						<div class="dropdown input-group mt-3 mb-3">
-							<button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">직무</button>
-							<ul class="dropdown-menu"></ul>
-							<input type="text" class="form-control textValue"
-								placeholder="직군 선택 후, 직무를 선택해주세요." disabled>
-						</div>
-						<div class="dropdown input-group mt-3 mb-3">
-							<button type="button" class="btn btn-primary">재직회사명</button>
-							<input type="text" class="form-control textValue" id="hrCurrCom"
-								name="hrCurrCom" placeholder="재직 회사 명을 입력해주세요.">
-						</div>
-					   <div class="my-btn-box my-btn-box-cv">
-                      	<button type="button" class="btn btn-outline-primary" onclick="updateJobInfo();">등록하기</button>
-                    	  <button type="reset" class="btn btn-outline-primary" >RESET</button>
-                   		</div>
-					</form>
+								<div class="dropdown input-group mt-3 mb-3">
+									<button type="button" class="btn btn-primary dropdown-toggle"
+										data-bs-toggle="dropdown">직무</button>
+									<ul class="dropdown-menu"></ul>
+									<input type="text" class="form-control textValue"
+										placeholder="직군 선택 후, 직무를 선택해주세요." disabled>
+								</div>
+								<div class="dropdown input-group mt-3 mb-3">
+									<button type="button" class="btn btn-primary">재직회사명</button>
+									<input type="text" class="form-control textValue"
+										id="hrCurrCom" name="hrCurrCom" placeholder="재직 회사 명을 입력해주세요.">
+								</div>
+						
+								<div class="dropdown input-group mt-3 mb-3">
+									<button type="button" class="btn btn-primary">희망연봉</button>
+									<input type="number" class="form-control textValue" id="hrSal"
+										name="hrSal" placeholder="희망연봉을 입력해주세요.">
+								</div>
+								<div class="dropdown input-group mt-3 mb-3">
+									<button type="button" class="btn btn-primary">한마디</button>
+									<input type="text" class="form-control textValue" id="hrCmt"
+										name="hrCmt" placeholder="자신을 나타내는 한마디를 입력해주세요.">
+								</div>
+									<div class="dropdown input-group mt-3 mb-3">
+									<button type="button" class="btn btn-primary">자기소개</button>
+							    	<textarea class="form-control textValue" id="hrIntro"
+										name="hrIntro" rows="" cols=""></textarea>
+								
+								</div>
+								<div class="my-btn-box my-btn-box-cv" style="display: flex;flex-direction: row; margin-bottom: 8px;">
+								<div class="form-check">
+								  <input type="radio" class="form-check-input" id="radio1" name="hrOpen" value="1" checked>공개
+								  <label class="form-check-label" for="radio1"></label>
+								</div>
+								<div class="form-check">
+								  <input type="radio" class="form-check-input" id="radio2" name="hrOpen" value="0">비공개
+								  <label class="form-check-label" for="radio2"></label>
+								</div>
+								</div>
+								
+								<div class="my-btn-box my-btn-box-cv">
+									<button type="button" class="btn btn-outline-primary"
+										onclick="updateJobInfo();">등록하기</button>
+									<button type="reset" class="btn btn-outline-primary">RESET</button>
+								</div>
+							</form>
 					</div>
 				</div>
 
@@ -392,13 +424,13 @@ margin-top:40px;
 			 data : formDatas,
 			 dataType : 'json',
 			 success:function(res){
-				 console.log(res);
+					alert(res.result);
 			 },
 			 error:function(xhr){
 			console.log(`status : ${xhr.status}\n text: ${xhr.statusText}`);
 					
 			 }
-		   })
+		   }) 
 	   }
     
     const insertEdu = () => {
@@ -411,7 +443,7 @@ margin-top:40px;
 			 data : formDatas,
 			 dataType : 'json',
 			 success:function(res){
-				 console.log(res);
+					alert(res.result);
 			 },
 			 error:function(xhr){
 			console.log(`status : ${xhr.status}\n text: ${xhr.statusText}`);
@@ -434,7 +466,7 @@ margin-top:40px;
 			 data : formDatas,
 			 dataType : 'json',
 			 success:function(res){
-				 console.log(res);
+					alert(res.result);
 			 },
 			 error:function(xhr){
 			console.log(`status : ${xhr.status}\n text: ${xhr.statusText}`);
@@ -453,7 +485,7 @@ margin-top:40px;
 			 data : formDatas,
 			 dataType : 'json',
 			 success:function(res){
-				 console.log(res);
+					alert(res.result);
 			 },
 			 error:function(xhr){
 			console.log(`status : ${xhr.status}\n text: ${xhr.statusText}`);
@@ -472,7 +504,7 @@ margin-top:40px;
 			 data : formDatas,
 			 dataType : 'json',
 			 success:function(res){
-				 console.log(res);
+					alert(res.result);
 			 },
 			 error:function(xhr){
 			console.log(`status : ${xhr.status}\n text: ${xhr.statusText}`);
@@ -556,12 +588,12 @@ margin-top:40px;
 							</div>
 							<div class="dropdown input-group mt-3 mb-3">
 							<button type="button" class="btn btn-primary">학점 총점</button>
-							<input type="text" class="form-control textValue" id="eduGraTot"
+							<input type="number" class="form-control textValue" id="eduGraTot"
 								name="eduGraTot" placeholder="학점 총점을 입력해주세요.">
 							</div>
 							<div class="dropdown input-group mt-3 mb-3">
 							<button type="button" class="btn btn-primary">학점 평균</button>
-							<input type="text" class="form-control textValue" id="eduGraAvg"
+							<input type="number" class="form-control textValue" id="eduGraAvg"
 								name="eduGraAvg" placeholder="학점 평균을 입력해주세요.">
 							</div>
     					   <div class="my-btn-box my-btn-box-cv">
@@ -597,7 +629,7 @@ margin-top:40px;
 					</div>
 					<div class="dropdown input-group mt-3 mb-3">
 					<button type="button" class="btn btn-primary">연차</button>
-					<input type="text" class="form-control textValue" id="crrYears"
+					<input type="number" class="form-control textValue" id="crrYears"
 						name="crrYears" placeholder="경력을 입력해주세요. (년 단위).">
 				</div>
     			      <div class="dropdown input-group mt-3 mb-3">
@@ -611,10 +643,21 @@ margin-top:40px;
 						<input type="text" class="form-control textValue"
 							placeholder="직군 선택 후, 직무를 선택해주세요." disabled>
 					</div>	
+					
+					
+					
+
+					<div class="my-btn-box my-btn-box-cv" style="display: flex;flex-direction: row; margin-bottom: 8px;">
 					<div class="form-check">
-					  <input class="form-check-input" type="checkbox" id="crrInService" name="crrInService" value="0" >
-					  <label class="form-check-label">재직여부</label>
+					  <input type="radio" class="form-check-input" id="radio3" name="crrInService" value="1" checked>재직중
+					  <label class="form-check-label" for="radio3"></label>
 					</div>
+					<div class="form-check">
+					  <input type="radio" class="form-check-input" id="radio4" name="crrInService" value="0">퇴사
+					  <label class="form-check-label" for="radio4"></label>
+					</div>
+					</div>
+					
 					   <div class="my-btn-box my-btn-box-cv">
                      	<button type="button" class="btn btn-outline-primary" onclick="insertCrr();">등록하기</button>
                      	 <button type="reset" class="btn btn-outline-primary" >RESET</button>
@@ -650,7 +693,7 @@ margin-top:40px;
                     </form>
                                   	
                 </div>
-        </form>
+       
       </div>`;
 
 

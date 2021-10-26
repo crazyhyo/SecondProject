@@ -179,7 +179,7 @@
 
 							<div class="mb-3 mt-3">
 								<label>이메일 주소</label> <br>
-								<input type="email" class="form-control" id="memEmail" name="memEmail" required>
+								<input type="email" class="form-control" id="email" name="memEmail" required>
 								<span class="error_next_box" id="emailMsg" style="display:none;" aria-live="assertive">이메일 주소를 다시 확인해 주세요.</span>
 							</div>
 

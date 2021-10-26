@@ -45,7 +45,7 @@ public class MemberJoin extends HttpServlet {
 		// 1. service 객체 생성
 		IMemberService service = MemberServiceImpl.getInstance();
 		
-		System.out.println(vo.getMemCode());
+//		System.out.println(vo.getMemCode());
 		// 2. service메서드 호출하기 - 결과값 받기
 		// 기업회원은  HR테이블에 INSERT할 필요가 없음
 		if(vo.getMemCode() == 1) {

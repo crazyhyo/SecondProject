@@ -8,14 +8,21 @@
 		<result column="PL_CODE_NO" property="plCodeNo"/>
 		<result column="PL_CODE_NM" property="plCodeNm"/>
 	</resultMap>
+	
+	<resultMap class="kr.or.ddit.progLang.vo.PLHRVO" id="PLHRMap">
+		<result column="PL_CODE_NO" property="plCodeNo"/>
+		<result column="HR_NO" property="hrNo"/>
+	
+	</resultMap>
+	
+	
 	<select id="selectProgLangList" resultMap="ProgLangMap">
 		SELECT * FROM PROG_LANG
 	</select>
 	
 	<update id="insertPl" parameterClass="kr.or.ddit.hr.vo.HRInfoVO">
-		UPDATE PL_HR
-		   SET PL_CODE_NO = #plCodeNo#
-		 WHERE HR_NO=#hrNo#
+		INSERT INTO PL_HR(PL_CODE_NO,HR_NO)
+		VALUES(#plCodeNo#,#hrNo#)
 		
 	</update>
 	
@@ -30,5 +37,16 @@
                     	        WHERE HR_NO = #hrNo#)
                                                      
 	</select>
+	
+	
+<delete id="deletePl" parameterClass="kr.or.ddit.progLang.vo.PLHRVO">
+
+DELETE FROM PL_HR
+WHERE PL_CODE_NO =#plCodeNo#
+  AND HR_NO=#hrNo#
+
+</delete>
+	
+	
 	
 </sqlMap>

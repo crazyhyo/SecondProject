@@ -52,10 +52,10 @@ public class CompanyInsert extends HttpServlet {
 		
 		cnt = companyService.companyInsert(companyVO);
 		
-		//¼º°ø ½ÇÆÐ°ªÀº boardinsert¿¡¼­ ´ë½Å Ã³¸®
-		request.setAttribute("boardinsert", cnt);
+		//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ð°ï¿½ï¿½ï¿½ boardinsertï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
+		request.setAttribute("result", cnt);
 		
-		request.getRequestDispatcher("/WEB-INF/jsp/BoardInsert.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/jsp/SSsuccessCheck.jsp").forward(request, response);
 		
 		
 	}

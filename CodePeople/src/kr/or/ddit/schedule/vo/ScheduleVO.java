@@ -1,28 +1,23 @@
 package kr.or.ddit.schedule.vo;
 
 public class ScheduleVO {
-	private Integer scheNo;
-	private Integer memNo;
-	private String scheCont;
+	private Integer calTag;
+	private String calTagColor;
 	private String scheSdate;
 	private String scheEdate;
-	public Integer getScheNo() {
-		return scheNo;
+	private String scheCont;
+	private Integer scheNo;
+	public Integer getCalTag() {
+		return calTag;
 	}
-	public void setScheNo(Integer scheNo) {
-		this.scheNo = scheNo;
+	public void setCalTag(Integer calTag) {
+		this.calTag = calTag;
 	}
-	public Integer getMemNo() {
-		return memNo;
+	public String getCalTagColor() {
+		return calTagColor;
 	}
-	public void setMemNo(Integer memNo) {
-		this.memNo = memNo;
-	}
-	public String getScheCont() {
-		return scheCont;
-	}
-	public void setScheCont(String scheCont) {
-		this.scheCont = scheCont;
+	public void setCalTagColor(String calTagColor) {
+		this.calTagColor = calTagColor;
 	}
 	public String getScheSdate() {
 		return scheSdate;
@@ -35,5 +30,17 @@ public class ScheduleVO {
 	}
 	public void setScheEdate(String scheEdate) {
 		this.scheEdate = scheEdate;
+	}
+	public String getScheCont() {
+		return scheCont;
+	}
+	public void setScheCont(String scheCont) {
+		this.scheCont = scheCont;
+	}
+	public Integer getScheNo() {
+		return scheNo;
+	}
+	public void setScheNo(Integer scheNo) {
+		this.scheNo = scheNo;
 	}
 }

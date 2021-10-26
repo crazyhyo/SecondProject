@@ -143,5 +143,87 @@ public class CompanyServiceImpl implements ICompanyService{
 		
 		return cnt;
 	}
+	@Override
+	public CompanyVO getCompany(int comNo) {
+		CompanyVO cv = null;
+		try {
+			cv = dao.getCompany(comNo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return cv;
+	}
+	@Override
+	public int updateCompany(CompanyVO companyVO) {
+		int cnt = 0;
+		
+		try {
+			cnt = dao.updateCompany(companyVO);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return cnt;
+	}
+	@Override
+	public int companyCount(int memNo) {
+		int cnt = 0;
+		
+		try {
+			cnt = dao.companyCount(memNo);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return cnt;
+	}
+	@Override
+	public int deleteCompany(int comNo) {
+		int cnt = 0;
+		
+		try {
+			cnt = dao.deleteCompany(comNo);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return cnt;
+	}
+	@Override
+	public int checkFavCompany(ComFavVO comFavVO) {
+		int cnt = 0;
+		
+		try {
+			cnt = dao.checkFavCompany(comFavVO);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return cnt;
+	}
+	@Override
+	public List<CompanyVO> getFavCompany(int hrNo) {
+		List<CompanyVO> favComList = null;
+		try {
+			favComList = dao.getFavCompany(hrNo);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+		}
+		return favComList;
+	}
+	@Override
+	public List<CompanyVO> getFolCompany(int hrNo) {
+		List<CompanyVO> folComList = null;
+		try {
+			folComList = dao.getFolCompany(hrNo);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return folComList;
+	}
+
+	
 
 }

@@ -4,10 +4,12 @@ import java.sql.SQLException;
 import java.util.List;
 
 import kr.or.ddit.cmm.vo.HRPagingVO;
+import kr.or.ddit.hr.controller.HRMyInfo;
 import kr.or.ddit.hr.vo.HRCardVO;
 import kr.or.ddit.hr.vo.HRCrrVO;
 import kr.or.ddit.hr.vo.HRFavVO;
 import kr.or.ddit.hr.vo.HRInfoVO;
+import kr.or.ddit.hr.vo.HRMyInfoVO;
 import kr.or.ddit.hr.vo.HRSearchVO;
 import kr.or.ddit.hr.vo.HRVO;
 
@@ -37,9 +39,31 @@ public interface IHRDao {
 
 	public int updateCrr (HRInfoVO hrInfoVO) throws SQLException;
 	
-	public int updateCrrHR(HRInfoVO hrInfoVO) throws SQLException;
+	public int insertCrrHR(HRInfoVO hrInfoVO) throws SQLException;
 	
 	public List<HRCrrVO> selectCrr(int hrNo) throws SQLException;
 	
+	public int hrCntUp (int hrNo) throws SQLException;
 	
+	public int getHrNo(int memNo) throws SQLException;
+	
+	public HRMyInfoVO selectMyInfo(int memNo) throws SQLException;
+	
+	public int deleteCrrHR (HRInfoVO hrInfoVO) throws SQLException;
+	
+	public int deleteCrr (HRInfoVO hrInfoVO) throws SQLException;
+
+	public int getMemNo(int hrNo) throws SQLException;
+
+	public int checkFavHr(HRFavVO hrFavVO) throws SQLException; 
+	
+	public int checkNew(int memNo) throws SQLException;
+	
+	
+	public List<HRCardVO> getFolHR (int comNo) throws SQLException;
+	
+	public List<HRCardVO> getFavHR (int comNo) throws SQLException;
+	
+	
+
 }

@@ -19,7 +19,6 @@
 		<result column="COM_HPG" property="comHpg"/>
 		<result column="COM_FAV" property="comFav"/>
 		<result column="COM_SAL" property="comSal"/>
-		<result column="COM_REV" property="comRev"/>
 	</resultMap>
 	
 	<resultMap class="java.util.HashMap" id="companyDetailMap">
@@ -71,16 +70,22 @@
 		  FROM COMPANY
 	</select>
 	
+	<select id="companyCount" parameterClass="int" resultClass="int">
+		SELECT COUNT(*)
+		  FROM COMPANY
+		 WHERE MEM_NO = #MEM_NO#
+	</select>
+	
 	<select id="getCompanyDetailJOCount" resultClass="int">
 		SELECT COUNT(*)
 		  FROM JOB_OPENING
-		 WHERE 
+		 WHERE COM_NO = #COM_NO#
 	</select>
 	
 		<insert id="companyInsert" parameterClass="kr.or.ddit.company.vo.CompanyVO">
 			INSERT INTO COMPANY VALUES		
         (COMPANY_SEQ.NEXTVAL
-        ,1
+        ,#memNo#
         ,#jgCodeNo#
 		 ,#comNm#
 		 ,#comDate#
@@ -93,10 +98,6 @@
         ,#comIntro#
         ,#comDetail#)
         
-        
-				<selectKey keyProperty="comNo" resultClass="int">
-					SELECT COMPANY_SEQ.CURRVAL FROM DUAL
-				</selectKey>
 	</insert>
 	
 	
@@ -165,12 +166,57 @@
       
     </insert>
 
-
+	<select id="checkFavCompany" parameterClass="kr.or.ddit.company.vo.ComFavVO" resultClass="int">
+ 	 	 SELECT COUNT(COM_NO)
+	      FROM FAVORITE
+	     WHERE FAV_CODE=1
+           AND COM_NO = #comNo#
+	   	   AND HR_NO = #hrNo#
+	</select>
+	
     <delete id="deleteFavCompany" parameterClass="kr.or.ddit.company.vo.ComFavVO" >
     DELETE FROM FAVORITE
     WHERE FAV_CODE = 1
       AND COM_NO = #comNo#
       AND HR_NO = #hrNo#
     </delete>
+    
+    <select id="getCompany" parameterClass="Integer" resultMap="CompanyMap">
+    	SELECT * FROM COMPANY WHERE COM_NO = #comNo#
+    </select>
+    
+    <update id="updateCompany" parameterClass="kr.or.ddit.company.vo.CompanyVO">
+    UPDATE COMPANY
+   	   SET COM_NM = #comNm#, JG_CODE_NO = #jgCodeNo#,
+   	       COM_DATE = #comDate#, COM_CNT = #comCnt#, COM_HPG = #comHpg#, 
+   		   COM_SAL = #comSal#, PROV_CODE_NO = #provCodeNo#, CITY_CODE_NO = #cityCodeNo#, 
+   		   COM_INTRO = #comIntro#, COM_DETAIL = #comDetail#
+ 	 WHERE COM_NO = #comNo#
+    </update>
+    
+    <delete id="deleteCompany" parameterClass="Integer">
+    	DELETE COMPANY
+    	WHERE COM_NO = #comNo#
+    </delete>
+    
+	<select id="getFolCompany" parameterClass="Integer" resultMap="CompanyMap">
+	 SELECT B.*
+		FROM 
+		(SELECT COM_NO FROM FAVORITE
+		WHERE FAV_CODE = 1
+		AND HR_NO =  #hrNo#) A
+		INNER JOIN COMPANY B ON(A.COM_NO = B.COM_NO)
+	</select>
+	
+		<select id="getFavCompany" parameterClass="Integer" resultMap="CompanyMap">
+	 SELECT B.*
+		FROM 
+		(SELECT COM_NO FROM FAVORITE
+		WHERE FAV_CODE = 2
+		AND HR_NO =  #hrNo#) A
+		INNER JOIN COMPANY B ON(A.COM_NO = B.COM_NO)
+	</select>
+	
+	
     
 </sqlMap>

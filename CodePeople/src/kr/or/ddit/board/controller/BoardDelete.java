@@ -36,9 +36,21 @@ public class BoardDelete extends HttpServlet {
 		
 		// 실험을 위해 추가된 코드, boardCodeNo를 파라미터로 받아와야 함
 		
+		
+		
 		int boardCodeNo = request.getParameter("boardCodeNo") == null?
 				3	:	Integer.parseInt(request.getParameter("boardCodeNo"));
-		
+		if (boardCodeNo == 1) {
+			boardCodeNo = 2;
+		} else if (boardCodeNo == 2) {
+			boardCodeNo = 3;
+		} else if (boardCodeNo == 3) {
+			boardCodeNo = 5;
+		} else if (boardCodeNo == 4) {
+			boardCodeNo = 4;
+		} else if (boardCodeNo == 5) {
+			boardCodeNo = 1;
+		}
 		System.out.println("������ " + request.getParameter("boardNo"));
 		System.out.println("������ " + num);
 		

@@ -26,16 +26,18 @@ public class DeleteJobOpening extends HttpServlet{
 		
 		HttpSession session = req.getSession();
 		
-		MemberVO loginMember = (MemberVO)session.getAttribute("vo");
+		MemberVO loginMember = (MemberVO)session.getAttribute("memVO");
 		
 		int result = 0;
 		
-//		if(loginMember == null) {
-//			req.setAttribute("result", 0);
-//			req.getRequestDispatcher("/WEB-INF/jsp/result.jsp").forward(req, resp);
-//		}else {
-//			int memNo = loginMember.getMemNo();
-			int memNo = 241;
+		if(loginMember == null) {
+			req.setAttribute("result", 0);
+			req.getRequestDispatcher("/WEB-INF/jsp/result.jsp").forward(req, resp);
+		}else {
+			int memNo = loginMember.getMemNo();
+			
+			System.out.println("memNo" + memNo);
+			
 			if(memNo == jobOpeningService.checkJobOpeningRight(joNo)) {
 				
 				result = jobOpeningService.deleteJobOpening(joNo);
@@ -48,7 +50,7 @@ public class DeleteJobOpening extends HttpServlet{
 				req.setAttribute("result", 0);
 				req.getRequestDispatcher("/WEB-INF/jsp/result.jsp").forward(req, resp);
 			}
-//		}
+		}
 		
 		
 	}

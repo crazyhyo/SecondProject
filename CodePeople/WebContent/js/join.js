@@ -1,35 +1,46 @@
 $(function () {
   let idVal = $('#id').val();
   let passVal = $('#pass').val();
-  // let pass2Val = $('#pass2').val();
+  let pass2Val = $('#pass2').val();
   let telVal = $('#tel').val();
   let nameVal = $('#name').val();
   let emailVal = $('#email').val();
-  let idCheck = "";
+  let idCheck = ""; // DB의 아이디를 저장한 다음 나중에 idVal과 비교합니다.
 
-  let idReg = /^([a-z])([a-z0-9_-]){5,20}$/g;
-  let passReg =
-      /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,16}$/;
-  let pass2Reg = $("#pass").val();
-  let telReg = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
+  let idReg = /^[a-zA-Z][A-Za-z0-9]{4,19}$/;
+  
+  // 숫자와 문자 포함 형태의 6~12자리 이내의 암호 정규식
+  let passReg = /^[A-Za-z0-9]{6,12}$/;
+//  let pass2Reg = $("#pass").val();
+  let telReg = /01(0|1|6|7|8|9)-?\d{3,4}-?\d{4}$/;
   let nameReg = /^[가-힣a-zA-Z]+$/;
-  let emailReg =
-  /(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))/g;
+  let emailReg = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+  $("#memCode").val(1);
 
   // 아이디 정규식
   $("#id").on("keyup", function () {
     idVal = $(this).val();
-    // console.log(idVal);
-    if (!idReg.test(idVal)) {
+    console.log(idVal);
+    
+    if (idReg.test(idVal)) {
+      $("#idMsg").hide();
+      $("#id2Msg").hide();
+      $("#idMsg-green").text("멋진 아이디네요!");
+      $("#idMsg-green").show();
+    } else {
       $("#idMsg").show();
       $("#id2Msg").hide();
       $("#idMsg-green").hide();
-    } else {
+    }  
+    if (idVal == "") {
       $("#idMsg").hide();
       $("#id2Msg").hide();
-      $("#idMsg-green").show();
+      $("#idMsg-green").hide();
     }
-
+});
+    
+  // 아이디 중복확인 버튼 클릭시 이벤트 처리
+  $('#idCheckBtn').click(function (e) { 
     $.ajax({
       url: "/CodePeople/JoinIdCheck.do",
       type: "get",
@@ -37,31 +48,29 @@ $(function () {
       dataType: "json",
       success: function (res) {
         // alert(res.id);
+        // res.id는 DB에서 가져온 아이디
         if (idVal == res.id) {
           idCheck = res.id;
           $("#idMsg-green").hide();
           $("#id2Msg").show();
           $("#idMsg").hide();
+        } else {
+          $("#idMsg-green").text("사용 가능한 아이디입니다.");
         }
       },
       error: function (xhr) {
         alert("상태 : " + xhr.status);
       },
     });
-
-    if (idVal == "") {
-      $("#idMsg").hide();
-      $("#id2Msg").hide();
-      $("#idMsg-green").hide();
-    }
   });
+
 
   // 비밀번호 정규식
   $("#pass").on("keyup", function () {
     passVal = $(this).val();
 
     // !passReg.test(passVal) ? $("#pswd1Msg").show() : $("#pswd1Msg").hide();
-    if (!passReg.test(passVal)) {
+    if (!(passReg.test(passVal))) {
       $("#pswd1Msg").show();
       $("#pswd1Msg-green").hide();
     } else {
@@ -98,7 +107,7 @@ $(function () {
   $("#tel").on("keyup", function () {
     telVal = $(this).val();
 
-    !telReg.test(telVal) ? $("#telMsg").show() : $("#telMsg").hide();
+    !(telReg.test(telVal)) ? $("#telMsg").show() : $("#telMsg").hide();
     // if(!(telReg.test(telVal))){
     //   $('#telMsg').show();
     // } else {
@@ -116,14 +125,14 @@ $(function () {
     // console.log(nameVal);
     
 
-    !nameReg.test(nameVal) ? $("#nameMsg").show() : $("#nameMsg").hide();
+    !(nameReg.test(nameVal)) ? $("#nameMsg").show() : $("#nameMsg").hide();
     // if(!(nameReg.test(nameVal))){
     //   $('#nameMsg').show();
     // } else {
     //   $('#nameMsg').hide();
     // }
 
-    if (nameVal === "") {
+    if (nameVal == "") {
       $("#nameMsg").hide();
     }
   });
@@ -134,14 +143,14 @@ $(function () {
     console.log(emailVal);
     
 
-    !emailReg.test(emailVal) ? $("#emailMsg").show() : $("#emailMsg").hide();
+    !(emailReg.test(emailVal)) ? $("#emailMsg").show() : $("#emailMsg").hide();
     // if(!(nameReg.test(nameVal))){
     //   $('#nameMsg').show();
     // } else {
     //   $('#nameMsg').hide();
     // }
 
-    if (emailVal === "") {
+    if (emailVal == "") {
       $("#emailMsg").hide();
     }
   });
@@ -171,43 +180,51 @@ $(function () {
 // 회원가입 버튼 클릭시 처리 이벤트
   $("#joinBtn").on("click", function () {
 
-    if(!idReg.test(idVal) || !passReg.test(passVal) || !telReg.test(telVal) || !nameReg.test(nameVal) || !emailReg.test(emailVal) ||
-    pass2Val != passVal || idVal == "" || passVal == "" || pass2Val == "" || nameVal == "" || emailVal == "" || idVal == idCheck || $('#roadAddress').val() == ""){
+    if(idReg.test(idVal) && passReg.test(passVal) && telReg.test(telVal) && nameReg.test(nameVal) && emailReg.test(emailVal) &&
+    pass2Val == passVal && idVal != "" && passVal != "" && pass2Val != "" && nameVal != "" && emailVal != "" && idVal != idCheck){
+      let fdatas = $("#join").serializeJSON();
+  
+      $.ajax({
+        url: "/CodePeople/MemberJoin.do",
+        type: "post",
+        data: fdatas,
+        dataType: "json",
+        success: function (resp) {
+          alert("회원가입 성공!");
+          location.href = "/CodePeople/rehearsal/home.html";
+        },
+        error: function (xhr) {
+          alert("회원가입 클릭 시 에러상태 : " + xhr.status);
+        },
+      });
+    } else {
       alert('잘못 입력하셨거나, 비어있는 공란이 존재합니다. 다시 확인해 주세요.');
-      location.href = "#";
+      location.href = "/CodePeople/rehearsal/join.html";
       return false;
     }
 
-    let fdatas = $("#join").serializeJSON();
-
-    $.ajax({
-      url: "/CodePeople/MemberJoin.do",
-      type: "post",
-      data: fdatas,
-      dataType: "json",
-      success: function (resp) {
-        alert("회원가입 성공!");
-        location.href = "/CodePeople/html/home.html";
-      },
-      error: function (xhr) {
-        alert("회원가입 클릭 시 에러상태 : " + xhr.status);
-      },
-    });
   });
   
 
 // 회원정보 수정 버튼 클릭 시 이벤트 처리
   $('#memberUpdateBtn').on('click', function () {
-	  if (!idReg.test(idVal) || !passReg.test(passVal)
-		  || !telReg.test(telVal) || !nameReg.test(nameVal)
-		  || !emailReg.test(emailVal) || pass2Val != pass2Reg
-		  || idVal == "" || passVal == "" || pass2Val == ""
-		  || nameVal == "" || emailVal == "" || idVal == idCheck
-		  || $('#roadAddress').val() == "") {
-		  alert('잘못 입력하셨거나, 비어있는 공란이 존재합니다. 다시 확인해 주세요.');
-		  location.href = "#";
-		  return false;
-	  }
+    if (
+      !(passReg.test(passVal)) ||
+      !(telReg.test(telVal)) ||
+      !(emailReg.test(emailVal)) ||
+      pass2Val != passVal ||
+      passVal == "" ||
+      pass2Val == "" ||
+      emailVal == "" ||
+      $("#roadAddress").val() == "" ||
+      $('#detailAddress').val() == ""
+    ) {
+      alert(
+        "잘못 입력하셨거나, 비어있는 공란이 존재합니다. 다시 확인해 주세요."
+      );
+      location.href = "#";
+      return false;
+    }
 
     let fdatas = $('#memberUpdateForm').serializeJSON();
 
@@ -220,7 +237,7 @@ $(function () {
         alert("회원정보 수정이 성공적으로 완료되었습니다!");
         location.href= resp.myPage;
       },
-      error: function (xhr) {
+       error: function (xhr) {
         alert("회원 수정버튼 클릭 시 에러상태 : " + xhr.status);
       },
     });
@@ -256,7 +273,7 @@ $(function () {
           success: function (resp) {
             if(resp.flag == "true"){
               alert(resp.success);
-              location.href="/CodePeople/html/home.html";
+              location.href="/CodePeople/rehearsal/home.html";
             } else {
               alert(resp.error);
             }

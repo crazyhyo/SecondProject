@@ -1,16 +1,16 @@
 package kr.or.ddit.cmm.vo;
 
 public class AtchFileVO {
-	private Integer atchFileId = -1;	// 첨부파일 ID
-	private Integer fileSn = 1;			// 파일순번
-	private String fileStrePath;	// 파일저장 경로
-	private String streFileNm;		// 저장파일명
-	private String orignlFileNm;	// 실제파일명
-	private String fileExtsn;		// 파일 확장자
-	private String fileCn;			// 파일 내용
-	private Integer fileSize = 0;		// 파일 크기
-	private Integer fileUsage = 0;		// 파일 크기
-	public Integer getAtchFileId() {
+	private Integer atchFileId = -1;	// 泥⑤��뙆�씪 ID
+	private Integer fileSn = 1;			// �뙆�씪�닚踰�
+	private String fileStrePath;	// �뙆�씪���옣 寃쎈줈
+	private String streFileNm;		// ���옣�뙆�씪紐�
+	private String orignlFileNm;	// �떎�젣�뙆�씪紐�
+	private String fileExtsn;		// �뙆�씪 �솗�옣�옄
+	private String fileCn;			// �뙆�씪 �궡�슜
+	private Integer fileSize = 0;		// �뙆�씪 �겕湲�
+	private Integer fileUsage = 0;		// �뙆�씪 �겕湲�
+	public long getAtchFileId() {
 		return atchFileId;
 	}
 	public void setAtchFileId(Integer atchFileId) {

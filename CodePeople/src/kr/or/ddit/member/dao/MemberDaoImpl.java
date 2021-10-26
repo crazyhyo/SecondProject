@@ -60,11 +60,40 @@ public class MemberDaoImpl implements IMemberDao{
 		return smc.delete("member.deleteMember", vo);
 	}
 	@Override
-	public int getHrNo(MemberVO vo) throws SQLException {
+	public int getHrNo(int memNo) throws SQLException {
 		int cnt = 0;
-		cnt = (int)smc.queryForObject("member.getHrNo", vo);
+		cnt = (int)smc.queryForObject("member.getHrNo", memNo);
+		return cnt;
+	}
+	@Override
+	public int getComNo(int memNo) throws SQLException {
+		int cnt = 0;
+		
+		cnt = (int)smc.queryForObject("member.getComNo", memNo);
+		
+		
 		return cnt;
 	}
 	
+	@Override
+	public int checkRegisterdCorp(int memNo) throws SQLException {
+		int cnt = 0;
+		cnt = (int)smc.queryForObject("member.checkRegisterdCorp", memNo);
+		return cnt;
+	}
+	@Override
+	public String searchId(MemberVO vo) throws SQLException {
+		
+		return (String) smc.queryForObject("member.searchId", vo);
+	}
+	@Override
+	public int searchPass(MemberVO vo) throws SQLException {
+		return (int) smc.queryForObject("member.searchPass", vo);
+	}
+	@Override
+	public int setPassword(MemberVO vo) throws SQLException {
+		
+		return smc.update("member.setPassword", vo);
+	}
 	
 }

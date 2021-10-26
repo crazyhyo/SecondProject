@@ -71,11 +71,13 @@ public class BoardServiceImpl implements IBoardService{
 	@Override
 	public int boardUpdate(BoardVO vo) {
 		int cnt = 0;
+		
 		try {
 			cnt = dao.boardUpdate(vo);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		};
+		
 		System.out.println("���� ������ cnt" + cnt);
 		return cnt;
 	}
@@ -305,6 +307,17 @@ public class BoardServiceImpl implements IBoardService{
 			e.printStackTrace();
 		}
 		return cnt;
+	}
+	@Override
+	public List<Map<String, Object>> replyCommentSelect() {
+		List<Map<String, Object>> list = null;
+		
+		try {
+			list = dao.replyCommentSelect();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
 	}
 	
 	

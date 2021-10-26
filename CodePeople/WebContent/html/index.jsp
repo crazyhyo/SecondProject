@@ -16,7 +16,7 @@
 		myPage = "/CodePeople/html/myPageCompany.html";
 	} else if(vo.getMemCode() == 3){		// 관리자
 		memCode = vo.getMemCode();
-		myPage = "/CodePeople/html/myPageAdmin.html";
+		myPage = "/CodePeople/html/myPageAdmin.html"; 
 	}
 	
 %>
@@ -57,14 +57,14 @@
     <script src="/CodePeople/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
     
     <script>
-    console.log(<%=isApi%>);
-      $('#header-login-btn').on('click', function () {
-        if(<%=isApi%> == 1){
-        	kakaoLogout();
-        } else {
-        	location.href="/CodePeople/html/home.html";
-        }
-      });
+    // console.log(<%=isApi%>);
+    //   $('#header-login-btn').on('click', function () {
+    //     if(<%=isApi%> == 1){
+    //     	kakaoLogout();
+    //     } else {
+    //     	location.href="/CodePeople/html/home.html";
+    //     }
+    //   });
     </script>
   </head>
   <body>
@@ -93,12 +93,12 @@
           <div id="header-link-box">
             <a class="header-link" href="#">인재</a>
             <a class="header-link" href="#">기업</a>
-            <a class="header-link" href="#">채용</a>
+            <a class="header-link" href="/CodePeople/html/mainJo.html">채용</a>
             <a class="header-link" href="#">커뮤니티</a>
             <a class="header-link myPage" href="<%=myPage%>">마이페이지</a>
             </div>
           <div class="divider"></div>
-          <button id="header-login-btn" class="btn btn-primary btn-sm">로그아웃</button>
+          <a href="/CodePeople/html/home.html"><button id="header-login-btn" class="btn btn-primary btn-sm">로그아웃</button></a>
         </div>
       </div>
     </div>

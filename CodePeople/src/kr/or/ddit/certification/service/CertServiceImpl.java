@@ -5,6 +5,7 @@ import java.util.List;
 
 import kr.or.ddit.certification.dao.ICertDao;
 import kr.or.ddit.certification.dao.CertDaoImpl;
+import kr.or.ddit.certification.vo.CertHRVO;
 import kr.or.ddit.certification.vo.CertificationVO;
 import kr.or.ddit.hr.vo.HRInfoVO;
 
@@ -55,5 +56,15 @@ public class CertServiceImpl implements ICertService{
 			e.printStackTrace();
 		}
 		return certList;
+	}
+	@Override
+	public int deleteCert(CertHRVO certhrvo) {
+	int cnt = 0;
+	try {
+		cnt = dao.deleteCert(certhrvo);
+	} catch (SQLException e) {
+		e.printStackTrace();
+	}		
+		return cnt;
 	}
 }

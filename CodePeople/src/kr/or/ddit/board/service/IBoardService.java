@@ -14,23 +14,32 @@ public interface IBoardService {
 	
 	public List<BoardVO> boardPagingList(BoardPagingVO boardPagingVO);
 	
-	//占쏙옙체 占쏙옙占쏙옙트
+	//게시글 리스트
 	public List<Map<String, Object>> selectAll();
 	
-	//占쌜억옙占쏙옙
+	//게시글 등록
 	public int boardInsert(BoardVO vo);
 	
-	//占쌜쇽옙占쏙옙
+	//게시글 수정
 	public int boardUpdate(BoardVO vo);
 	
-	//占쌜삼옙占쏙옙
+	//게시글 삭제
 	public int boardDelete(BoardVO vo);
 	
-	//占쏙옙占� 占쏙옙占쏙옙트
+	//댓글 리스트
 	public List<Map<String, Object>> replySelect();
 	
-	//占쏙옙占쏙옙蒡占�
+	//댓글 등록
 	public int replyInsert(ReplyVO vo);
+	
+	//댓글 수정
+	public int replyUpdate(ReplyVO vo);
+	
+	//댓글 삭제
+	public int replyDelete(int repNo);
+	
+	//대댓글 리스트 
+	public List<Map<String, Object>> replyCommentSelect();
 	
 	public List<Map<String, Object>> QuestionBoardPagingList(BoardPagingVO boardPagingVO);
 	
@@ -51,10 +60,6 @@ public interface IBoardService {
 	public int checkBoardRight(BoardVO vo);
 	
 	public int checkReplyRight(ReplyVO vo);
-	
-	public int replyUpdate(ReplyVO vo);
-	
-	public int replyDelete(int repNo);
 	
 	public int addBoardHit(BoardVO vo);
 	

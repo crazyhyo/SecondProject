@@ -7,14 +7,18 @@
     		if(result > 0){
    
     %>
-		{"flag" : "success"}		
+		{"flag" : "success",
+		"memCode" : "1"}		
 
 	<%
-    		}else{
-    		
+    		}else if(result == -1){
     		
 	%>
-		{"flag" : "fail"}
+			{"flag" : "fail",
+			 "memCode" : "0"}
 	<%
-    		}
+    		}else{
 	%>    		
+			{"flag" : "fail",
+			"memCode" : "1"}
+	<% }%>

@@ -1,3 +1,8 @@
+<%@page import="kr.or.ddit.company.service.CompanyServiceImpl"%>
+<%@page import="kr.or.ddit.company.service.ICompanyService"%>
+<%@page import="kr.or.ddit.cmm.util.SessionCheck"%>
+<%@page import="kr.or.ddit.company.vo.CompanyVO"%>
+<%@page import="kr.or.ddit.member.vo.MemberVO"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.text.ParseException"%>
 <%@page import="kr.or.ddit.cmm.vo.CompanyPagingVO"%>
@@ -9,6 +14,33 @@
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%
+	int memCode = 0;
+	int memNo = 0;
+	int hrNo = 0;
+	int cnt = 0;
+	MemberVO loginMember = null;
+	CompanyVO cv = null;
+	if(SessionCheck.isLoginMember(session)){
+		
+		loginMember = (MemberVO)session.getAttribute("memVO");
+		
+		// 로그인 상태인 경우
+		memCode = SessionCheck.getMemCode(session, request);
+		memNo = SessionCheck.getMemNo(session, request);
+		if(memCode == 1){
+			// 개인회원인 경우
+			hrNo = SessionCheck.getHrNo(session, request);
+		}else if(memCode == 2){
+
+			// 기업회원인 경우
+			cnt = SessionCheck.hasComNo(session, request);
+		}
+	}else{
+		
+	}
+%>
+
 
 <% 
 	List<Map<String, Object>> list = (List<Map<String, Object>>)request.getAttribute("companyDetail");
@@ -84,6 +116,9 @@
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="/CodePeople/js/jquery-3.6.0.min.js"></script>
+<script src="/CodePeople/js/jquery.serializejson.min.js"></script>
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/main.css">
 
@@ -91,6 +126,7 @@
 
 <!-- 유료서비스관련 태그 -->
 <script src="/CodePeople/js/prod.js"></script>
+<script src="/CodePeople/js/company.js"></script>
 
 <script>
 
@@ -103,8 +139,33 @@
         } else {
           submenu.slideDown();
         }
+        
+        
       });
+      
+      addFav = document.querySelectorAll('.addFav');
+      deleteFav = document.querySelectorAll('.deleteFav');
+      
+      
+      addFav.forEach( a=>{
+      	a.addEventListener('click',event=>{
+      		let comCard = event.currentTarget;
+      		comNoValue = comCard.getAttribute('idx');
+      		console.log(comNoValue);
+      		addFavCompany();
+      	})
+      })
+
+      deleteFav.forEach( a=>{
+      	a.addEventListener('click',event=>{
+      		let comCard = event.currentTarget;
+      		comNoValue = comCard.getAttribute('idx');
+      		console.log(comNoValue);
+      		deleteFavCompany();			
+      	})
+      })
     });
+    
     
   </script>
 
@@ -247,8 +308,9 @@ th {
 .null {
 	text-align: center;
 }
+
 .pagination {
-	display : flex;
+	display: flex;
 }
 </style>
 </head>
@@ -261,7 +323,7 @@ th {
 			<!-- 좌측 메뉴 -->
 			<div id="header-left-menu">
 				<!-- 로고 -->
-				<a href="${pageContext.request.contextPath}/html/home.html"
+				<a href="${pageContext.request.contextPath}/rehearsal/home.html"
 					id="logo"><i class="fas fa-copyright" style="font-size: 32px;"></i></a>
 				<div class="divider"></div>
 				<!-- 통합 검색창 -->
@@ -299,7 +361,7 @@ th {
 				<div class="nav-sticky">
 					<ul class="list-group">
 						<li class="list-group-item "><a class="nav-link"
-							href="./company.html">모든 기업보기</a></li>
+							href="/CodePeople/CompanyPagingList.do">모든 기업보기</a></li>
 						<li class="list-group-item"><a class="nav-link" href="#main">상세</a></li>
 						<li class="list-group-item"><a class="nav-link"
 							href="#introduce">소개</a></li>
@@ -327,30 +389,31 @@ th {
 					<div class="intro-card card card-cv">
 						<!-- 카드의 이미지태그는 복사해서 사용할것 src alt값 변경 필-->
 						<div class="card-left">
-							<img src="${pageContext.request.contextPath}/images/logo.jpeg"
-								alt="Card image" style="width: 64px; height: 64px;">
+							<% if(Integer.parseInt(comNo.toString()) > 10){ %>
+							<img src="${pageContext.request.contextPath}/images/logo0.jpg" alt="Card image" style="width: 64px; height: 64px;">
+							<% } else {%>
+							<img src="${pageContext.request.contextPath}/images/logo<%= Integer.parseInt(comNo.toString())-1 %>.png" alt="Card image" style="width: 64px; height: 64px;">
+							<% } %>
 						</div>
 						<!-- 카드의 정보 -->
 						<div class="card-body card-right">
 							<div class="card-top-box">
-								<h4 class="card-title cv-title"><%=comNm%></h4>
+								<h4 class="card-title cv-title"><a href="http://<%= comHpg%>"><%=comNm%></a></h4>
 								<!-- 관심/알람 버튼 -->
-								<div class="dropdown">
+								<div class="dropup">
 									<button type="button"
 										class="btn btn-outline-secondary dropdown-toggle btn-menu"
 										data-bs-toggle="dropdown"></button>
-									<!-- 버튼 메뉴정보 -->
+									<!-- 카드 메뉴정보 -->
 									<ul class="dropdown-menu">
+										<!-- 카드 메뉴 헤더 -->
 										<li>
-											<h5 class="dropdown-header">관심</h5>
+											<h5 class="dropdown-header">관심등록</h5>
 										</li>
-										<li><a class="dropdown-item" href="#">관심등록</a></li>
-										<li><a class="dropdown-item" href="#">관심해제</a></li>
+										<!-- 카드 메뉴 옵션 -->
+										<li><a class="dropdown-item addFav" idx="<%= comNo %>">관심등록</a></li>
+										<li><a class="dropdown-item deleteFav" idx="<%= comNo %>">관심해제</a></li>
 										<li>
-											<h5 class="dropdown-header">알람</h5>
-										</li>
-										<li><a class="dropdown-item" href="#">알람설정</a></li>
-										<li><a class="dropdown-item" href="#">알람해제</a></li>
 									</ul>
 								</div>
 							</div>
@@ -390,7 +453,7 @@ th {
 							</div>
 							<div class="card-text">
 								본사위치&nbsp;&nbsp; <span class="cv-jobgroup"><%= cityCodeNm %>
-									<%= provCodeNm %></span>
+									</span>
 							</div>
 							<div class="card-text">
 								사원수&nbsp;&nbsp; <span class="cv-jobgroup"><%= comCnt %> 명</span>
@@ -398,6 +461,10 @@ th {
 							<div class="card-text">
 								평균연봉&nbsp;&nbsp; <span class="cv-jobgroup"><%= comSal %>만
 									원</span>
+							</div>
+							<br>
+							<div class="card-text">
+								<p>[기업설명]<br></p> <span class="cv-jobgroup"><%= comDetail %></span>
 							</div>
 						</div>
 					</div>
@@ -462,9 +529,7 @@ th {
 								</div>
 							</div>
 							<div class="card-rating-text">
-								대표 리뷰코멘트 <br>
-								<br>
-								<i> " <%= revComt %> "
+								대표 리뷰코멘트 <br> <br> <i> " <%= revComt %> "
 								</i>
 							</div>
 						</div>
@@ -803,7 +868,7 @@ th {
 
 
 								<div class="card-left">
-									<img src="${pageContext.request.contextPath}/images/logo.jpeg"
+									<img src="${pageContext.request.contextPath}/images/logo<%= Integer.parseInt(comNo.toString())-1 %>.png"
 										alt="Card image" style="width: 64px; height: 64px;">
 								</div>
 								<!-- 카드의 정보 -->
@@ -856,34 +921,21 @@ th {
 											class="jo-start jo-sm-font">~</span>&nbsp; <span
 											class="jo-end jo-sm-font"><i
 											class="far fa-calendar-alt">&nbsp;</i> <%= joEdate %> </span>
-										<div class="container mt-3" id="result-page-box">
-										</div>
+										<div class="container mt-3" id="result-page-box"></div>
 
 									</div>
-									
+
 								</div>
-								
+
 							</div>
-							<ul class="pagination">
-											<%
-												for (int j = 0; j < listjo.size(); j++) {
-													int pageNum = j+1;
-													
-											%>
-												<li class="page-item"><a class="page-link" onclick="reload()"><%= pageNum %></a></li>
-											
-											<%
-												}
-											%>
-											</ul>
 						</div>
 						<!-- 페이징 처리를 위한 박스 -->
-											
-					</div>   
+
+					</div>
 					<% }else{ %>
 
 
-						<p>현재 채용공고가 없습니다.</p>
+					<p>현재 채용공고가 없습니다.</p>
 
 
 					<% } %>
@@ -941,15 +993,16 @@ th {
 			</div>
 		</div>
 	</div>
+	<form id="favComForm">
+		<input type="hidden" id="comNo" name="comNo" value="1"> 
+		<% if(hrNo == 0){ %>
+		<input type="hidden" id="hrNo" name="hrNo" value="1">
+		<% } else { %>
+		<input type="hidden" id="hrNo" name="hrNo" value="<%= hrNo %>">
+		<% } %>
+	</form>
 </body>
 <script>
-function reload() {
-	
-		let idx = $(this).val();
-		console.log(idx);
-		$('#joCardList').load(location.href + "#joCardList");
-	
-}
 </script>
 </html>
 

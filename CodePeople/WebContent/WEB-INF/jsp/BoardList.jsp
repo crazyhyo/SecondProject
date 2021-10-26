@@ -17,6 +17,7 @@
 			Map<String, Object> vo = list.get(i);
 			
 			String boardNo = String.valueOf(vo.get("BOARD_NO"));
+			String boardCodeNo = String.valueOf(vo.get("BOARD_CODE_NO"));
 			String boardTitle = String.valueOf(vo.get("BOARD_TITLE"));
 			String boardHit = String.valueOf(vo.get("BOARD_HIT"));
 			String boardLike = String.valueOf(vo.get("BOARD_LIKE"));
@@ -34,14 +35,15 @@
 			
 	%>
 {
-			"boardNo" 	 : "<%=boardNo %>",
-			"boardTitle" : "<%=boardTitle %>",
-			"boardHit"   : "<%=boardHit %>",
-			"boardLike"  : "<%=boardLike %>",
-			"boardRepl"  : "<%=boardRepl %>",
-			"boardCont"  : "<%=boardCont %>",
-			"boardDate"  : "<%=boardDate %>",
-			"memId"      : "<%=memId %>"
+			"boardNo" 	 	 : "<%=boardNo %>",
+			"boardCodeNo" 	 : "<%=boardCodeNo %>",
+			"boardTitle" 	 : "<%=boardTitle %>",
+			"boardHit"   	 : "<%=boardHit %>",
+			"boardLike" 	 : "<%=boardLike %>",
+			"boardRepl"  	 : "<%=boardRepl %>",
+			"boardCont"  	 : "<%=boardCont %>",
+			"boardDate" 	 : "<%=boardDate %>",
+			"memId"      	 : "<%=memId %>"
 
 
 }

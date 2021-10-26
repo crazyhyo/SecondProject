@@ -32,24 +32,30 @@ public class EachBoardPaging extends HttpServlet{
 		
 		System.out.println(currentPageNo + " : 현재페이지");
 		System.out.println(boardCode + " : 게시판종류");
+		String boardName = "";
 		
 		int totalCount = 0;
 		
 		switch(boardCode) {
 		case 1:
-			totalCount = boardService.countQuestionBoard();
+			totalCount = boardService.countLifeBoard();
+			boardName = "회사생활";
 			break;
 		case 2:
-			totalCount = boardService.countLifeBoard();
+			totalCount = boardService.countBlahBoard();
+			boardName = "사는 얘기";
 			break;
 		case 3:
-			totalCount = boardService.countBlahBoard();
+			totalCount = boardService.countCareerBoard();
+			boardName = "이직 커리어";
 			break;
 		case 4:
 			totalCount = boardService.countMeetUpBoard();
+			boardName = "스터디모임";
 			break;
 		case 5:
-			totalCount = boardService.countCareerBoard();
+			totalCount = boardService.countQuestionBoard();
+			boardName = "Q&A";
 			break;
 		default:
 			break;
@@ -64,19 +70,19 @@ public class EachBoardPaging extends HttpServlet{
 		
 		switch(boardCode) {
 		case 1:
-			boardPagingList = boardService.QuestionBoardPagingList(boardPagingVO);
-			break;
-		case 2:
 			boardPagingList = boardService.LifeBoardPagingList(boardPagingVO);
 			break;
-		case 3:
+		case 2:
 			boardPagingList = boardService.blahBoardPagingList(boardPagingVO);
+			break;
+		case 3:
+			boardPagingList = boardService.CareerBoardPagingList(boardPagingVO);
 			break;
 		case 4:
 			boardPagingList = boardService.MeetUpBoardPagingList(boardPagingVO);
 			break;
 		case 5:
-			boardPagingList = boardService.CareerBoardPagingList(boardPagingVO);
+			boardPagingList = boardService.QuestionBoardPagingList(boardPagingVO);
 			break;
 		default:
 			break;
@@ -84,12 +90,15 @@ public class EachBoardPaging extends HttpServlet{
 		
 		req.setAttribute("boardPagingList", boardPagingList);
 		
-		req.setAttribute("boardPagingVO", boardPagingVO);
+		System.out.println(boardPagingList == null);
 		
+		req.setAttribute("boardPagingVO", boardPagingVO);
+		req.setAttribute("currentPageNo", currentPageNo);
+		req.setAttribute("boardName", boardName);
 		req.setAttribute("boardCode", boardCode);
 		
 //		req.getRequestDispatcher("/WEB-INF/jsp/BoardPagingList.jsp").forward(req, resp);
-		req.getRequestDispatcher("/rehearsal/EachBoard.jsp").forward(req, resp);
+		req.getRequestDispatcher("/mainJsp/EachBoard.jsp").forward(req, resp);
 		
 		
 	}

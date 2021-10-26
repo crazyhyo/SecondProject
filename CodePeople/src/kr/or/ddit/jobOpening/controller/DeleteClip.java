@@ -26,30 +26,29 @@ public class DeleteClip extends HttpServlet{
 		
 		HttpSession session = req.getSession();
 		
-		MemberVO loginMember = (MemberVO) session.getAttribute("vo");
+		MemberVO loginMember = (MemberVO) session.getAttribute("memVO");
 		
-//		if(loginMember == null) {
-//			
-//			req.setAttribute("result", 0);
-//			
-//			req.getRequestDispatcher("/WEB-INF/jsp/result.jsp").forward(req, resp);
-//			
-//		}else {
+		if(loginMember == null) {
+			
+			req.setAttribute("result", 0);
+			
+			req.getRequestDispatcher("/WEB-INF/jsp/result.jsp").forward(req, resp);
+			
+		}else {
 			
 			System.out.println("로그인 멤버 있음");
 			
-			loginMember = new MemberVO();
-			
 			// 테스트 코드
-			loginMember.setMemNo(4);
+//			loginMember.setMemNo(4);
 			
 			Integer memCode = loginMember.getMemCode();
+			Integer memNo = loginMember.getMemNo();
 			// 개인회원인 경우
-//			if(memCode == 1) {
+			if(memCode == 1) {
 				
 				IMemberService memberService = MemberServiceImpl.getInstance();
 				
-				int hrNo = memberService.getHrNo(loginMember);
+				int hrNo = memberService.getHrNo(memNo);
 				
 				int joNo = req.getParameter("joNo") == null?
 						0 : Integer.parseInt(req.getParameter("joNo"));
@@ -65,11 +64,11 @@ public class DeleteClip extends HttpServlet{
 				
 				req.getRequestDispatcher("/WEB-INF/jsp/result.jsp").forward(req, resp);
 			
-//			}else {
-//				System.out.println("기업회원은 지원할 수 없습니다.");
-//			}
+			}else {
+				System.out.println("기업회원은 지원할 수 없습니다.");
+			}
 			
-//		}		
+		}		
 		
 	}
 
